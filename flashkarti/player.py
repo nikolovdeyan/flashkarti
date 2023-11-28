@@ -26,3 +26,6 @@ class Player:
 
     def load_player(self, name):
         pass
+
+    def __repr__(self):
+        return f"Player: {self.name}"

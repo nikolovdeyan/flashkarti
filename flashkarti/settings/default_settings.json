@@ -1,0 +1,5 @@
+{
+    "name": "default_settings",
+    "num_questions_per_round": 10,
+    "gui_theme": "LightBrown1"
+}
