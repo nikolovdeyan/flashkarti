@@ -1,5 +1,5 @@
 {
-    "name": "default_settings",
-    "num_questions_per_round": 10,
-    "gui_theme": "LightBrown1"
+    "player_name": "Deo",
+    "num_questions_per_round": "5",
+    "gui_theme": "LightTeal"
 }
