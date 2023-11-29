@@ -50,11 +50,13 @@ class GUI:
                 self.window = self.create_main_window()
             event, values = self.window.read()
 
+            logging.debug(f"Event: {event}")
+
             if event in (sg.WIN_CLOSED, "Quit"):
                 break
             if event in ("Settings"):
                 event, values = self.create_settings_window().read(close=True)
-                if event == 'Save':
+                if event == "Save":
                     self.window.close()
                     self.window = None
                     self.game.settings.player_name = values["-PLAYER NAME-"]
@@ -62,9 +64,10 @@ class GUI:
                     self.game.settings.filename = values["-PLAYER FILE-"]
                     self.game.settings.gui_theme = values["-THEME-"]
                     self.game.settings.save()
-
             if event in ("Card"):
-                self.card_window()
+                self.window.close()
+                self.window = None
+                self.window = self.create_game_window()
         self.window.close()
 
     def create_settings_window(self):
@@ -80,8 +83,7 @@ class GUI:
                     [TextLabel("Theme"),sg.Combo(sg.theme_list(), size=(20, 20), key="-THEME-")],
                     [sg.Button("Save"), sg.Button("Close")]  ]
 
-        window = sg.Window("Settings", layout, keep_on_top=True, finalize=True)
-
+        window = sg.Window("Settings", layout, keep_on_top=True, modal=True, finalize=True)
         try:
             window["-PLAYER NAME-"].update(value=self.game.settings.player_name)
             window["-NUM QUESTIONS-"].update(value=self.game.settings.num_questions_per_round)
@@ -92,21 +94,27 @@ class GUI:
 
         return window
 
-    def save_settings(self, file, settings, values):
-        pass
-
-    def card_window(self):
-        pass
-
     def __repr__(self):
         return f"GUI with game: {self.game}"
     
     def create_main_window(self):
         sg.theme(self.game.settings.gui_theme)
+        layout = [
+            [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
+            [sg.VPush()],
+            [sg.Push(), sg.Text("Hello, World"), sg.Push()],
+            [sg.Push(), sg.B("Card"), sg.Push()],
+            [sg.VPush()],
+        ]
+        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
     
-        layout = [[sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
-                  [sg.B("Card")]]
-    
+    def create_game_window(self):
+        layout = [
+            [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
+            [sg.VPush()],
+            [sg.Text("Hello, World")],
+            [sg.VPush()],
+        ]
         return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
 
 
