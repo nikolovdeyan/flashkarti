@@ -26,23 +26,27 @@ class GUI:
         while True:
             if self.window is None:
                 self.window = self.create_main_window()
-                self.update_main_window()
-            event, values = self.window.read()
+            
+            match self.window.Title.title():
+                case "Flashkarti Main":
+                    logging.debug("Matched Flashkarti Main")
+                    self.update_main_window()
+                case "Flashkarti Settings":
+                    logging.debug("Matched Flashkarti Settings")
+                case "Flashkarti Quiz":
+                    logging.debug("Matched Flashkarti Quiz")
+                    self.update_game_window()
+                case _:
+                    logging.error("No matching window found!")
 
+            event, values = self.window.read()
             logging.debug(f"|EVENT:| {event:30}|VALUES:| {values}")
 
             if event in (sg.WIN_CLOSED, "Quit"):
                 break
             if event in ("Settings"):
                 event, values = self.create_settings_window().read(close=True)
-                if event == "Save":
-                    self.window.close()
-                    self.window = None
-                    self.game.settings.player_name = values["-PLAYER NAME-"]
-                    self.game.settings.num_questions_per_round = values["-NUM QUESTIONS-"]
-                    self.game.settings.filename = values["-PLAYER FILE-"]
-                    self.game.settings.gui_theme = values["-THEME-"]
-                    self.game.settings.save()
+                self.handle_settings_window(event, values)
             if event in ("-DECK BROWSE-"):
                 deck_file = values.get("-DECK BROWSE-")
                 self.game.load_deck(deck_file)
@@ -86,7 +90,7 @@ class GUI:
                     [TextLabel("Theme"),sg.Combo(sg.theme_list(), size=(20, 20), key="-THEME-")],
                     [sg.Button("Save"), sg.Button("Close")]  ]
 
-        window = sg.Window("Settings", layout, keep_on_top=True, modal=True, finalize=True)
+        window = sg.Window("Flashkarti Settings", layout, keep_on_top=True, modal=True, finalize=True)
         try:
             window["-PLAYER NAME-"].update(value=self.game.settings.player_name)
             window["-NUM QUESTIONS-"].update(value=self.game.settings.num_questions_per_round)
@@ -115,7 +119,7 @@ class GUI:
                 [sg.Push()],]),sg.Push()],
             [sg.VPush()],
         ]
-        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
+        return sg.Window("Flashkarti Main", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
     
     def create_game_window(self):
         layout = [
@@ -137,7 +141,17 @@ class GUI:
                 ])],
             [sg.Frame("Progress:", [[sg.ProgressBar(100, orientation='h', s=(WIN_WIDTH,20), k='-PBAR-')]])],
         ]
-        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
+        return sg.Window("Flashkarti Quiz", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
+
+    def handle_settings_window(self, event, values):
+        if event == "Save":
+            self.window.close()
+            self.window = None
+            self.game.settings.player_name = values["-PLAYER NAME-"]
+            self.game.settings.num_questions_per_round = values["-NUM QUESTIONS-"]
+            self.game.settings.filename = values["-PLAYER FILE-"]
+            self.game.settings.gui_theme = values["-THEME-"]
+            self.game.settings.save()
 
 
     def update_main_window(self):
@@ -146,7 +160,13 @@ class GUI:
         if not self.game.deck:
             self.window["-SELECTED DECK-"].update("Selected Deck: None")
         else: 
-            self.window["-SELECTED DECK-"].update(f"Selected Deck: {self.game.deck}")
+            self.window["-SELECTED DECK-"].update(f"Selected Deck: {self.game.deck.name}")
+
+    def update_game_window(self):
+        self.window["-QUIZ_TITLE-"].update("Quiz Title Placeholder")
+        self.window["-CARD_TITLE-"].update(card.title)
+        self.window["-CARD_CONTENTS-"].update(card.contents)
+        self.window["-CARD_ADDCONTENTS-"].update(card.addl_contents)
 
     def __repr__(self):
         return f"GUI with game: {self.game}"

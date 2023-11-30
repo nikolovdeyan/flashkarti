@@ -60,4 +60,4 @@ class Deck:
         random.shuffle(self._cards)
         
     def __repr__(self):
-        return f"Deck: {[card for card in self._cards]}"
+        return f"Deck: {self.name}: {[card for card in self._cards]}"
