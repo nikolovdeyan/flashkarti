@@ -5,7 +5,8 @@ from random import shuffle
 from card import Card
 
 class Deck:
-    def __init__(self, cards=None):
+    def __init__(self, name=None, cards=None):
+        self.name = name
         self.size = 0
         self._cards = cards if cards else []
         self._curr_card_index = 0

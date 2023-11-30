@@ -7,7 +7,10 @@ import PySimpleGUI as sg
 import logging
 
 sg.theme("SandyBeach")   # Add a touch of color
-sg.SetOptions (font = ("Helvetica", 12, "bold"))
+sg.SetOptions (
+    font = ("Helvetica", 12, "bold"),
+    element_padding = (4, 8),
+    )
 
 WIN_WIDTH = 950
 WIN_HEIGHT = 800
@@ -49,6 +52,7 @@ class GUI:
         while True:
             if self.window is None:
                 self.window = self.create_main_window()
+                self.update_main_window()
             event, values = self.window.read()
 
             logging.debug(f"|EVENT:| {event:30}|VALUES:| {values}")
@@ -65,6 +69,9 @@ class GUI:
                     self.game.settings.filename = values["-PLAYER FILE-"]
                     self.game.settings.gui_theme = values["-THEME-"]
                     self.game.settings.save()
+            if event in ("-DECK BROWSE-"):
+                deck_file = values.get("-DECK BROWSE-")
+                self.game.load_deck(deck_file)
             if event in ("Card"):
                 self.window.close()
                 self.window = None
@@ -95,26 +102,26 @@ class GUI:
 
         return window
 
-    def __repr__(self):
-        return f"GUI with game: {self.game}"
     
     def create_main_window(self):
         sg.theme(self.game.settings.gui_theme)
         layout = [
             [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
             [sg.VPush()],
-            [sg.Text("Welcome to Flashkarti!", size=(50,3), font=("Helvetica", 16, "bold"))],
+            [sg.Push(), sg.Text("Welcome to Flashkarti!", size=(20,2), font=("Helvetica", 16, "bold")), sg.Push()],
             [sg.Push(), 
             sg.Frame("", [
                 [sg.Text("Please load a deck and press 'start'!", size=(50,2), font=("Helvetica", 14, "bold"))],
-                [sg.Button("Change", k="-CHANGE PLAYER-"), sg.Text("Selected Player: None", k="-SELECTED PLAYER-", size=80)],
-                [sg.Button("Change", k="-CHANGE DECK-"), sg.Text("Selected Deck: None", k="-SELECTED DECK-", size=80)],
-                [sg.Push()],
-            ]),
-            sg.Push()],
+                [sg.Button("Player", size=8, k="-CHANGE PLAYER-"), sg.Text("Selected Player: None", k="-SELECTED PLAYER-", size=80)],
+                [sg.Input(key="-DECK BROWSE-", enable_events=True, visible=False)],[sg.FileBrowse("Deck", size=8, target="-DECK BROWSE-"), sg.Text("Selected Deck:", k="-SELECTED DECK-", size=80)],
+                [sg.Button("Designer", size=8, k="-DECK DESIGNER-", disabled=True), sg.Text("Deck Designer: Coming Soon!", size=80)],
+                [sg.Button("Settings", size=8)],
+                [sg.Button("Quit", size=8)],
+                [sg.Push()],]),sg.Push()],
+            [sg.Push(), sg.Button("Start Quiz", k="-START QUIZ-")],
             [sg.VPush()],
         ]
-        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
+        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
     
     def create_game_window(self):
         layout = [
@@ -123,6 +130,17 @@ class GUI:
             [sg.VPush()],
         ]
         return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
+
+    def update_main_window(self):
+        self.window["-SELECTED PLAYER-"].update(f"Selected Player: {self.game.player.name}")
+        
+        if not self.game.deck:
+            self.window["-SELECTED DECK-"].update("Selected Deck: None")
+        else: 
+            self.window["-SELCTED DECK-"].update(f"Selected Deck: {self.game.deck}")
+
+    def __repr__(self):
+        return f"GUI with game: {self.game}"
 
 
 def persist_answer(window, event, values):
@@ -133,7 +151,6 @@ def persist_answer(window, event, values):
             window["-ANSWER-"].update("")  # clear answer window
 
 def update_card(window, event, values, card):
-    print(card)
     window["-QUIZ_TITLE-"].update(card.get("quiz_title"))
     window["-CARD_TITLE-"].update(card.get("card_title"))
     window["-CARD_CONTENTS-"].update(card.get("card_contents"))
