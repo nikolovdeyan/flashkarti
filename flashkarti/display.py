@@ -15,32 +15,6 @@ sg.SetOptions (
 WIN_WIDTH = 950
 WIN_HEIGHT = 800
 
-temp_cards = [
-    {
-        "quiz_title": "Python Basics Quiz",
-        "card_title": "Question Title 1",
-        "card_contents": "Question Contents 1",
-        "card_addcontents": None,
-    },
-    {
-        "quiz_title": "Python Basics Quiz",
-        "card_title": "Question Title 2",
-        "card_contents": "Question Contents 2",
-        "card_addcontents": None,
-    },
-    {
-        "quiz_title": "Python Basics Quiz",
-        "card_title": "Question Title 3",
-        "card_contents": "Question Contents 3",
-        "card_addcontents": None,
-    },
-    {
-        "quiz_title": "Python Basics Quiz",
-        "card_title": "Question Title 4",
-        "card_contents": "Question Contents 4",
-        "card_addcontents": None,
-    },
-]
 
 class GUI:
     def __init__(self, game):
@@ -73,25 +47,25 @@ class GUI:
                 deck_file = values.get("-DECK BROWSE-")
                 self.game.load_deck(deck_file)
                 self.window["-SELECTED DECK-"].update(value=self.game.deck.name)
+                self.game.deck.draw_quiz_cards(5)
+                self.window["-START QUIZ-"].update(disabled=False)
             if event in ("-START QUIZ-"):
                 self.window.close()
                 self.window = None
                 self.window = self.create_game_window()
 
-                curr_card_index = -1
                 while True:
                     event, values = self.window.read()
                     logging.debug(f"Event: {event}; Values: {values}")
+                    logging.debug(f"{self.game.deck.get_current_card_index_str()}")
                     if event in (sg.WIN_CLOSED, "Quit"):
                         break
-                    if event == "Themes":
-                        theme_browser_window()
                     if event == "-NEXT-":
-                        curr_card_index += 1
-                        update_card(self.window, event, values, temp_cards[curr_card_index])
+                        self.window["-QUESTION NUM-"].update(self.game.deck.get_current_card_index_str())
+                        update_card(self.window, self.game.deck.draw_next_card())
                     if event == "-PREV-":
-                        curr_card_index -= 1
-                        update_card(self.window, event, values, temp_cards[curr_card_index])
+                        self.window["-QUESTION NUM-"].update(self.game.deck.get_current_card_index_str())
+                        update_card(self.window, self.game.deck.draw_prev_card())
                     persist_answer(self.window, event, values)
 
                     if event == sg.WIN_CLOSED or event == "End Round": # if user closes window or clicks cancel
@@ -137,8 +111,8 @@ class GUI:
                 [sg.Button("Designer", size=8, k="-DECK DESIGNER-", disabled=True), sg.Text("Deck Designer: Coming Soon!", size=80)],
                 [sg.Button("Settings", size=8)],
                 [sg.Button("Quit", size=8)],
+                [sg.Push(), sg.Button("Start Quiz", k="-START QUIZ-", disabled=True)],
                 [sg.Push()],]),sg.Push()],
-            [sg.Push(), sg.Button("Start Quiz", k="-START QUIZ-")],
             [sg.VPush()],
         ]
         return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
@@ -147,7 +121,7 @@ class GUI:
         layout = [
             [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
             [sg.Text("", k="-QUIZ_TITLE-")],
-            [sg.Text("", k="-CARD_TITLE-")],
+            [sg.Text("", k="-QUESTION NUM-"), sg.Text("", k="-CARD_TITLE-")],
             [
                 sg.Column([[sg.Frame("Question Contents", [[sg.Text("", size=(60,20), k="-CARD_CONTENTS-")]])]]),
                 sg.Column([[sg.Frame("Additional Contents", [[sg.Text("", size=(57,20), k="-CARD_ADDCONTENTS-")]])]])
@@ -163,7 +137,7 @@ class GUI:
                 ])],
             [sg.Frame("Progress:", [[sg.ProgressBar(100, orientation='h', s=(WIN_WIDTH,20), k='-PBAR-')]])],
         ]
-        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
+        return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT), finalize=True)
 
 
     def update_main_window(self):
@@ -185,8 +159,8 @@ def persist_answer(window, event, values):
             print(f"Persisting answer: {answer}")
             window["-ANSWER-"].update("")  # clear answer window
 
-def update_card(window, event, values, card):
-    window["-QUIZ_TITLE-"].update(card.get("quiz_title"))
-    window["-CARD_TITLE-"].update(card.get("card_title"))
-    window["-CARD_CONTENTS-"].update(card.get("card_contents"))
-    window["-CARD_ADDCONTENTS-"].update(card.get("card_addcontents"))
+def update_card(window, card):
+    window["-QUIZ_TITLE-"].update("Quiz Title Placeholder")
+    window["-CARD_TITLE-"].update(card.title)
+    window["-CARD_CONTENTS-"].update(card.contents)
+    window["-CARD_ADDCONTENTS-"].update(card.addl_contents)

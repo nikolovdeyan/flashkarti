@@ -1,16 +1,19 @@
 """
 Represents a deck of cards, storing its state and possible actions.
 """
-from random import shuffle
-from card import Card
+import random
 
 class Deck:
     def __init__(self, name=None, cards=None):
         self.name = name
         self.size = 0
+        self.quiz_size = 0
         self._cards = cards if cards else []
         self._curr_card_index = 0
+        self._quiz_cards = []
+        self._num_answered_cards = 0
         self._update_size()
+        self.shuffle_deck()
     
     def add_card(self, card):
         self._cards.append(card)
@@ -25,24 +28,36 @@ class Deck:
     def _update_size(self):
         self.size = len(self._cards)
 
+    def _update_quiz_size(self):
+        self.quiz_size = len(self._quiz_cards)
+
+    def draw_quiz_cards(self, num_cards):
+        self._quiz_cards = [random.choice(self._cards) for _ in range(num_cards)]
+        self._update_quiz_size()
+
+    def draw_current_card(self):
+        return self._quiz_cards[self._curr_card_index]
+
     def draw_next_card(self):
-        card_to_return = self._cards[self._curr_card_index]
-        if self._curr_card_index == self.size - 1:
+        if self._curr_card_index >= self.quiz_size - 1:
             self._curr_card_index = 0
         else: 
             self._curr_card_index += 1
-        return card_to_return
+        return self.draw_current_card()
 
     def draw_prev_card(self):
-        card_to_return = self._cards[self._curr_card_index]
         if self._curr_card_index == 0:
-            self._curr_card_index = len(self._cards) - 1
+            self._curr_card_index = self.quiz_size - 1
         else:
             self._curr_card_index -= 1
-        return card_to_return
+        return self.draw_current_card()
+
+    def get_current_card_index_str(self):
+        return f"Question {self._curr_card_index + 1} of {self.quiz_size}:"
+
 
     def shuffle_deck(self):
-        shuffle(self._cards)
+        random.shuffle(self._cards)
         
     def __repr__(self):
         return f"Deck: {[card for card in self._cards]}"
