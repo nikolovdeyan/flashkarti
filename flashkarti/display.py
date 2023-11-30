@@ -6,7 +6,8 @@ import json
 import PySimpleGUI as sg
 import logging
 
-sg.theme('SandyBeach')   # Add a touch of color
+sg.theme("SandyBeach")   # Add a touch of color
+sg.SetOptions (font = ("Helvetica", 12, "bold"))
 
 WIN_WIDTH = 950
 WIN_HEIGHT = 800
@@ -50,7 +51,7 @@ class GUI:
                 self.window = self.create_main_window()
             event, values = self.window.read()
 
-            logging.debug(f"Event: {event}")
+            logging.debug(f"|EVENT:| {event:30}|VALUES:| {values}")
 
             if event in (sg.WIN_CLOSED, "Quit"):
                 break
@@ -102,8 +103,15 @@ class GUI:
         layout = [
             [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
             [sg.VPush()],
-            [sg.Push(), sg.Text("Hello, World"), sg.Push()],
-            [sg.Push(), sg.B("Card"), sg.Push()],
+            [sg.Text("Welcome to Flashkarti!", size=(50,3), font=("Helvetica", 16, "bold"))],
+            [sg.Push(), 
+            sg.Frame("", [
+                [sg.Text("Please load a deck and press 'start'!", size=(50,2), font=("Helvetica", 14, "bold"))],
+                [sg.Button("Change", k="-CHANGE PLAYER-"), sg.Text("Selected Player: None", k="-SELECTED PLAYER-", size=80)],
+                [sg.Button("Change", k="-CHANGE DECK-"), sg.Text("Selected Deck: None", k="-SELECTED DECK-", size=80)],
+                [sg.Push()],
+            ]),
+            sg.Push()],
             [sg.VPush()],
         ]
         return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
@@ -112,7 +120,6 @@ class GUI:
         layout = [
             [sg.Menu([["File", ["Deck", "Settings", "Quit"]], ["Help", "About"],])],
             [sg.VPush()],
-            [sg.Text("Hello, World")],
             [sg.VPush()],
         ]
         return sg.Window("Flashkarti Game", layout, size=(WIN_WIDTH, WIN_HEIGHT))
@@ -157,7 +164,7 @@ def card_window():
     curr_card_index = -1
     while True:
         event, values = window.read()
-        print(f"Event: {event}; Values: {values}")
+        logging.debug(f"Event: {event}; Values: {values}")
 
         if event == "Themes":
             theme_browser_window()
