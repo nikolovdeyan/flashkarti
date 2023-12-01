@@ -6,7 +6,7 @@ import logging
 import json
 
 from game import Game
-from display import GUI
+from display import GUI, main
 from settings import Settings
 
 
@@ -18,4 +18,5 @@ if __name__ == "__main__":
 
     logging.debug(f"Game loaded: {game}")
 
-    gui = GUI(game)
+    #gui = GUI(game)
+    main(game)

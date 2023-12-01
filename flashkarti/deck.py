@@ -38,23 +38,20 @@ class Deck:
     def draw_current_card(self):
         return self._quiz_cards[self._curr_card_index]
 
-    def draw_next_card(self):
+    def next_card(self):
         if self._curr_card_index >= self.quiz_size - 1:
             self._curr_card_index = 0
         else: 
             self._curr_card_index += 1
-        return self.draw_current_card()
 
-    def draw_prev_card(self):
+    def prev_card(self):
         if self._curr_card_index == 0:
             self._curr_card_index = self.quiz_size - 1
         else:
             self._curr_card_index -= 1
-        return self.draw_current_card()
 
-    def get_current_card_index_str(self):
+    def get_current_card_number(self):
         return f"Question {self._curr_card_index + 1} of {self.quiz_size}:"
-
 
     def shuffle_deck(self):
         random.shuffle(self._cards)
