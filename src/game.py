@@ -12,10 +12,9 @@ from card import Card
 
 
 class Game:
-    def __init__(self, settings):
-        self.settings = settings
+    def __init__(self):
         self.deck = None
-        self.player = Player(settings.player_name)
+        self.player = Player(name="Deo")
         self._gui = None
 
     def load_deck(self, deck_file):
@@ -39,15 +38,6 @@ class Game:
         deck = Deck(name=deck_name, cards=deck_cards)
         self.deck = deck
         logging.debug(f"Deck loaded: {self.deck}")
-
-    def create_player(self):
-        pass
-
-    def select_player(self):
-        pass
-
-    def delete_player(self):
-        pass
 
     def __repr__(self):
         return f"Game with deck: {self.deck}, player: {self.player} and settings: {self.settings}"
