@@ -12,10 +12,29 @@ from card import Card
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, settings=None):
+        self.settings = settings
         self.deck = None
-        self.player = Player(name="Deo")
-        self._gui = None
+        self.player = None
+
+        self.load_player
+
+    def get_player_name(self):
+        return "" if not self.player else self.player.name
+
+    def get_deck_name(self):
+        return "" if not self.deck else self.deck.name
+
+    def get_players_list(self):
+        if not self.settings.players:
+            return ""
+        return [player.get("name") for player in self.settings.players]
+
+    def load_player(self, player_name):
+        for player_dict in self.settings.players:
+            if player_dict.get("name") == player_name:
+                self.player = Player(player_dict)
+        logging.error(f"Player not found: {player_name}")
 
     def load_deck(self, deck_file):
         # TODO: Validations for decks named outside the convention

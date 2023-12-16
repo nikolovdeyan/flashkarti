@@ -25,11 +25,13 @@ class MainWindowPresenter(QtCore.QObject):
         self.app = app
 
         self.update_player()
+        self.update_deck()
         self.connectSignals()
 
     def connectSignals(self):
         self.view.mainwindow.myQuitSignal.connect(self.quit)
         self.view.mainwindow.actionQuit.triggered.connect(self.quit)
+        self.view.mainwindow.actionAbout.triggered.connect(self.about)
         self.view.mainwindow.quit_btn.clicked.connect(self.quit)
         self.view.mainwindow.player_btn.clicked.connect(self.select_player)
         self.view.mainwindow.deck_btn.clicked.connect(self.select_deck)
@@ -37,23 +39,35 @@ class MainWindowPresenter(QtCore.QObject):
 
     def quit(self):
         self.model.quit()
-        logger.debug("Calling quit application")
         QtWidgets.QApplication.quit()
 
+    def about(self):
+        QtWidgets.QMessageBox.information(
+            self.view.mainwindow,
+            "About title",  # TODO: About title
+            "About message" # TODO: About message
+            )
+
     def select_player(self):
-        pass
+        players_list = self.model.game.get_players_list()
+        player_name = self.view.mainwindow.select_player_dialog(players_list)
+        self.model.game.load_player(player_name)
+        self.update_player()
 
     def update_player(self):
-        player = self.model.game.player.name
+        player = self.model.game.get_player_name()
         self.view.mainwindow.player_label.setText(f"Selected player: {player}")
 
     def select_deck(self):
         pass
 
     def update_deck(self):
-        deck = self.model.game.deck.name if self.model.game.deck else "None"
+        deck = self.model.game.get_deck_name()
+        if not deck:
+            self.view.mainwindow.start_quiz_btn.setEnabled(False)
+        else:
+            self.view.mainwindow.start_quiz_btn.setEnabled(True)
         self.view.mainwindow.deck_label.setText(f"Selected deck: {deck}")
 
-
     def start_quiz(self):
-        pass
+        logger.debug("start_quiz_btn clicked")

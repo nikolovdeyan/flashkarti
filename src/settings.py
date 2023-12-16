@@ -5,41 +5,36 @@ import os
 import json
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_FILENAME = "default_settings.json"
+SETTINGS_FILE = os.path.join(GAME_DIR, "settings", "fk_settings.json")
 
 class Settings:
     def __init__(self, filename=None):
-        self.filename = filename if filename else DEFAULT_FILENAME
-        self.player_name = None
+        self.settings_file = filename if filename else SETTINGS_FILE
+        self.current_player_name = None
         self.num_questions_per_round = None
-        self.gui_theme = None
-        self.load(filename)
+        self.players = None
+        self.load()
 
-    def load(self, filename):
-        settings_dir = os.path.join(GAME_DIR, "settings")
-        if not filename:
-            settings_file = os.path.join(settings_dir, DEFAULT_FILENAME)
-        else:
-            settings_file = os.path.join(settings_dir, filename)
-        with open(settings_file, "r") as f: 
+    def load(self):
+        with open(self.settings_file, "r") as f: 
             settings_dict = json.load(f)
-
-        self.player_name = settings_dict.get("player_name")
-        self.num_questions_per_round = settings_dict.get("num_questions_per_round")
-        self.gui_theme = settings_dict.get("gui_theme")
-
+        game_settings = settings_dict.get("game_settings")
+        self.players = settings_dict.get("players")
+        self.current_player_name = game_settings.get("current_player")
+        self.num_questions_per_round = game_settings.get("num_questions_per_round")
 
     def save(self):
-        settings_dir = os.path.join(GAME_DIR, "settings")
-        settings_dict = {
-            "player_name": self.player_name,
+        game_settings = {
+            "current_player": self.current_player_name,
             "num_questions_per_round": self.num_questions_per_round,
-            "gui_theme": self.gui_theme,
         }
-
-        settings_file = os.path.join(settings_dir, self.filename)
-        with open(settings_file, "w") as f:
+        players = self.players
+        settings_dict = {
+            "game_settings": game_settings,
+            "players": players,
+        }
+        with open(self.settings_file, "w") as f:
             json.dump(settings_dict, f, indent=4)
 
     def __repr__(self):
-        return(f"Settings: {self.player_name}")
+        return(f"Settings: current_player_name: {self.current_player_name}")
