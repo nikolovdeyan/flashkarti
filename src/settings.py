@@ -5,7 +5,7 @@ import os
 import json
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
-SETTINGS_FILE = os.path.join(GAME_DIR, "settings", "fk_settings.json")
+SETTINGS_FILE = os.path.abspath(os.path.join(GAME_DIR, "settings", "fk_settings.json"))
 
 class Settings:
     def __init__(self, filename=None):

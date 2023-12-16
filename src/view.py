@@ -27,6 +27,13 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
             selected_player = dialog.get_selected_player()
             dialog.close()
         return selected_player
+
+    def select_deck_dialog(self, decks_list):
+        dialog = SelectDeckDialog(decks_list)
+        if dialog.exec():
+            selected_deck = dialog.get_selected_deck()
+            dialog.close()
+        return selected_deck
         
     def closeEvent(self, event):
         """
@@ -65,5 +72,36 @@ class SelectPlayerDialog(QDialog):
     def get_selected_player(self):
         if self.players_list.currentItem():
             return self.players_list.currentItem().text()
+        else:
+            return ""
+
+    
+class SelectDeckDialog(QDialog):
+    def __init__(self, decks_list):
+        super().__init__()
+
+        self.setMinimumWidth(300)
+        self.setWindowTitle("Select deck")
+        message = QLabel("Please select deck")
+
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.button_box = QDialogButtonBox(q_btn)
+
+        self.decks_list = QListWidget()
+        self.decks_list.addItems(decks_list)
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(message)
+        self.layout.addWidget(self.decks_list)
+        self.layout.addWidget(self.button_box)
+
+        self.button_box.accepted.connect(self.accept)
+        self.button_box.rejected.connect(self.reject)
+
+        self.setLayout(self.layout)
+
+    def get_selected_deck(self):
+        if self.decks_list.currentItem():
+            return self.decks_list.currentItem().text()
         else:
             return ""

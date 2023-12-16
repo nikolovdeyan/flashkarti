@@ -5,11 +5,14 @@ import os
 import json
 import logging
 
-from settings import Settings
 from player import Player
 from deck import Deck
 from card import Card
 
+logger = logging.getLogger(__name__)
+
+GAME_DIR = os.path.dirname(os.path.realpath(__file__))
+DECKS_DIR = os.path.abspath(os.path.join(GAME_DIR, os.pardir, "decks"))
 
 class Game:
     def __init__(self, settings=None):
@@ -30,16 +33,30 @@ class Game:
             return ""
         return [player.get("name") for player in self.settings.players]
 
+    def get_decks_list(self):
+        decks_list = []
+        for f in os.listdir(DECKS_DIR):
+            if os.path.isfile(os.path.join(DECKS_DIR, f)):
+                deck_name = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                decks_list.append(deck_name)
+        return decks_list
+
     def load_player(self, player_name):
         for player_dict in self.settings.players:
             if player_dict.get("name") == player_name:
                 self.player = Player(player_dict)
-        logging.error(f"Player not found: {player_name}")
+                logging.debug(f"Player loaded: {self.player}")
+            else: 
+                logging.error(f"Player not found: {player_name}")
 
-    def load_deck(self, deck_file):
-        # TODO: Validations for decks named outside the convention
-        deck_name = " ".join(os.path.basename(deck_file).split(".")[0].split("_")).title()
+    def load_deck(self, deck_name):
+        decks_dict = {}
+        for f in os.listdir(DECKS_DIR):
+            if os.path.isfile(os.path.join(DECKS_DIR, f)):
+                deck_name = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                decks_dict[deck_name] = os.path.abspath(os.path.join(DECKS_DIR, f))
 
+        deck_file = decks_dict.get(deck_name)
         with open(deck_file, "r") as f: 
             deck_list = json.load(f)
 
@@ -56,8 +73,7 @@ class Game:
         
         deck = Deck(name=deck_name, cards=deck_cards)
         self.deck = deck
-        logging.debug(f"Deck loaded: {self.deck}")
+        logger.debug(f"Deck loaded: {self.deck}")
 
     def __repr__(self):
         return f"Game with deck: {self.deck}, player: {self.player} and settings: {self.settings}"
-

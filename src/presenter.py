@@ -59,7 +59,10 @@ class MainWindowPresenter(QtCore.QObject):
         self.view.mainwindow.player_label.setText(f"Selected player: {player}")
 
     def select_deck(self):
-        pass
+        decks_list = self.model.game.get_decks_list()
+        deck_name = self.view.mainwindow.select_deck_dialog(decks_list)
+        self.model.game.load_deck(deck_name)
+        self.update_deck()
 
     def update_deck(self):
         deck = self.model.game.get_deck_name()
