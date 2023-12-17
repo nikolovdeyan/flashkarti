@@ -10,7 +10,7 @@ from view import FkView
 from presenter import FkPresenter
 from model import FkModel
 
-logging_format = "%(asctime)s|%(name)s|%(levelname)s|%(message)s"
+logging_format = "%(asctime)s|%(name)-10s|%(levelname)-10s|%(message)s"
 logging.basicConfig(level=logging.DEBUG, format=logging_format)
 
 if __name__ == "__main__":

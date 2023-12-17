@@ -20,13 +20,11 @@ class Game:
         self.deck = None
         self.player = None
 
-        self.load_player
-
     def get_player_name(self):
         return "" if not self.player else self.player.name
 
     def get_deck_name(self):
-        return "" if not self.deck else self.deck.name
+        return self.deck.name if self.deck else "--"
 
     def get_players_list(self):
         if not self.settings.players:
@@ -41,11 +39,25 @@ class Game:
                 decks_list.append(deck_name)
         return decks_list
 
+    def get_current_card_display(self):
+        logger.debug("Game status:")
+        logger.debug(f"Player: {self.player}")
+        logger.debug(f"Deck: {self.deck}")
+        current_card = self.deck.draw_current_card()
+        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {current_card.title}"
+        return {
+            "deck_title": self.deck.name,
+            "card_title": card_title,
+            "card_contents": current_card.contents,
+        }
+
+
     def load_player(self, player_name):
         for player_dict in self.settings.players:
             if player_dict.get("name") == player_name:
                 self.player = Player(player_dict)
                 logging.debug(f"Player loaded: {self.player}")
+                return
             else: 
                 logging.error(f"Player not found: {player_name}")
 
@@ -74,6 +86,11 @@ class Game:
         deck = Deck(name=deck_name, cards=deck_cards)
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
+
+    def start_game(self):
+        self.deck.shuffle_deck()
+        self.deck.draw_quiz_cards(int(self.settings.num_questions_per_round))
+        logger.debug("Game starting")
 
     def __repr__(self):
         return f"Game with deck: {self.deck}, player: {self.player} and settings: {self.settings}"

@@ -12,8 +12,51 @@ class FkPresenter(QtCore.QObject):
         self.app = app
 
         self.mainwindow_presenter = MainWindowPresenter(model, view, app)
+        self.quizwindow_presenter = QuizWindowPresenter(model, view, app)
 
+        self.connectSignals()
         self.view.mainwindow.show()
+
+    def connectSignals(self):
+        self.view.mainwindow.myQuitSignal.connect(self.quit)
+        self.view.quizwindow.myQuitSignal.connect(self.quit)
+        self.view.mainwindow.actionQuit.triggered.connect(self.quit)
+        self.view.quizwindow.actionQuit.triggered.connect(self.quit)
+        self.view.mainwindow.start_quiz_btn.clicked.connect(self.start_quiz)
+
+    def start_quiz(self):
+        self.model.game.start_game()
+        self.view.mainwindow.hide()
+        self.view.quizwindow.show()
+        self.quizwindow_presenter.update_quiz()
+
+    def quit(self):
+        self.model.quit()
+        QtWidgets.QApplication.quit()
+
+
+class QuizWindowPresenter(QtCore.QObject):
+    def __init__(self, model, view, app):
+        super(QuizWindowPresenter, self).__init__()
+
+        self.model = model
+        self.view = view
+        self.app = app
+
+        self.connectSignals()
+
+    def update_quiz(self):
+        current_card = self.model.game.get_current_card_display()
+        self.view.quizwindow.deck_title_label.setText(current_card.get("deck_title"))
+        self.view.quizwindow.card_title_label.setText(current_card.get("card_title"))
+        self.view.quizwindow.card_question_field.setText(current_card.get("card_contents"))
+
+    def connectSignals(self):
+        pass
+
+    def quit(self):
+        self.model.quit()
+        QtWidgets.QApplication.quit()
 
 
 class MainWindowPresenter(QtCore.QObject):
@@ -29,17 +72,10 @@ class MainWindowPresenter(QtCore.QObject):
         self.connectSignals()
 
     def connectSignals(self):
-        self.view.mainwindow.myQuitSignal.connect(self.quit)
-        self.view.mainwindow.actionQuit.triggered.connect(self.quit)
-        self.view.mainwindow.actionAbout.triggered.connect(self.about)
         self.view.mainwindow.quit_btn.clicked.connect(self.quit)
+        self.view.mainwindow.actionAbout.triggered.connect(self.about)
         self.view.mainwindow.player_btn.clicked.connect(self.select_player)
         self.view.mainwindow.deck_btn.clicked.connect(self.select_deck)
-        self.view.mainwindow.start_quiz_btn.clicked.connect(self.start_quiz)
-
-    def quit(self):
-        self.model.quit()
-        QtWidgets.QApplication.quit()
 
     def about(self):
         QtWidgets.QMessageBox.information(
@@ -72,5 +108,6 @@ class MainWindowPresenter(QtCore.QObject):
             self.view.mainwindow.start_quiz_btn.setEnabled(True)
         self.view.mainwindow.deck_label.setText(f"Selected deck: {deck}")
 
-    def start_quiz(self):
-        logger.debug("start_quiz_btn clicked")
+    def quit(self):
+        self.model.quit()
+        QtWidgets.QApplication.quit()

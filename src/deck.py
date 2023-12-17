@@ -2,6 +2,9 @@
 Represents a deck of cards, storing its state and possible actions.
 """
 import random
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Deck:
     def __init__(self, name=None, cards=None):
@@ -13,7 +16,6 @@ class Deck:
         self._quiz_cards = []
         self._num_answered_cards = 0
         self._update_size()
-        self.shuffle_deck()
     
     def add_card(self, card):
         self._cards.append(card)
@@ -36,6 +38,8 @@ class Deck:
         self._update_quiz_size()
 
     def draw_current_card(self):
+        logger.debug(f"self._quiz_cards: {self._quiz_cards}")
+        logger.debug(f"self._curr_card_index: {self._curr_card_index}")
         return self._quiz_cards[self._curr_card_index]
 
     def next_card(self):
@@ -51,7 +55,7 @@ class Deck:
             self._curr_card_index -= 1
 
     def get_current_card_number(self):
-        return f"Question {self._curr_card_index + 1} of {self.quiz_size}:"
+        return str(self._curr_card_index + 1)
 
     def shuffle_deck(self):
         random.shuffle(self._cards)

@@ -3,6 +3,7 @@ from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import QMainWindow, QDialog, QDialogButtonBox, QVBoxLayout, QLabel, QListWidget
 
 from ui.ui_main_window import Ui_MainWindow
+from ui.ui_quiz_window import Ui_QuizWindow
 
 logger = logging.getLogger(__name__)
 
@@ -11,6 +12,7 @@ class FkView(QtCore.QObject):
     def __init__(self):
         super(FkView, self).__init__()
         self.mainwindow = MainWindowView()
+        self.quizwindow = QuizWindowView()
 
 
 class MainWindowView(QMainWindow, Ui_MainWindow):
@@ -43,6 +45,15 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
         logger.debug("closeEvent called")
         event.ignore()
         self.myQuitSignal.emit()
+
+
+class QuizWindowView(QMainWindow, Ui_QuizWindow):
+
+    myQuitSignal = QtCore.Signal()
+
+    def __init__(self):
+        super(QuizWindowView, self).__init__()
+        self.setupUi(self)
 
 
 class SelectPlayerDialog(QDialog):
@@ -105,3 +116,4 @@ class SelectDeckDialog(QDialog):
             return self.decks_list.currentItem().text()
         else:
             return ""
+
