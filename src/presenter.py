@@ -26,10 +26,10 @@ class FkPresenter(QtCore.QObject):
         self.view.mainwindow.start_quiz_btn.clicked.connect(self.start_quiz)
 
     def start_quiz(self):
-        self.model.game.start_game()  # TODO: Extract start_game
+        self.model.start_quiz()
         self.view.mainwindow.hide()
         self.view.quizwindow.show()
-        self.quizwindow_presenter.update_quiz()
+        self.quizwindow_presenter.update_quiz(self.model.get_current_card())
 
     def quit(self):
         self.model.quit()
@@ -46,8 +46,7 @@ class QuizWindowPresenter(QtCore.QObject):
 
         self.connectSignals()
 
-    def update_quiz(self):
-        current_card = self.model.game.get_current_card_display()
+    def update_quiz(self, current_card):
         self.view.quizwindow.deck_title_label.setText(current_card.get("deck_title"))
         self.view.quizwindow.card_title_label.setText(current_card.get("card_title"))
         self.view.quizwindow.card_question_field.setText(
@@ -65,14 +64,10 @@ class QuizWindowPresenter(QtCore.QObject):
         self.view.mainwindow.show()
 
     def next_card(self):
-        self.model.game.deck.next_card()  # TODO: Extract next_card
-        self.model.game.get_current_card_display()  # TODO: Extract get_current_card_display
-        self.update_quiz()
+        self.update_quiz(self.model.get_next_card())
 
     def prev_card(self):
-        self.model.game.deck.prev_card()  # TODO: Extract prev_card
-        self.model.game.get_current_card_display()  # TODO: Extract get_current_card_display
-        self.update_quiz()
+        self.update_quiz(self.model.get_prev_card())
 
     def about(self):
         QtWidgets.QMessageBox.information(
@@ -107,7 +102,7 @@ class MainWindowPresenter(QtCore.QObject):
     def select_player(self):
         players_list = self.model.get_players_list()
         player_name = self.view.mainwindow.select_player_dialog(players_list)
-        self.model.set_player(player_name)  # TODO: Extract load_player()
+        self.model.set_player(player_name)
         self.update_player()
 
     def update_player(self):

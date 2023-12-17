@@ -36,21 +36,21 @@
     },
     {
         "title": "The self Keyword",
-        "contents": "Explain the use of the self keyword.",
+        "contents": "Explain the use of the <code>self</code> keyword.",
         "additional_contents": null,
         "answer": "self represents a variable holding the instance of the current object. In Python it is provided explicitly in all class's methods as the first argument.",
         "references": null
     },
     {
         "title": "What is __init__()",
-        "contents": "Explain what is the __init__() method.",
+        "contents": "Explain what is the <code>__init__()</code> method.",
         "additional_contents": null,
         "answer": "The __init__ method is the constructor method in Python, which is called automatically when a new instance of an object is created. It is used to prepare the initial state of the object.",
         "references": null
     },
     {
         "title": "Break, continue, pass",
-        "contents": "Explain the break, continue, and pass keywords.",
+        "contents": "Explain the <code>break<code>, <code>continue</code>, and <code>pass</code> keywords.",
         "additional_contents": null,
         "answer": "The break statement used in a loop terminates it and continues code execution after the body of the loop.\nThe continue keyword terminates just the current iteration of the loop, skips the rest of the code in the current iteration, and continues with the next iteration of the loop.\nThe pass keyword represents a null operation and is used to fill up empty blocks of code that may execute during runtime but are not yet written.",
         "references": null
@@ -64,14 +64,14 @@
     },
     {
         "title": "The with Statement",
-        "contents": "What is the with keyword used for.",
+        "contents": "What is the <code>with</code> keyword used for.",
         "additional_contents": null,
         "answer": "The with keyword is used with context managers, that is objects that implement the Python context manager protocol.\nContext managers are used when working with unmanaged resources such as file streams to ensure that they are properly handled.",
         "references": null
     },
     {
         "title": "Difference Between Lambda and Def",
-        "contents": "What are the principle definitions between lambda and def?",
+        "contents": "What are the principle definitions between <code>lambda</code> and <code>def</code>?",
         "additional_contents": null,
         "answer": "Lambda functions are uni-expressional, normal functions can hold multiple expressions.\nDef generates a function and designates a name to it so that it can be called later, lambda returns the function itself for immediate invocation. Lambda cannot have a return, and can be used inside a list or dictionary.",
         "references": null

@@ -21,6 +21,15 @@ class Game:
         self.deck = None
         self.player = None
 
+    def set_player(self, player_name):
+        for player_dict in self.settings.players:
+            if player_dict.get("name") == player_name:
+                self.player = Player(player_dict)
+                logging.debug(f"Player loaded: {self.player}")
+                return
+            else:
+                logging.error(f"Player not found: {player_name}")
+
     def get_player_name(self):
         return "" if not self.player else self.player.name
 
@@ -42,24 +51,25 @@ class Game:
                 decks_list.append(deck_name)
         return decks_list
 
-    def get_current_card_display(self):
-        current_card = self.deck.draw_current_card()
-        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {current_card.title}"
-        logger.debug(f"Current card: {current_card}")
+    def get_card_display(self, card):
+        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {card.title}"
+        logger.debug(f"Current card: {card}")
         return {
             "deck_title": self.deck.title,
             "card_title": card_title,
-            "card_contents": current_card.contents,
+            "card_contents": card.contents,
         }
 
-    def set_player(self, player_name):
-        for player_dict in self.settings.players:
-            if player_dict.get("name") == player_name:
-                self.player = Player(player_dict)
-                logging.debug(f"Player loaded: {self.player}")
-                return
-            else:
-                logging.error(f"Player not found: {player_name}")
+    def get_current_card(self) -> Card:
+        return self.deck.draw_current_card()
+
+    def get_next_card(self) -> Card:
+        self.deck.next_card()
+        return self.deck.draw_current_card()
+
+    def get_prev_card(self) -> Card:
+        self.deck.prev_card()
+        return self.deck.draw_current_card()
 
     def set_deck(self, deck_title):
         decks_dict = {}
@@ -89,7 +99,7 @@ class Game:
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
 
-    def start_game(self):
+    def start_quiz(self):
         self.deck.shuffle_deck()
         self.deck.draw_quiz_cards(int(self.settings.num_questions_per_round))
         logger.debug(f"Game starting: {self}")
