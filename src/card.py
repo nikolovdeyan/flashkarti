@@ -2,6 +2,7 @@
 Represents a flashcard, storing the properties of a single card.
 """
 
+
 class Card:
     def __init__(self, title, contents, addl_contents, answer, references):
         self.title = title

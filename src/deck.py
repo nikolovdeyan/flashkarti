@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Deck:
     def __init__(self, title=None, cards=None):
         self.title = title
@@ -16,17 +17,17 @@ class Deck:
         self._quiz_cards = []
         self._num_answered_cards = 0
         self._update_size()
-    
+
     def add_card(self, card):
         self._cards.append(card)
         self._update_size()
-    
+
     def remove_card(self, card):
         for deck_card in self._cards:
             if deck_card.title == card.title:
                 self._cards.remove(deck_card)
                 self._update_size()
-    
+
     def _update_size(self):
         self.size = len(self._cards)
 
@@ -43,7 +44,7 @@ class Deck:
     def next_card(self):
         if self._curr_card_index >= self.quiz_size - 1:
             self._curr_card_index = 0
-        else: 
+        else:
             self._curr_card_index += 1
 
     def prev_card(self):
@@ -57,6 +58,6 @@ class Deck:
 
     def shuffle_deck(self):
         random.shuffle(self._cards)
-        
+
     def __repr__(self):
         return f"Deck: {self.title}: {[card for card in self._cards]}"

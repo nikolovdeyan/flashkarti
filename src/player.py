@@ -2,6 +2,7 @@
 Represents a player of the game.
 """
 
+
 class Player:
     def __init__(self, name):
         self.name = name

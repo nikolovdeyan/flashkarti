@@ -1,4 +1,5 @@
 import logging
+from typing import List, Dict
 
 from PySide6 import QtCore
 
@@ -13,6 +14,77 @@ class FkModel(QtCore.QObject):
         super(FkModel, self).__init__()
         self.settings = Settings()
         self.game = Game(self.settings)
+
+    def set_player(self, player_name: str) -> None:
+        """
+        Calls the game method to create a player from the provided string.
+
+        Args:
+            player_name (str): The name of the player to be created.
+        """
+        self.game.set_player(player_name)
+
+    def get_player(self):
+        pass
+
+    def get_players_list(self) -> List[str]:
+        """
+        Calls the game method to return a list of available players.
+
+        The list consists of the created players residing in the settings file.
+
+        Returns:
+            List[str]: The list of available players.
+        """
+        return self.game.get_players_list()
+
+    def get_player_name(self) -> str:
+        """
+        Returns the name of the current player loaded in the game.
+
+        Returns:
+            str: The name of the player.
+        """
+        return self.game.get_player_name()
+
+    def get_decks_list(self) -> List[str]:
+        """Calls the game method to return a list of available decks.
+
+        The list consists of the available deck files contained in the decks directory.
+
+        Returns:
+            List[str]: The list of available decks.
+        """
+        return self.game.get_decks_list()
+
+    def get_deck_name(self) -> str:
+        """
+        Returns the name of the current deck loaded in the game.
+
+        Returns:
+            str: The name of the deck loaded.
+        """
+        return self.game.get_deck_name()
+
+    def set_deck(self, deck_title: str) -> None:
+        """Calls the game method to load a deck from the decks dir.
+
+        Args:
+            deck_title (str): The name of the deck to be loaded.
+        """
+        self.game.set_deck(deck_title)
+
+    def start_quiz(self):
+        pass
+
+    def get_next_card(self):
+        pass
+
+    def get_prev_card(self):
+        pass
+
+    def get_current_card(self) -> Dict:
+        return self.game.get_current_card_display()
 
     def quit(self):
         pass

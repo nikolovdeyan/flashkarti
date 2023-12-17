@@ -1,6 +1,6 @@
 """
 Stores the main program logic.
-""" 
+"""
 import os
 import json
 import logging
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
 DECKS_DIR = os.path.abspath(os.path.join(GAME_DIR, os.pardir, "decks"))
+
 
 class Game:
     def __init__(self, settings=None):
@@ -35,7 +36,9 @@ class Game:
         decks_list = []
         for f in os.listdir(DECKS_DIR):
             if os.path.isfile(os.path.join(DECKS_DIR, f)):
-                deck_name = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                deck_name = " ".join(
+                    os.path.basename(f).split(".")[0].split("_")
+                ).title()
                 decks_list.append(deck_name)
         return decks_list
 
@@ -49,37 +52,39 @@ class Game:
             "card_contents": current_card.contents,
         }
 
-    def load_player(self, player_name):
+    def set_player(self, player_name):
         for player_dict in self.settings.players:
             if player_dict.get("name") == player_name:
                 self.player = Player(player_dict)
                 logging.debug(f"Player loaded: {self.player}")
                 return
-            else: 
+            else:
                 logging.error(f"Player not found: {player_name}")
 
-    def load_deck(self, deck_title):
+    def set_deck(self, deck_title):
         decks_dict = {}
         for f in os.listdir(DECKS_DIR):
             if os.path.isfile(os.path.join(DECKS_DIR, f)):
-                deck_title = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                deck_title = " ".join(
+                    os.path.basename(f).split(".")[0].split("_")
+                ).title()
                 decks_dict[deck_title] = os.path.abspath(os.path.join(DECKS_DIR, f))
 
         deck_file = decks_dict.get(deck_title)
-        with open(deck_file, "r") as f: 
+        with open(deck_file, "r") as f:
             deck_list = json.load(f)
 
         deck_cards = []
         for card_dict in deck_list:
             card = Card(
-                title = card_dict.get("title"),
-                contents = card_dict.get("contents"),
-                addl_contents = card_dict.get("additional_contents"),
-                answer = card_dict.get("answer"),
-                references = card_dict.get("references")
+                title=card_dict.get("title"),
+                contents=card_dict.get("contents"),
+                addl_contents=card_dict.get("additional_contents"),
+                answer=card_dict.get("answer"),
+                references=card_dict.get("references"),
             )
             deck_cards.append(card)
-        
+
         deck = Deck(title=deck_title, cards=deck_cards)
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
