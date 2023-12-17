@@ -24,7 +24,7 @@ class Game:
         return "" if not self.player else self.player.name
 
     def get_deck_name(self):
-        return self.deck.name if self.deck else "--"
+        return self.deck.title if self.deck else "--"
 
     def get_players_list(self):
         if not self.settings.players:
@@ -40,17 +40,14 @@ class Game:
         return decks_list
 
     def get_current_card_display(self):
-        logger.debug("Game status:")
-        logger.debug(f"Player: {self.player}")
-        logger.debug(f"Deck: {self.deck}")
         current_card = self.deck.draw_current_card()
         card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {current_card.title}"
+        logger.debug(f"Current card: {current_card}")
         return {
-            "deck_title": self.deck.name,
+            "deck_title": self.deck.title,
             "card_title": card_title,
             "card_contents": current_card.contents,
         }
-
 
     def load_player(self, player_name):
         for player_dict in self.settings.players:
@@ -61,14 +58,14 @@ class Game:
             else: 
                 logging.error(f"Player not found: {player_name}")
 
-    def load_deck(self, deck_name):
+    def load_deck(self, deck_title):
         decks_dict = {}
         for f in os.listdir(DECKS_DIR):
             if os.path.isfile(os.path.join(DECKS_DIR, f)):
-                deck_name = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
-                decks_dict[deck_name] = os.path.abspath(os.path.join(DECKS_DIR, f))
+                deck_title = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                decks_dict[deck_title] = os.path.abspath(os.path.join(DECKS_DIR, f))
 
-        deck_file = decks_dict.get(deck_name)
+        deck_file = decks_dict.get(deck_title)
         with open(deck_file, "r") as f: 
             deck_list = json.load(f)
 
@@ -83,14 +80,15 @@ class Game:
             )
             deck_cards.append(card)
         
-        deck = Deck(name=deck_name, cards=deck_cards)
+        deck = Deck(title=deck_title, cards=deck_cards)
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
 
     def start_game(self):
         self.deck.shuffle_deck()
         self.deck.draw_quiz_cards(int(self.settings.num_questions_per_round))
-        logger.debug("Game starting")
+        logger.debug(f"Game starting: {self}")
+        logger.debug(f"Game started with cards: {self.deck._quiz_cards}")
 
     def __repr__(self):
-        return f"Game with deck: {self.deck}, player: {self.player} and settings: {self.settings}"
+        return f"Game with deck: {self.deck.title}, player: {self.player} and settings: {self.settings}"

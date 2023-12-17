@@ -52,7 +52,23 @@ class QuizWindowPresenter(QtCore.QObject):
         self.view.quizwindow.card_question_field.setText(current_card.get("card_contents"))
 
     def connectSignals(self):
-        pass
+        self.view.quizwindow.actionEnd_Round.triggered.connect(self.end_round)
+        self.view.quizwindow.next_card_btn.clicked.connect(self.next_card)
+        self.view.quizwindow.prev_card_btn.clicked.connect(self.prev_card)
+
+    def end_round(self):
+        self.view.quizwindow.hide()
+        self.view.mainwindow.show()
+
+    def next_card(self):
+        self.model.game.deck.next_card()
+        self.model.game.get_current_card_display()
+        self.update_quiz()
+
+    def prev_card(self):
+        self.model.game.deck.prev_card()
+        self.model.game.get_current_card_display()
+        self.update_quiz()
 
     def quit(self):
         self.model.quit()

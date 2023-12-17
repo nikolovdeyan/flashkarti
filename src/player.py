@@ -21,11 +21,5 @@ class Player:
     def _update_total_scores(self):
         self._total_score = self._total_correct + (self._total_partial // 2)
 
-    def save_player(self, name):
-        pass
-
-    def load_player(self, name):
-        pass
-
     def __repr__(self):
         return f"Player: {self.name}"

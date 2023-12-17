@@ -7,8 +7,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Deck:
-    def __init__(self, name=None, cards=None):
-        self.name = name
+    def __init__(self, title=None, cards=None):
+        self.title = title
         self.size = 0
         self.quiz_size = 0
         self._cards = cards if cards else []
@@ -38,8 +38,6 @@ class Deck:
         self._update_quiz_size()
 
     def draw_current_card(self):
-        logger.debug(f"self._quiz_cards: {self._quiz_cards}")
-        logger.debug(f"self._curr_card_index: {self._curr_card_index}")
         return self._quiz_cards[self._curr_card_index]
 
     def next_card(self):
@@ -61,4 +59,4 @@ class Deck:
         random.shuffle(self._cards)
         
     def __repr__(self):
-        return f"Deck: {self.name}: {[card for card in self._cards]}"
+        return f"Deck: {self.title}: {[card for card in self._cards]}"
