@@ -64,7 +64,7 @@ class FkModel(QtCore.QObject):
         ### Returns:
             `str`: The name of the deck loaded.
         """
-        return self.game.get_deck_name()
+        return self.game.get_deck_title()
 
     def set_deck(self, deck_title: str) -> None:
         """Calls the game method to load a deck from the decks dir.
