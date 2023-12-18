@@ -52,6 +52,9 @@ class QuizWindowPresenter(QtCore.QObject):
         self.view.quizwindow.card_question_field.setText(
             current_card.get("card_contents")
         )
+        self.view.quizwindow.card_answer_field.setPlainText(
+            current_card.get("user_answer")
+        )
 
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
@@ -64,10 +67,21 @@ class QuizWindowPresenter(QtCore.QObject):
         self.view.mainwindow.show()
 
     def next_card(self):
+        current_card = {
+            "user_answer": self.view.quizwindow.card_answer_field.toPlainText(),
+        }
+        self.model.set_current_card(current_card)
+        self.view.quizwindow.card_answer_field.clear()
         self.update_quiz(self.model.get_next_card())
 
     def prev_card(self):
+        current_card = {
+            "user_answer": self.view.quizwindow.card_answer_field.toPlainText(),
+        }
+        self.model.set_current_card(current_card)
+        self.view.quizwindow.card_answer_field.clear()
         self.update_quiz(self.model.get_prev_card())
+        return current_card
 
     def about(self):
         QtWidgets.QMessageBox.information(

@@ -107,5 +107,14 @@ class FkModel(QtCore.QObject):
         """
         return self.game.get_card_display(self.game.get_current_card())
 
+    def set_current_card(self, current_card: dict) -> None:
+        """Persists the state of the current card in the deck.
+
+        ### Args:
+            `current_card: (str)` The card information to be persisted.
+        """
+        card = self.game.get_current_card()
+        card.user_answer = current_card.get("user_answer")
+
     def quit(self):
         pass

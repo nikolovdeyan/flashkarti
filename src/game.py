@@ -58,6 +58,7 @@ class Game:
             "deck_title": self.deck.title,
             "card_title": card_title,
             "card_contents": card.contents,
+            "user_answer": card.user_answer,
         }
 
     def get_current_card(self) -> Card:
