@@ -34,8 +34,15 @@ class Deck:
     def _update_quiz_size(self):
         self.quiz_size = len(self._quiz_cards)
 
+    def _update_num_answered_cards(self):
+        result = 0
+        for card in self._cards:
+            if card.user_answer:
+                result += 1
+        self._num_answered_cards = result
+
     def draw_quiz_cards(self, num_cards):
-        self._quiz_cards = [random.choice(self._cards) for _ in range(num_cards)]
+        self._quiz_cards = random.sample(self._cards, num_cards)
         self._update_quiz_size()
 
     def draw_current_card(self):
@@ -55,6 +62,9 @@ class Deck:
 
     def get_current_card_number(self):
         return str(self._curr_card_index + 1)
+
+    def get_num_aswered_cards(self):
+        return self._num_answered_cards
 
     def shuffle_deck(self):
         random.shuffle(self._cards)

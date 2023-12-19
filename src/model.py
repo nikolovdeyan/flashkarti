@@ -111,10 +111,9 @@ class FkModel(QtCore.QObject):
         """Persists the state of the current card in the deck.
 
         ### Args:
-            `current_card: (str)` The card information to be persisted.
+            `current_card: (dict)` The card information to be persisted.
         """
-        card = self.game.get_current_card()
-        card.user_answer = current_card.get("user_answer")
+        self.game.set_current_card(current_card)
 
     def quit(self):
         pass
