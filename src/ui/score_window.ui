@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QuizWindow</class>
- <widget class="QMainWindow" name="QuizWindow">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,13 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="deck_title_label">
+   <widget class="QLabel" name="score_deck_title_label">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>20</y>
       <width>901</width>
-      <height>31</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -36,7 +36,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>50</y>
+      <y>60</y>
       <width>921</width>
       <height>451</height>
      </rect>
@@ -47,7 +47,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="card_title_label">
+    <widget class="QLabel" name="score_card_title_label">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -65,32 +65,42 @@
       <string>TextLabel</string>
      </property>
     </widget>
-    <widget class="QTextBrowser" name="card_question_field">
+    <widget class="QTextBrowser" name="score_card_question_field">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>50</y>
        <width>441</width>
-       <height>361</height>
+       <height>391</height>
       </rect>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="card_answer_field">
+    <widget class="QPlainTextEdit" name="score_card_answer_field">
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>50</y>
+       <y>70</y>
        <width>441</width>
-       <height>361</height>
+       <height>161</height>
       </rect>
      </property>
     </widget>
-    <widget class="QProgressBar" name="quiz_progress_bar">
+    <widget class="QPlainTextEdit" name="score_card_expected_answer_field">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>420</y>
-       <width>901</width>
+       <x>470</x>
+       <y>280</y>
+       <width>441</width>
+       <height>161</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="score_card_title_label_2">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>40</y>
+       <width>261</width>
        <height>21</height>
       </rect>
      </property>
@@ -99,16 +109,34 @@
        <pointsize>12</pointsize>
       </font>
      </property>
-     <property name="value">
-      <number>24</number>
+     <property name="text">
+      <string>Your Answer:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="score_card_title_label_3">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>250</y>
+       <width>261</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Expected Answer</string>
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="next_card_btn">
+   <widget class="QPushButton" name="score_next_card_btn">
     <property name="geometry">
      <rect>
       <x>840</x>
-      <y>510</y>
+      <y>520</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -128,11 +156,11 @@
      <string>Next</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="prev_card_btn">
+   <widget class="QPushButton" name="score_prev_card_btn">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>510</y>
+      <x>730</x>
+      <y>520</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -152,11 +180,11 @@
      <string>Previous</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="end_quiz_btn">
+   <widget class="QPushButton" name="end_scoring_btn">
     <property name="geometry">
      <rect>
       <x>840</x>
-      <y>550</y>
+      <y>560</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -173,7 +201,97 @@
      </font>
     </property>
     <property name="text">
-     <string>End Quiz</string>
+     <string>End Scoring</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="score_answer_complete_btn">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>520</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Complete</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="score_card_title_label_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>520</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Score Your Answer:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="score_answer_partial_btn">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>520</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Partial</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="score_answer_incomplete_btn">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>520</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Incomplete</string>
     </property>
    </widget>
   </widget>
@@ -190,7 +308,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionEnd_Round"/>
+    <addaction name="actionExit_Scoring"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -203,9 +321,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEnd_Round">
+  <action name="actionExit_Scoring">
    <property name="text">
-    <string>End Quiz</string>
+    <string>Exit Scoring</string>
    </property>
   </action>
   <action name="actionQuit">

@@ -76,11 +76,9 @@ class QuizWindowPresenter(QtCore.QObject):
         )
 
         if confirm == QtWidgets.QMessageBox.Ok:
-            logger.debug("User chose OK")
             self.view.quizwindow.hide()
             self.view.mainwindow.show()
         else:
-            logger.debug("User chose Cancel")
             return
 
     def next_card(self):
