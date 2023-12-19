@@ -63,8 +63,8 @@ class Deck:
     def get_current_card_number(self):
         return str(self._curr_card_index + 1)
 
-    def get_num_aswered_cards(self):
-        return self._num_answered_cards
+    def get_progress(self):
+        return int(round(self._num_answered_cards / self.quiz_size, 2) * 100)
 
     def shuffle_deck(self):
         random.shuffle(self._cards)

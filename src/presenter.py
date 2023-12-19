@@ -29,6 +29,7 @@ class FkPresenter(QtCore.QObject):
         self.model.start_quiz()
         self.view.mainwindow.hide()
         self.view.quizwindow.show()
+        self.view.quizwindow.quiz_progress_bar.setValue(0)
         self.quizwindow_presenter.update_quiz(self.model.get_current_card())
 
     def quit(self):
@@ -54,6 +55,9 @@ class QuizWindowPresenter(QtCore.QObject):
         )
         self.view.quizwindow.card_answer_field.setPlainText(
             current_card.get("user_answer")
+        )
+        self.view.quizwindow.quiz_progress_bar.setValue(
+            current_card.get("num_answered_cards")
         )
 
     def connectSignals(self):

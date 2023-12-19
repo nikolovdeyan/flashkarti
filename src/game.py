@@ -93,13 +93,12 @@ class Game:
     def get_card_display(self, card):
         card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {card.title}"
         logger.debug(f"Current card: {card}")
-        logger.debug(f"Num answered cards: {self.deck.get_num_aswered_cards()}")
         return {
             "deck_title": self.deck.title,
             "card_title": card_title,
             "card_contents": card.contents,
             "user_answer": card.user_answer,
-            "num_answered_cards": self.deck.get_num_aswered_cards(),
+            "num_answered_cards": self.deck.get_progress(),
         }
 
     def get_current_card(self) -> Card:
