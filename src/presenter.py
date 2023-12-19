@@ -63,12 +63,25 @@ class QuizWindowPresenter(QtCore.QObject):
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
         self.view.quizwindow.actionEnd_Round.triggered.connect(self.end_round)
+        self.view.quizwindow.end_quiz_btn.clicked.connect(self.end_round)
         self.view.quizwindow.next_card_btn.clicked.connect(self.next_card)
         self.view.quizwindow.prev_card_btn.clicked.connect(self.prev_card)
 
     def end_round(self):
-        self.view.quizwindow.hide()
-        self.view.mainwindow.show()
+        confirm = QtWidgets.QMessageBox.information(
+            self.view.quizwindow,
+            "End the Quiz?",
+            "Are you sure you want to end the quiz and proceed to the scoring window?",
+            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
+        )
+
+        if confirm == QtWidgets.QMessageBox.Ok:
+            logger.debug("User chose OK")
+            self.view.quizwindow.hide()
+            self.view.mainwindow.show()
+        else:
+            logger.debug("User chose Cancel")
+            return
 
     def next_card(self):
         current_card = {

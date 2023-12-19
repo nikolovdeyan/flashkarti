@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>963</width>
-    <height>600</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
       <x>20</x>
       <y>50</y>
       <width>921</width>
-      <height>441</height>
+      <height>451</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -71,7 +71,7 @@
        <x>10</x>
        <y>50</y>
        <width>441</width>
-       <height>381</height>
+       <height>361</height>
       </rect>
      </property>
     </widget>
@@ -81,8 +81,26 @@
        <x>470</x>
        <y>50</y>
        <width>441</width>
-       <height>381</height>
+       <height>361</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="quiz_progress_bar">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>420</y>
+       <width>901</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="value">
+      <number>24</number>
      </property>
     </widget>
    </widget>
@@ -90,7 +108,7 @@
     <property name="geometry">
      <rect>
       <x>840</x>
-      <y>500</y>
+      <y>510</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -114,7 +132,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>500</y>
+      <y>510</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -134,22 +152,28 @@
      <string>Previous</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="quiz_progress_bar">
+   <widget class="QPushButton" name="end_quiz_btn">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>500</y>
-      <width>701</width>
+      <x>840</x>
+      <y>550</y>
+      <width>101</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
      </font>
     </property>
-    <property name="value">
-     <number>24</number>
+    <property name="text">
+     <string>End Quiz</string>
     </property>
    </widget>
   </widget>
@@ -181,7 +205,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionEnd_Round">
    <property name="text">
-    <string>End Round</string>
+    <string>End Quiz</string>
    </property>
   </action>
   <action name="actionQuit">
