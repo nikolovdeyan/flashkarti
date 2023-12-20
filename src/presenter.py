@@ -1,5 +1,5 @@
 import logging
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +14,7 @@ class FkPresenter(QtCore.QObject):
 
         self.mainwindow_presenter = MainWindowPresenter(model, view, app)
         self.quizwindow_presenter = QuizWindowPresenter(model, view, app)
+        self.scoringwinow_presenter = ScoringWindowPresenter(model, view, app)
 
         self.connectSignals()
         self.view.mainwindow.show()
@@ -30,7 +31,9 @@ class FkPresenter(QtCore.QObject):
     def start_quiz(self):
         self.model.start_quiz()
         self.view.start_quiz()
-        self.quizwindow_presenter.update_quiz(self.model.get_current_card_display())
+        self.quizwindow_presenter.update_quiz_display(
+            self.model.get_current_card_display()
+        )
 
     def quit(self):
         self.model.quit()
@@ -50,6 +53,27 @@ class ScoringWindowPresenter(QtCore.QObject):
     def connectSignals(self):
         pass
 
+    def update_scoring_display(self, current_card):
+        pass
+
+    def on_score_next_card_clicked(self):
+        pass
+
+    def on_score_prev_card_clicked(self):
+        pass
+
+    def on_score_answer_complete_clicked(self):
+        pass
+
+    def on_score_answer_partial_clicked(self):
+        pass
+
+    def on_score_answer_incomplete_clicked(self):
+        pass
+
+    def on_end_scoring_clicked(self):
+        pass
+
 
 class QuizWindowPresenter(QtCore.QObject):
     def __init__(self, model, view, app):
@@ -61,27 +85,16 @@ class QuizWindowPresenter(QtCore.QObject):
 
         self.connectSignals()
 
-    def update_quiz(self, current_card):
-        self.view.quizwindow.deck_title_label.setText(current_card.get("deck_title"))
-        self.view.quizwindow.card_title_label.setText(current_card.get("card_title"))
-        self.view.quizwindow.card_question_field.setText(
-            current_card.get("card_contents")
-        )
-        self.view.quizwindow.card_answer_field.setPlainText(
-            current_card.get("user_answer")
-        )
-        self.view.quizwindow.quiz_progress_bar.setValue(
-            current_card.get("num_answered_cards")
-        )
-
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
-        self.view.quizwindow.actionEnd_Quiz.triggered.connect(self.end_quiz)
-        self.view.quizwindow.start_scoring_btn.clicked.connect(self.start_scoring)
-        self.view.quizwindow.next_card_btn.clicked.connect(self.next_card)
-        self.view.quizwindow.prev_card_btn.clicked.connect(self.prev_card)
+        self.view.quizwindow.actionEnd_Quiz.triggered.connect(self.on_end_quiz_clicked)
+        self.view.quizwindow.start_scoring_btn.clicked.connect(
+            self.on_start_scoring_clicked
+        )
+        self.view.quizwindow.next_card_btn.clicked.connect(self.on_next_card_clicked)
+        self.view.quizwindow.prev_card_btn.clicked.connect(self.on_prev_card_clicked)
 
-    def end_quiz(self):
+    def on_end_quiz_clicked(self):
         confirm = QtWidgets.QMessageBox.information(
             self.view.quizwindow,
             "End the Quiz?",
@@ -95,7 +108,10 @@ class QuizWindowPresenter(QtCore.QObject):
         else:
             return
 
-    def start_scoring(self):
+    def on_start_scoring_clicked(self):
+        self.model.set_current_card(
+            self.view.quizwindow.card_answer_field.toPlainText()
+        )
         confirm = QtWidgets.QMessageBox.information(
             self.view.quizwindow,
             "Proceed to Scoring?",
@@ -109,22 +125,32 @@ class QuizWindowPresenter(QtCore.QObject):
         else:
             return
 
-    def next_card(self):
-        current_card = {
-            "user_answer": self.view.quizwindow.card_answer_field.toPlainText(),
-        }
-        self.model.set_current_card(current_card)
+    def on_next_card_clicked(self):
+        self.model.set_current_card(
+            self.view.quizwindow.card_answer_field.toPlainText()
+        )
         self.view.quizwindow.card_answer_field.clear()
-        self.update_quiz(self.model.get_next_card_display())
+        self.update_quiz_display(self.model.get_next_card_display())
 
-    def prev_card(self):
-        current_card = {
-            "user_answer": self.view.quizwindow.card_answer_field.toPlainText(),
-        }
-        self.model.set_current_card(current_card)
+    def on_prev_card_clicked(self):
+        self.model.set_current_card(
+            self.view.quizwindow.card_answer_field.toPlainText()
+        )
         self.view.quizwindow.card_answer_field.clear()
-        self.update_quiz(self.model.get_prev_card_display())
-        return current_card
+        self.update_quiz_display(self.model.get_prev_card_display())
+
+    def update_quiz_display(self, current_card):
+        self.view.quizwindow.deck_title_label.setText(current_card.get("deck_title"))
+        self.view.quizwindow.card_title_label.setText(current_card.get("card_title"))
+        self.view.quizwindow.card_question_field.setText(
+            current_card.get("card_contents")
+        )
+        self.view.quizwindow.card_answer_field.setPlainText(
+            current_card.get("user_answer")
+        )
+        self.view.quizwindow.quiz_progress_bar.setValue(
+            current_card.get("num_answered_cards")
+        )
 
     def about(self):
         QtWidgets.QMessageBox.information(
@@ -146,39 +172,39 @@ class MainWindowPresenter(QtCore.QObject):
         self.view = view
         self.app = app
 
-        self.update_player()
-        self.update_deck()
+        self.update_player_display()
+        self.update_deck_display()
         self.connectSignals()
 
     def connectSignals(self):
         self.view.mainwindow.quit_btn.clicked.connect(self.quit)
         self.view.mainwindow.actionAbout.triggered.connect(self.about)
         self.view.mainwindow.player_btn.clicked.connect(self.on_select_player_clicked)
-        self.view.mainwindow.deck_btn.clicked.connect(self.select_deck)
+        self.view.mainwindow.deck_btn.clicked.connect(self.on_select_deck_clicked)
+
+    def on_select_deck_clicked(self):
+        decks_list = self.model.get_decks_list()
+        deck_name = self.view.mainwindow.select_deck_dialog(decks_list)
+        self.model.set_deck(deck_name)
+        self.update_deck_display()
 
     def on_select_player_clicked(self):
         players_list = self.model.get_players_list()
         player_name = self.view.select_player(players_list)
         self.model.set_player(player_name)
-        self.update_player()
+        self.update_player_display()
 
-    def update_player(self):
-        player = self.model.get_player_name()
-        self.view.mainwindow.player_label.setText(f"Selected player: {player}")
-
-    def select_deck(self):
-        decks_list = self.model.get_decks_list()
-        deck_name = self.view.mainwindow.select_deck_dialog(decks_list)
-        self.model.set_deck(deck_name)
-        self.update_deck()
-
-    def update_deck(self):
+    def update_deck_display(self):
         deck = self.model.get_deck_name()
         if not deck:
             self.view.mainwindow.start_quiz_btn.setEnabled(False)
         else:
             self.view.mainwindow.start_quiz_btn.setEnabled(True)
         self.view.mainwindow.deck_label.setText(f"Selected deck: {deck}")
+
+    def update_player_display(self):
+        player = self.model.get_player_name()
+        self.view.mainwindow.player_label.setText(f"Selected player: {player}")
 
     def about(self):
         QtWidgets.QMessageBox.information(

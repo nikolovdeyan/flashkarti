@@ -104,9 +104,9 @@ class Game:
     def get_current_card(self) -> Card:
         return self.deck.draw_current_card()
 
-    def set_current_card(self, card_dict) -> None:
+    def set_current_card(self, user_answer) -> None:
         card = self.deck.draw_current_card()
-        card.user_answer = card_dict.get("user_answer")
+        card.user_answer = user_answer
         self.deck._update_num_answered_cards()
 
     def get_next_card(self) -> Card:
