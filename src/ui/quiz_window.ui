@@ -152,7 +152,7 @@
      <string>Previous</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="end_quiz_btn">
+   <widget class="QPushButton" name="start_scoring_btn">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -173,7 +173,7 @@
      </font>
     </property>
     <property name="text">
-     <string>End Quiz</string>
+     <string>Score</string>
     </property>
    </widget>
   </widget>
@@ -190,7 +190,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionEnd_Round"/>
+    <addaction name="actionEnd_Quiz"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -203,7 +203,7 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEnd_Round">
+  <action name="actionEnd_Quiz">
    <property name="text">
     <string>End Quiz</string>
    </property>

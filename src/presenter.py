@@ -21,8 +21,10 @@ class FkPresenter(QtCore.QObject):
     def connectSignals(self):
         self.view.mainwindow.myQuitSignal.connect(self.quit)
         self.view.quizwindow.myQuitSignal.connect(self.quit)
+        self.view.scorewindow.myQuitSignal.connect(self.quit)
         self.view.mainwindow.actionQuit.triggered.connect(self.quit)
         self.view.quizwindow.actionQuit.triggered.connect(self.quit)
+        self.view.scorewindow.actionQuit.triggered.connect(self.quit)
         self.view.mainwindow.start_quiz_btn.clicked.connect(self.start_quiz)
 
     def start_quiz(self):
@@ -33,6 +35,20 @@ class FkPresenter(QtCore.QObject):
     def quit(self):
         self.model.quit()
         QtWidgets.QApplication.quit()
+
+
+class ScoringWindowPresenter(QtCore.QObject):
+    def __init__(self, model, view, app):
+        super(ScoringWindowPresenter, self).__init__()
+
+        self.model = model
+        self.view = view
+        self.app = app
+
+        self.connectSignals()
+
+    def connectSignals(self):
+        pass
 
 
 class QuizWindowPresenter(QtCore.QObject):
@@ -60,22 +76,36 @@ class QuizWindowPresenter(QtCore.QObject):
 
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
-        self.view.quizwindow.actionEnd_Round.triggered.connect(self.end_round)
-        self.view.quizwindow.end_quiz_btn.clicked.connect(self.end_round)
+        self.view.quizwindow.actionEnd_Quiz.triggered.connect(self.end_quiz)
+        self.view.quizwindow.start_scoring_btn.clicked.connect(self.start_scoring)
         self.view.quizwindow.next_card_btn.clicked.connect(self.next_card)
         self.view.quizwindow.prev_card_btn.clicked.connect(self.prev_card)
 
-    def end_round(self):
+    def end_quiz(self):
         confirm = QtWidgets.QMessageBox.information(
             self.view.quizwindow,
             "End the Quiz?",
-            "Are you sure you want to end the quiz and proceed to the scoring window?",
+            "Are you sure you want to end the quiz and return to the main menu?",
             QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
         )
 
         if confirm == QtWidgets.QMessageBox.Ok:
             self.view.quizwindow.hide()
             self.view.mainwindow.show()
+        else:
+            return
+
+    def start_scoring(self):
+        confirm = QtWidgets.QMessageBox.information(
+            self.view.quizwindow,
+            "Proceed to Scoring?",
+            "Are you sure you want to end the quiz and proceed to scoring?",
+            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
+        )
+
+        if confirm == QtWidgets.QMessageBox.Ok:
+            self.view.quizwindow.hide()
+            self.view.scorewindow.show()
         else:
             return
 

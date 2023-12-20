@@ -20,18 +20,18 @@ from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
     QMenu, QMenuBar, QPlainTextEdit, QPushButton,
     QSizePolicy, QStatusBar, QTextBrowser, QWidget)
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(963, 640)
-        self.actionExit_Scoring = QAction(MainWindow)
+class Ui_ScoreWindow(object):
+    def setupUi(self, ScoreWindow):
+        if not ScoreWindow.objectName():
+            ScoreWindow.setObjectName(u"ScoreWindow")
+        ScoreWindow.resize(963, 640)
+        self.actionExit_Scoring = QAction(ScoreWindow)
         self.actionExit_Scoring.setObjectName(u"actionExit_Scoring")
-        self.actionQuit = QAction(MainWindow)
+        self.actionQuit = QAction(ScoreWindow)
         self.actionQuit.setObjectName(u"actionQuit")
-        self.actionAbout = QAction(MainWindow)
+        self.actionAbout = QAction(ScoreWindow)
         self.actionAbout.setObjectName(u"actionAbout")
-        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget = QWidget(ScoreWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.score_deck_title_label = QLabel(self.centralwidget)
         self.score_deck_title_label.setObjectName(u"score_deck_title_label")
@@ -110,18 +110,18 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.score_answer_incomplete_btn.sizePolicy().hasHeightForWidth())
         self.score_answer_incomplete_btn.setSizePolicy(sizePolicy)
         self.score_answer_incomplete_btn.setFont(font1)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
+        ScoreWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(ScoreWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 963, 22))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
+        ScoreWindow.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(ScoreWindow)
         self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        ScoreWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -129,28 +129,28 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionAbout)
 
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(ScoreWindow)
 
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(ScoreWindow)
     # setupUi
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.actionExit_Scoring.setText(QCoreApplication.translate("MainWindow", u"Exit Scoring", None))
-        self.actionQuit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
-        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
-        self.score_deck_title_label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.score_card_title_label.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.score_card_title_label_2.setText(QCoreApplication.translate("MainWindow", u"Your Answer:", None))
-        self.score_card_title_label_3.setText(QCoreApplication.translate("MainWindow", u"Expected Answer", None))
-        self.score_next_card_btn.setText(QCoreApplication.translate("MainWindow", u"Next", None))
-        self.score_prev_card_btn.setText(QCoreApplication.translate("MainWindow", u"Previous", None))
-        self.end_scoring_btn.setText(QCoreApplication.translate("MainWindow", u"End Scoring", None))
-        self.score_answer_complete_btn.setText(QCoreApplication.translate("MainWindow", u"Complete", None))
-        self.score_card_title_label_4.setText(QCoreApplication.translate("MainWindow", u"Score Your Answer:", None))
-        self.score_answer_partial_btn.setText(QCoreApplication.translate("MainWindow", u"Partial", None))
-        self.score_answer_incomplete_btn.setText(QCoreApplication.translate("MainWindow", u"Incomplete", None))
-        self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
-        self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
+    def retranslateUi(self, ScoreWindow):
+        ScoreWindow.setWindowTitle(QCoreApplication.translate("ScoreWindow", u"MainWindow", None))
+        self.actionExit_Scoring.setText(QCoreApplication.translate("ScoreWindow", u"Exit Scoring", None))
+        self.actionQuit.setText(QCoreApplication.translate("ScoreWindow", u"Quit", None))
+        self.actionAbout.setText(QCoreApplication.translate("ScoreWindow", u"About", None))
+        self.score_deck_title_label.setText(QCoreApplication.translate("ScoreWindow", u"TextLabel", None))
+        self.score_card_title_label.setText(QCoreApplication.translate("ScoreWindow", u"TextLabel", None))
+        self.score_card_title_label_2.setText(QCoreApplication.translate("ScoreWindow", u"Your Answer:", None))
+        self.score_card_title_label_3.setText(QCoreApplication.translate("ScoreWindow", u"Expected Answer", None))
+        self.score_next_card_btn.setText(QCoreApplication.translate("ScoreWindow", u"Next", None))
+        self.score_prev_card_btn.setText(QCoreApplication.translate("ScoreWindow", u"Previous", None))
+        self.end_scoring_btn.setText(QCoreApplication.translate("ScoreWindow", u"End Scoring", None))
+        self.score_answer_complete_btn.setText(QCoreApplication.translate("ScoreWindow", u"Complete", None))
+        self.score_card_title_label_4.setText(QCoreApplication.translate("ScoreWindow", u"Score Your Answer:", None))
+        self.score_answer_partial_btn.setText(QCoreApplication.translate("ScoreWindow", u"Partial", None))
+        self.score_answer_incomplete_btn.setText(QCoreApplication.translate("ScoreWindow", u"Incomplete", None))
+        self.menuFile.setTitle(QCoreApplication.translate("ScoreWindow", u"File", None))
+        self.menuHelp.setTitle(QCoreApplication.translate("ScoreWindow", u"Help", None))
     # retranslateUi
 

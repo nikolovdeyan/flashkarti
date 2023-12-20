@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 
 from ui.ui_main_window import Ui_MainWindow
 from ui.ui_quiz_window import Ui_QuizWindow
+from ui.ui_score_window import Ui_ScoreWindow
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ class FkView(QtCore.QObject):
         super(FkView, self).__init__()
         self.mainwindow = MainWindowView()
         self.quizwindow = QuizWindowView()
+        self.scorewindow = ScoreWindowView()
 
     def select_player(self, players_list: List) -> str:
         """Provides a list dialog to select a player from a provided list.
@@ -40,6 +42,11 @@ class FkView(QtCore.QObject):
         self.mainwindow.hide()
         self.quizwindow.show()
         self.quizwindow.quiz_progress_bar.setValue(0)
+
+    def start_scoring(self) -> None:
+        """Starts a new scoring window."""
+        self.quizwindow.hide()
+        self.scorewindow.show()
 
 
 class MainWindowView(QMainWindow, Ui_MainWindow):
@@ -78,6 +85,14 @@ class QuizWindowView(QMainWindow, Ui_QuizWindow):
 
     def __init__(self):
         super(QuizWindowView, self).__init__()
+        self.setupUi(self)
+
+
+class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
+    myQuitSignal = QtCore.Signal()
+
+    def __init__(self):
+        super(ScoreWindowView, self).__init__()
         self.setupUi(self)
 
 
