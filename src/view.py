@@ -95,10 +95,25 @@ class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
     def __init__(self):
         super(ScoreWindowView, self).__init__()
         self.setupUi(self)
-        answer_buttons = QButtonGroup(self)
-        answer_buttons.addButton(self.score_answer_complete_btn)
-        answer_buttons.addButton(self.score_answer_partial_btn)
-        answer_buttons.addButton(self.score_answer_incomplete_btn)
+
+        # Scoring buttons are grouped in a QButtonGroup to take advantage of its
+        # `exclusive` property allowing only one of them to be checked at a time.
+        self.answer_buttons = QButtonGroup(self)
+        self.answer_buttons.addButton(self.score_answer_complete_btn)
+        self.answer_buttons.addButton(self.score_answer_partial_btn)
+        self.answer_buttons.addButton(self.score_answer_incomplete_btn)
+
+    def uncheck_answer_buttons(self):
+        # The QButtonGroup will always have a checked button when set to exclusive.
+        # To show a card where an answer has not been selected yet we use a little hack
+        # where we disable the exclusivity of the box, set the buttons to unchecked and
+        # then enable the exclusivity back again.
+        # See: https://stackoverflow.com/a/1732385
+        self.answer_buttons.setExclusive(False)
+        self.score_answer_complete_btn.setChecked(False)
+        self.score_answer_partial_btn.setChecked(False)
+        self.score_answer_incomplete_btn.setChecked(False)
+        self.answer_buttons.setExclusive(True)
 
 
 class SelectPlayerDialog(QDialog):

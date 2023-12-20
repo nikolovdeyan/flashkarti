@@ -99,15 +99,20 @@ class Game:
             "card_contents": card.contents,
             "answer": card.answer,
             "user_answer": card.user_answer,
+            "answer_score": card.answer_score,
             "num_answered_cards": self.deck.get_progress(),
         }
 
     def get_current_card(self) -> Card:
         return self.deck.draw_current_card()
 
-    def set_current_card(self, user_answer) -> None:
+    def set_current_card(self, card_values) -> None:
+        logger.debug(f"game.set_current_card called with: {card_values}")
         card = self.deck.draw_current_card()
-        card.user_answer = user_answer
+        if card_values.get("user_answer"):
+            card.user_answer = card_values.get("user_answer")
+        if card_values.get("answer_score") is not None:
+            card.answer_score = card_values.get("answer_score")
         self.deck._update_num_answered_cards()
 
     def get_next_card(self) -> Card:

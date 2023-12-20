@@ -40,7 +40,7 @@ class FkPresenter(QtCore.QObject):
 
     def on_start_scoring_clicked(self):
         self.model.set_current_card(
-            self.view.quizwindow.card_answer_field.toPlainText()
+            {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
         confirm = QtWidgets.QMessageBox.information(
             self.view.quizwindow,
@@ -87,15 +87,6 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.scorewindow.score_prev_card_btn.clicked.connect(
             self.on_score_prev_card_clicked
         )
-        self.view.scorewindow.score_answer_complete_btn.clicked.connect(
-            self.on_score_answer_complete_clicked
-        )
-        self.view.scorewindow.score_answer_partial_btn.clicked.connect(
-            self.on_score_answer_partial_clicked
-        )
-        self.view.scorewindow.score_answer_incomplete_btn.clicked.connect(
-            self.on_score_answer_incomplete_clicked
-        )
 
     def update_scoring_display(self, current_card):
         self.view.scorewindow.deck_title_label.setText(current_card.get("deck_title"))
@@ -111,27 +102,41 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.scorewindow.score_card_expected_answer_field.setPlainText(
             current_card.get("answer")
         )
+        logger.debug(
+            f"got a card with answer_score: {current_card.get('answer_score')}"
+        )
+        match current_card.get("answer_score"):
+            case 1:
+                self.view.scorewindow.score_answer_complete_btn.setChecked(True)
+            case 0.5:
+                self.view.scorewindow.score_answer_partial_btn.setChecked(True)
+            case 0:
+                self.view.scorewindow.score_answer_incomplete_btn.setChecked(True)
+            case None:
+                self.view.scorewindow.uncheck_answer_buttons()
 
     def on_score_next_card_clicked(self):
-        # self.model.set_current_card(
-        #    self.view.quizwindow.card_answer_field.toPlainText()
-        # )
+        score = self.score_answer()
+        # self.view.scorewindow.uncheck_answer_buttons()
+        self.model.set_current_card({"answer_score": score})
         self.update_scoring_display(self.model.get_next_card_display())
 
     def on_score_prev_card_clicked(self):
+        score = self.score_answer()
+        # self.view.scorewindow.uncheck_answer_buttons()
+        self.model.set_current_card({"answer_score": score})
         self.update_scoring_display(self.model.get_prev_card_display())
-
-    def on_score_answer_complete_clicked(self):
-        logger.debug("on_score_answer_complete_clicked called")
-
-    def on_score_answer_partial_clicked(self):
-        logger.debug("on_score_answer_partial_clicked called")
-
-    def on_score_answer_incomplete_clicked(self):
-        logger.debug("on_score_answer_incomplete_clicked called")
 
     def on_end_scoring_clicked(self):
         logger.debug("on_end_scoring_clicked called")
+
+    def score_answer(self) -> float:
+        if self.view.scorewindow.score_answer_complete_btn.isChecked():
+            return 1
+        elif self.view.scorewindow.score_answer_partial_btn.isChecked():
+            return 0.5
+        elif self.view.scorewindow.score_answer_incomplete_btn.isChecked():
+            return 0
 
     def about(self):
         QtWidgets.QMessageBox.information(
@@ -177,14 +182,14 @@ class QuizWindowPresenter(QtCore.QObject):
 
     def on_next_card_clicked(self):
         self.model.set_current_card(
-            self.view.quizwindow.card_answer_field.toPlainText()
+            {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
         self.view.quizwindow.card_answer_field.clear()
         self.update_quiz_display(self.model.get_next_card_display())
 
     def on_prev_card_clicked(self):
         self.model.set_current_card(
-            self.view.quizwindow.card_answer_field.toPlainText()
+            {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
         self.view.quizwindow.card_answer_field.clear()
         self.update_quiz_display(self.model.get_prev_card_display())
