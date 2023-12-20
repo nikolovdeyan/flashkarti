@@ -227,6 +227,12 @@
     <property name="text">
      <string>Complete</string>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="score_answer_label">
     <property name="geometry">
@@ -269,6 +275,9 @@
     <property name="text">
      <string>Partial</string>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="score_answer_incomplete_btn">
     <property name="geometry">
@@ -292,6 +301,9 @@
     </property>
     <property name="text">
      <string>Incomplete</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QListWidget,
+    QButtonGroup,
 )
 
 from ui.ui_main_window import Ui_MainWindow
@@ -94,6 +95,10 @@ class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
     def __init__(self):
         super(ScoreWindowView, self).__init__()
         self.setupUi(self)
+        answer_buttons = QButtonGroup(self)
+        answer_buttons.addButton(self.score_answer_complete_btn)
+        answer_buttons.addButton(self.score_answer_partial_btn)
+        answer_buttons.addButton(self.score_answer_incomplete_btn)
 
 
 class SelectPlayerDialog(QDialog):

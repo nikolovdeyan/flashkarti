@@ -113,10 +113,13 @@ class ScoringWindowPresenter(QtCore.QObject):
         )
 
     def on_score_next_card_clicked(self):
-        logger.debug("on_score_next_card_clicked called")
+        # self.model.set_current_card(
+        #    self.view.quizwindow.card_answer_field.toPlainText()
+        # )
+        self.update_scoring_display(self.model.get_next_card_display())
 
     def on_score_prev_card_clicked(self):
-        logger.debug("on_score_prev_card_clicked called")
+        self.update_scoring_display(self.model.get_prev_card_display())
 
     def on_score_answer_complete_clicked(self):
         logger.debug("on_score_answer_complete_clicked called")
