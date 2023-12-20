@@ -80,7 +80,7 @@ class FkModel(QtCore.QObject):
         """
         self.game.start_quiz()
 
-    def get_next_card(self) -> dict:
+    def get_next_card_display(self) -> dict:
         """
         Returns the display information of the next card in the deck.
 
@@ -89,7 +89,7 @@ class FkModel(QtCore.QObject):
         """
         return self.game.get_card_display(self.game.get_next_card())
 
-    def get_prev_card(self) -> dict:
+    def get_prev_card_display(self) -> dict:
         """
         Returns the display information of the previous card in the deck.
 
@@ -98,7 +98,7 @@ class FkModel(QtCore.QObject):
         """
         return self.game.get_card_display(self.game.get_prev_card())
 
-    def get_current_card(self) -> dict:
+    def get_current_card_display(self) -> dict:
         """
         Returns the display information of the current card in the deck.
 

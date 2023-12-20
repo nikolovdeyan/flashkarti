@@ -27,10 +27,8 @@ class FkPresenter(QtCore.QObject):
 
     def start_quiz(self):
         self.model.start_quiz()
-        self.view.mainwindow.hide()
-        self.view.quizwindow.show()
-        self.view.quizwindow.quiz_progress_bar.setValue(0)
-        self.quizwindow_presenter.update_quiz(self.model.get_current_card())
+        self.view.start_quiz()
+        self.quizwindow_presenter.update_quiz(self.model.get_current_card_display())
 
     def quit(self):
         self.model.quit()
@@ -87,7 +85,7 @@ class QuizWindowPresenter(QtCore.QObject):
         }
         self.model.set_current_card(current_card)
         self.view.quizwindow.card_answer_field.clear()
-        self.update_quiz(self.model.get_next_card())
+        self.update_quiz(self.model.get_next_card_display())
 
     def prev_card(self):
         current_card = {
@@ -95,7 +93,7 @@ class QuizWindowPresenter(QtCore.QObject):
         }
         self.model.set_current_card(current_card)
         self.view.quizwindow.card_answer_field.clear()
-        self.update_quiz(self.model.get_prev_card())
+        self.update_quiz(self.model.get_prev_card_display())
         return current_card
 
     def about(self):
@@ -125,12 +123,12 @@ class MainWindowPresenter(QtCore.QObject):
     def connectSignals(self):
         self.view.mainwindow.quit_btn.clicked.connect(self.quit)
         self.view.mainwindow.actionAbout.triggered.connect(self.about)
-        self.view.mainwindow.player_btn.clicked.connect(self.select_player)
+        self.view.mainwindow.player_btn.clicked.connect(self.on_select_player_clicked)
         self.view.mainwindow.deck_btn.clicked.connect(self.select_deck)
 
-    def select_player(self):
+    def on_select_player_clicked(self):
         players_list = self.model.get_players_list()
-        player_name = self.view.mainwindow.select_player_dialog(players_list)
+        player_name = self.view.select_player(players_list)
         self.model.set_player(player_name)
         self.update_player()
 

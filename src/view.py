@@ -1,4 +1,7 @@
 import logging
+
+from typing import List
+
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -20,6 +23,23 @@ class FkView(QtCore.QObject):
         super(FkView, self).__init__()
         self.mainwindow = MainWindowView()
         self.quizwindow = QuizWindowView()
+
+    def select_player(self, players_list: List) -> str:
+        """Provides a list dialog to select a player from a provided list.
+
+        ### Args:
+            `players_list (List)`: The list to be shown in the list dialog window.
+
+        ### Returns:
+            `str`: The name of the player selected.
+        """
+        return self.mainwindow.select_player_dialog(players_list)
+
+    def start_quiz(self) -> None:
+        """Starts a new quiz round."""
+        self.mainwindow.hide()
+        self.quizwindow.show()
+        self.quizwindow.quiz_progress_bar.setValue(0)
 
 
 class MainWindowView(QMainWindow, Ui_MainWindow):
