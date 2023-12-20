@@ -97,6 +97,7 @@ class Game:
             "deck_title": self.deck.title,
             "card_title": card_title,
             "card_contents": card.contents,
+            "answer": card.answer,
             "user_answer": card.user_answer,
             "num_answered_cards": self.deck.get_progress(),
         }

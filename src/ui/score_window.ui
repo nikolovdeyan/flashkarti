@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="score_deck_title_label">
+   <widget class="QLabel" name="deck_title_label">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -95,7 +95,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="score_card_title_label_2">
+    <widget class="QLabel" name="user_answer_label">
      <property name="geometry">
       <rect>
        <x>470</x>
@@ -113,7 +113,7 @@
       <string>Your Answer:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="score_card_title_label_3">
+    <widget class="QLabel" name="expected_answer_label">
      <property name="geometry">
       <rect>
        <x>470</x>
@@ -228,7 +228,7 @@
      <string>Complete</string>
     </property>
    </widget>
-   <widget class="QLabel" name="score_card_title_label_4">
+   <widget class="QLabel" name="score_answer_label">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -308,7 +308,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionExit_Scoring"/>
+    <addaction name="actionEnd_Scoring"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -321,9 +321,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionExit_Scoring">
+  <action name="actionEnd_Scoring">
    <property name="text">
-    <string>Exit Scoring</string>
+    <string>End Scoring</string>
    </property>
   </action>
   <action name="actionQuit">

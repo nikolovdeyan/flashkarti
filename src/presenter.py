@@ -26,14 +26,37 @@ class FkPresenter(QtCore.QObject):
         self.view.mainwindow.actionQuit.triggered.connect(self.quit)
         self.view.quizwindow.actionQuit.triggered.connect(self.quit)
         self.view.scorewindow.actionQuit.triggered.connect(self.quit)
-        self.view.mainwindow.start_quiz_btn.clicked.connect(self.start_quiz)
+        self.view.mainwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
+        self.view.quizwindow.start_scoring_btn.clicked.connect(
+            self.on_start_scoring_clicked
+        )
 
-    def start_quiz(self):
+    def on_start_quiz_clicked(self):
         self.model.start_quiz()
         self.view.start_quiz()
         self.quizwindow_presenter.update_quiz_display(
             self.model.get_current_card_display()
         )
+
+    def on_start_scoring_clicked(self):
+        self.model.set_current_card(
+            self.view.quizwindow.card_answer_field.toPlainText()
+        )
+        confirm = QtWidgets.QMessageBox.information(
+            self.view.quizwindow,
+            "Proceed to Scoring?",
+            "Are you sure you want to end the quiz and proceed to scoring?",
+            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
+        )
+
+        if confirm == QtWidgets.QMessageBox.Ok:
+            self.scoringwinow_presenter.update_scoring_display(
+                self.model.get_current_card_display()
+            )
+            self.view.quizwindow.hide()
+            self.view.scorewindow.show()
+        else:
+            return
 
     def quit(self):
         self.model.quit()
@@ -51,28 +74,72 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.connectSignals()
 
     def connectSignals(self):
-        pass
+        self.view.scorewindow.actionAbout.triggered.connect(self.about)
+        self.view.scorewindow.actionEnd_Scoring.triggered.connect(
+            self.on_end_scoring_clicked
+        )
+        self.view.scorewindow.end_scoring_btn.clicked.connect(
+            self.on_end_scoring_clicked
+        )
+        self.view.scorewindow.score_next_card_btn.clicked.connect(
+            self.on_score_next_card_clicked
+        )
+        self.view.scorewindow.score_prev_card_btn.clicked.connect(
+            self.on_score_prev_card_clicked
+        )
+        self.view.scorewindow.score_answer_complete_btn.clicked.connect(
+            self.on_score_answer_complete_clicked
+        )
+        self.view.scorewindow.score_answer_partial_btn.clicked.connect(
+            self.on_score_answer_partial_clicked
+        )
+        self.view.scorewindow.score_answer_incomplete_btn.clicked.connect(
+            self.on_score_answer_incomplete_clicked
+        )
 
     def update_scoring_display(self, current_card):
-        pass
+        self.view.scorewindow.deck_title_label.setText(current_card.get("deck_title"))
+        self.view.scorewindow.score_card_title_label.setText(
+            current_card.get("card_title")
+        )
+        self.view.scorewindow.score_card_question_field.setText(
+            current_card.get("card_contents")
+        )
+        self.view.scorewindow.score_card_answer_field.setPlainText(
+            current_card.get("user_answer")
+        )
+        self.view.scorewindow.score_card_expected_answer_field.setPlainText(
+            current_card.get("answer")
+        )
 
     def on_score_next_card_clicked(self):
-        pass
+        logger.debug("on_score_next_card_clicked called")
 
     def on_score_prev_card_clicked(self):
-        pass
+        logger.debug("on_score_prev_card_clicked called")
 
     def on_score_answer_complete_clicked(self):
-        pass
+        logger.debug("on_score_answer_complete_clicked called")
 
     def on_score_answer_partial_clicked(self):
-        pass
+        logger.debug("on_score_answer_partial_clicked called")
 
     def on_score_answer_incomplete_clicked(self):
-        pass
+        logger.debug("on_score_answer_incomplete_clicked called")
 
     def on_end_scoring_clicked(self):
-        pass
+        logger.debug("on_end_scoring_clicked called")
+
+    def about(self):
+        QtWidgets.QMessageBox.information(
+            self.view.quizwindow,
+            "About title",  # TODO: About title
+            "About message",  # TODO: About message
+        )
+
+    def quit(self):
+        self.model.quit()
+        QtWidgets.QApplication.quit()
 
 
 class QuizWindowPresenter(QtCore.QObject):
@@ -88,9 +155,6 @@ class QuizWindowPresenter(QtCore.QObject):
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
         self.view.quizwindow.actionEnd_Quiz.triggered.connect(self.on_end_quiz_clicked)
-        self.view.quizwindow.start_scoring_btn.clicked.connect(
-            self.on_start_scoring_clicked
-        )
         self.view.quizwindow.next_card_btn.clicked.connect(self.on_next_card_clicked)
         self.view.quizwindow.prev_card_btn.clicked.connect(self.on_prev_card_clicked)
 
@@ -105,23 +169,6 @@ class QuizWindowPresenter(QtCore.QObject):
         if confirm == QtWidgets.QMessageBox.Ok:
             self.view.quizwindow.hide()
             self.view.mainwindow.show()
-        else:
-            return
-
-    def on_start_scoring_clicked(self):
-        self.model.set_current_card(
-            self.view.quizwindow.card_answer_field.toPlainText()
-        )
-        confirm = QtWidgets.QMessageBox.information(
-            self.view.quizwindow,
-            "Proceed to Scoring?",
-            "Are you sure you want to end the quiz and proceed to scoring?",
-            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
-        )
-
-        if confirm == QtWidgets.QMessageBox.Ok:
-            self.view.quizwindow.hide()
-            self.view.scorewindow.show()
         else:
             return
 
