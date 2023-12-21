@@ -126,6 +126,13 @@ class QuizWindowView(QMainWindow, Ui_QuizWindow):
         else:
             return False
 
+    def display_quiz_card(self, current_card):
+        self.deck_title_label.setText(current_card.get("deck_title"))
+        self.card_title_label.setText(current_card.get("card_title"))
+        self.card_question_field.setText(current_card.get("card_contents"))
+        self.card_answer_field.setPlainText(current_card.get("user_answer"))
+        self.quiz_progress_bar.setValue(current_card.get("num_answered_cards"))
+
 
 class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
     myQuitSignal = QtCore.Signal()
@@ -152,6 +159,22 @@ class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
         self.score_answer_partial_btn.setChecked(False)
         self.score_answer_incomplete_btn.setChecked(False)
         self.answer_buttons.setExclusive(True)
+
+    def display_scoring_card(self, current_card):
+        self.deck_title_label.setText(current_card.get("deck_title"))
+        self.score_card_title_label.setText(current_card.get("card_title"))
+        self.score_card_question_field.setText(current_card.get("card_contents"))
+        self.score_card_answer_field.setPlainText(current_card.get("user_answer"))
+        self.score_card_expected_answer_field.setPlainText(current_card.get("answer"))
+        match current_card.get("answer_score"):
+            case 1:
+                self.score_answer_complete_btn.setChecked(True)
+            case 0.5:
+                self.score_answer_partial_btn.setChecked(True)
+            case 0:
+                self.score_answer_incomplete_btn.setChecked(True)
+            case None:
+                self.uncheck_answer_buttons()
 
 
 class SelectPlayerDialog(QDialog):

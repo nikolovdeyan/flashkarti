@@ -108,7 +108,7 @@ class Game:
 
     def set_current_card(self, card_values) -> None:
         card = self.deck.draw_current_card()
-        if card_values.get("user_answer"):
+        if card_values.get("user_answer") is not None:
             card.user_answer = card_values.get("user_answer")
         if card_values.get("answer_score") is not None:
             card.answer_score = card_values.get("answer_score")
