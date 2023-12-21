@@ -190,7 +190,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionEnd_Quiz"/>
+    <addaction name="actionExit_Quiz"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -203,9 +203,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEnd_Quiz">
+  <action name="actionExit_Quiz">
    <property name="text">
-    <string>End Quiz</string>
+    <string>Exit Quiz</string>
    </property>
   </action>
   <action name="actionQuit">

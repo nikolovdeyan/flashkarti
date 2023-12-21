@@ -25,8 +25,8 @@ class Ui_ScoreWindow(object):
         if not ScoreWindow.objectName():
             ScoreWindow.setObjectName(u"ScoreWindow")
         ScoreWindow.resize(963, 640)
-        self.actionEnd_Scoring = QAction(ScoreWindow)
-        self.actionEnd_Scoring.setObjectName(u"actionEnd_Scoring")
+        self.actionExit_Scoring = QAction(ScoreWindow)
+        self.actionExit_Scoring.setObjectName(u"actionExit_Scoring")
         self.actionQuit = QAction(ScoreWindow)
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionAbout = QAction(ScoreWindow)
@@ -129,7 +129,7 @@ class Ui_ScoreWindow(object):
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-        self.menuFile.addAction(self.actionEnd_Scoring)
+        self.menuFile.addAction(self.actionExit_Scoring)
         self.menuFile.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionAbout)
 
@@ -140,7 +140,7 @@ class Ui_ScoreWindow(object):
 
     def retranslateUi(self, ScoreWindow):
         ScoreWindow.setWindowTitle(QCoreApplication.translate("ScoreWindow", u"MainWindow", None))
-        self.actionEnd_Scoring.setText(QCoreApplication.translate("ScoreWindow", u"End Scoring", None))
+        self.actionExit_Scoring.setText(QCoreApplication.translate("ScoreWindow", u"Exit Scoring", None))
         self.actionQuit.setText(QCoreApplication.translate("ScoreWindow", u"Quit", None))
         self.actionAbout.setText(QCoreApplication.translate("ScoreWindow", u"About", None))
         self.deck_title_label.setText(QCoreApplication.translate("ScoreWindow", u"TextLabel", None))

@@ -4,6 +4,7 @@ from typing import List
 
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
+    QApplication,
     QMainWindow,
     QDialog,
     QDialogButtonBox,
@@ -11,6 +12,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QListWidget,
     QButtonGroup,
+    QMessageBox,
 )
 
 from ui.ui_main_window import Ui_MainWindow
@@ -48,6 +50,29 @@ class FkView(QtCore.QObject):
         """Starts a new scoring window."""
         self.quizwindow.hide()
         self.scorewindow.show()
+
+    def show_confirm_start_scoring_message(self) -> bool:
+        confirm = QMessageBox.information(
+            self.quizwindow,
+            "Proceed to Scoring?",
+            "Are you sure you want to end the quiz and proceed to scoring?",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if confirm == QMessageBox.Ok:
+            return True
+        else:
+            return False
+
+    def show_about_message(self, window) -> bool:
+        QMessageBox.information(
+            window,
+            "About title",  # TODO: About title
+            "About message",  # TODO: About message
+        )
+
+    def quit(self):
+        QApplication.quit()
 
 
 class MainWindowView(QMainWindow, Ui_MainWindow):
@@ -87,6 +112,19 @@ class QuizWindowView(QMainWindow, Ui_QuizWindow):
     def __init__(self):
         super(QuizWindowView, self).__init__()
         self.setupUi(self)
+
+    def show_confirm_exit_quiz_message(self) -> bool:
+        confirm = QMessageBox.information(
+            self,
+            "End the Quiz?",
+            "Are you sure you want to end the quiz and return to the main menu?",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if confirm == QMessageBox.Ok:
+            return True
+        else:
+            return False
 
 
 class ScoreWindowView(QMainWindow, Ui_ScoreWindow):

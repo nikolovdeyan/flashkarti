@@ -1,5 +1,5 @@
 import logging
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore
 
 logger = logging.getLogger(__name__)
 
@@ -42,14 +42,8 @@ class FkPresenter(QtCore.QObject):
         self.model.set_current_card(
             {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
-        confirm = QtWidgets.QMessageBox.information(
-            self.view.quizwindow,
-            "Proceed to Scoring?",
-            "Are you sure you want to end the quiz and proceed to scoring?",
-            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
-        )
-
-        if confirm == QtWidgets.QMessageBox.Ok:
+        confirm = self.view.show_confirm_start_scoring_message()
+        if confirm:
             self.scoringwinow_presenter.update_scoring_display(
                 self.model.get_current_card_display()
             )
@@ -60,7 +54,7 @@ class FkPresenter(QtCore.QObject):
 
     def quit(self):
         self.model.quit()
-        QtWidgets.QApplication.quit()
+        self.view.quit()
 
 
 class ScoringWindowPresenter(QtCore.QObject):
@@ -75,8 +69,8 @@ class ScoringWindowPresenter(QtCore.QObject):
 
     def connectSignals(self):
         self.view.scorewindow.actionAbout.triggered.connect(self.about)
-        self.view.scorewindow.actionEnd_Scoring.triggered.connect(
-            self.on_end_scoring_clicked
+        self.view.scorewindow.actionExit_Scoring.triggered.connect(
+            self.on_exit_scoring_clicked
         )
         self.view.scorewindow.end_scoring_btn.clicked.connect(
             self.on_end_scoring_clicked
@@ -117,15 +111,16 @@ class ScoringWindowPresenter(QtCore.QObject):
 
     def on_score_next_card_clicked(self):
         score = self.score_answer()
-        # self.view.scorewindow.uncheck_answer_buttons()
         self.model.set_current_card({"answer_score": score})
         self.update_scoring_display(self.model.get_next_card_display())
 
     def on_score_prev_card_clicked(self):
         score = self.score_answer()
-        # self.view.scorewindow.uncheck_answer_buttons()
         self.model.set_current_card({"answer_score": score})
         self.update_scoring_display(self.model.get_prev_card_display())
+
+    def on_exit_scoring_clicked(self):
+        logger.debug("on_exit_scoring_clicked called")
 
     def on_end_scoring_clicked(self):
         logger.debug("on_end_scoring_clicked called")
@@ -139,15 +134,11 @@ class ScoringWindowPresenter(QtCore.QObject):
             return 0
 
     def about(self):
-        QtWidgets.QMessageBox.information(
-            self.view.quizwindow,
-            "About title",  # TODO: About title
-            "About message",  # TODO: About message
-        )
+        self.view.show_about_message(self.view.scorewindow)
 
     def quit(self):
         self.model.quit()
-        QtWidgets.QApplication.quit()
+        self.view.quit()
 
 
 class QuizWindowPresenter(QtCore.QObject):
@@ -162,19 +153,15 @@ class QuizWindowPresenter(QtCore.QObject):
 
     def connectSignals(self):
         self.view.quizwindow.actionAbout.triggered.connect(self.about)
-        self.view.quizwindow.actionEnd_Quiz.triggered.connect(self.on_end_quiz_clicked)
+        self.view.quizwindow.actionExit_Quiz.triggered.connect(
+            self.on_exit_quiz_clicked
+        )
         self.view.quizwindow.next_card_btn.clicked.connect(self.on_next_card_clicked)
         self.view.quizwindow.prev_card_btn.clicked.connect(self.on_prev_card_clicked)
 
-    def on_end_quiz_clicked(self):
-        confirm = QtWidgets.QMessageBox.information(
-            self.view.quizwindow,
-            "End the Quiz?",
-            "Are you sure you want to end the quiz and return to the main menu?",
-            QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel,
-        )
-
-        if confirm == QtWidgets.QMessageBox.Ok:
+    def on_exit_quiz_clicked(self):
+        confirm = self.view.quizwindow.show_confirm_exit_quiz_message()
+        if confirm:
             self.view.quizwindow.hide()
             self.view.mainwindow.show()
         else:
@@ -208,15 +195,11 @@ class QuizWindowPresenter(QtCore.QObject):
         )
 
     def about(self):
-        QtWidgets.QMessageBox.information(
-            self.view.quizwindow,
-            "About title",  # TODO: About title
-            "About message",  # TODO: About message
-        )
+        self.view.show_about_message(self.view.quizwindow)
 
     def quit(self):
         self.model.quit()
-        QtWidgets.QApplication.quit()
+        self.view.quit()
 
 
 class MainWindowPresenter(QtCore.QObject):
@@ -262,12 +245,8 @@ class MainWindowPresenter(QtCore.QObject):
         self.view.mainwindow.player_label.setText(f"Selected player: {player}")
 
     def about(self):
-        QtWidgets.QMessageBox.information(
-            self.view.mainwindow,
-            "About title",  # TODO: About title
-            "About message",  # TODO: About message
-        )
+        self.view.show_about_message(self.view.mainwindow)
 
     def quit(self):
         self.model.quit()
-        QtWidgets.QApplication.quit()
+        self.view.quit()

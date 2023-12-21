@@ -320,7 +320,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionEnd_Scoring"/>
+    <addaction name="actionExit_Scoring"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -333,9 +333,9 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEnd_Scoring">
+  <action name="actionExit_Scoring">
    <property name="text">
-    <string>End Scoring</string>
+    <string>Exit Scoring</string>
    </property>
   </action>
   <action name="actionQuit">

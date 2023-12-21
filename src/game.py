@@ -107,7 +107,6 @@ class Game:
         return self.deck.draw_current_card()
 
     def set_current_card(self, card_values) -> None:
-        logger.debug(f"game.set_current_card called with: {card_values}")
         card = self.deck.draw_current_card()
         if card_values.get("user_answer"):
             card.user_answer = card_values.get("user_answer")

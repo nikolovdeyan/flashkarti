@@ -26,8 +26,8 @@ class Ui_QuizWindow(object):
         if not QuizWindow.objectName():
             QuizWindow.setObjectName(u"QuizWindow")
         QuizWindow.resize(963, 640)
-        self.actionEnd_Quiz = QAction(QuizWindow)
-        self.actionEnd_Quiz.setObjectName(u"actionEnd_Quiz")
+        self.actionExit_Quiz = QAction(QuizWindow)
+        self.actionExit_Quiz.setObjectName(u"actionExit_Quiz")
         self.actionQuit = QAction(QuizWindow)
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionAbout = QAction(QuizWindow)
@@ -98,7 +98,7 @@ class Ui_QuizWindow(object):
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
-        self.menuFile.addAction(self.actionEnd_Quiz)
+        self.menuFile.addAction(self.actionExit_Quiz)
         self.menuFile.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionAbout)
 
@@ -109,7 +109,7 @@ class Ui_QuizWindow(object):
 
     def retranslateUi(self, QuizWindow):
         QuizWindow.setWindowTitle(QCoreApplication.translate("QuizWindow", u"MainWindow", None))
-        self.actionEnd_Quiz.setText(QCoreApplication.translate("QuizWindow", u"End Quiz", None))
+        self.actionExit_Quiz.setText(QCoreApplication.translate("QuizWindow", u"Exit Quiz", None))
         self.actionQuit.setText(QCoreApplication.translate("QuizWindow", u"Quit", None))
         self.actionAbout.setText(QCoreApplication.translate("QuizWindow", u"About", None))
         self.deck_title_label.setText(QCoreApplication.translate("QuizWindow", u"TextLabel", None))
