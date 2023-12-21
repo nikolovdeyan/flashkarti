@@ -140,7 +140,6 @@ class Game:
             card = Card(
                 title=card_dict.get("title"),
                 contents=card_dict.get("contents"),
-                addl_contents=card_dict.get("additional_contents"),
                 answer=card_dict.get("answer"),
                 references=card_dict.get("references"),
             )
