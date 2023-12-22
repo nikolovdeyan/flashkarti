@@ -176,6 +176,34 @@ class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
             case None:
                 self.uncheck_answer_buttons()
 
+    def show_score_result_dialog(self):
+        dialog = ScoreResultDialog()
+        dialog.raise_()
+        if dialog.exec():
+            dialog.close()
+        return
+
+
+class ScoreResultDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.setModal(True)
+        self.setMinimumWidth(300)
+        self.setWindowTitle("Quiz Results")
+        results_label = QLabel("Quiz Results:")
+
+        ok_btn = QDialogButtonBox.Ok
+        self.button_box = QDialogButtonBox(ok_btn)
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(results_label)
+        self.layout.addWidget(self.button_box)
+
+        self.button_box.accepted.connect(self.accept)
+
+        self.setLayout(self.layout)
+
 
 class SelectPlayerDialog(QDialog):
     def __init__(self, players_list):

@@ -182,10 +182,10 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.scorewindow.display_scoring_card(self.model.get_prev_card_display())
 
     def on_exit_scoring_clicked(self):
-        logger.debug("on_exit_scoring_clicked called")
+        self.quit()
 
     def on_end_scoring_clicked(self):
-        logger.debug("on_end_scoring_clicked called")
+        self.view.scorewindow.show_score_result_dialog()
 
     def score_answer(self) -> float:
         if self.view.scorewindow.score_answer_complete_btn.isChecked():
