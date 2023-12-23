@@ -17,9 +17,9 @@
    <widget class="QLabel" name="deck_designer_label">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>400</x>
       <y>10</y>
-      <width>161</width>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -92,7 +92,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QListView" name="deck_cards_listview">
+   <widget class="QListWidget" name="deck_cards_listview">
     <property name="geometry">
      <rect>
       <x>10</x>

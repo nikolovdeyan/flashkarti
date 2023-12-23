@@ -42,6 +42,13 @@ class FkView(QtCore.QObject):
         """
         return self.mainwindow.select_player_dialog(players_list)
 
+    def select_deck_dialog(self, decks_list):
+        dialog = SelectDeckDialog(decks_list)
+        if dialog.exec():
+            selected_deck = dialog.get_selected_deck()
+            dialog.close()
+        return selected_deck
+
     def start_quiz(self) -> None:
         """Starts a new quiz round."""
         self.mainwindow.hide()
@@ -96,13 +103,6 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
             dialog.close()
         return selected_player
 
-    def select_deck_dialog(self, decks_list):
-        dialog = SelectDeckDialog(decks_list)
-        if dialog.exec():
-            selected_deck = dialog.get_selected_deck()
-            dialog.close()
-        return selected_deck
-
     def closeEvent(self, event):
         """
         This method overrides the mainwindow's closeEvent method
@@ -120,14 +120,17 @@ class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
         super(DesignerWindowView, self).__init__()
         self.setupUi(self)
 
-    # def closeEvent(self, event):
-    #    """
-    #    This method overrides the mainwindow's closeEvent method
-    #    which gets called when the user tries to close the mainwindow
-    #    """
-    #    logger.debug("closeEvent called")
-    #    event.ignore()
-    #    self.myQuitSignal.emit()
+    def closeEvent(self, event):
+        """
+        This method overrides the mainwindow's closeEvent method
+        which gets called when the user tries to close the mainwindow
+        """
+        logger.debug("closeEvent called")
+        event.ignore()
+        self.myQuitSignal.emit()
+
+    def display_deck_cards(self, deck: list) -> None:
+        self.deck_cards_listview.addItems(deck)
 
 
 class QuizWindowView(QMainWindow, Ui_QuizWindow):

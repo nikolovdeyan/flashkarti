@@ -17,9 +17,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
-    QListView, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QTextEdit,
-    QToolBar, QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+    QTextEdit, QToolBar, QVBoxLayout, QWidget)
 
 class Ui_DesignerWindow(object):
     def setupUi(self, DesignerWindow):
@@ -36,7 +36,7 @@ class Ui_DesignerWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.deck_designer_label = QLabel(self.centralwidget)
         self.deck_designer_label.setObjectName(u"deck_designer_label")
-        self.deck_designer_label.setGeometry(QRect(390, 10, 161, 31))
+        self.deck_designer_label.setGeometry(QRect(400, 10, 151, 31))
         font = QFont()
         font.setPointSize(16)
         self.deck_designer_label.setFont(font)
@@ -61,7 +61,7 @@ class Ui_DesignerWindow(object):
         self.load_deck_btn.setFont(font1)
         self.load_deck_btn.setCheckable(False)
         self.load_deck_btn.setChecked(False)
-        self.deck_cards_listview = QListView(self.centralwidget)
+        self.deck_cards_listview = QListWidget(self.centralwidget)
         self.deck_cards_listview.setObjectName(u"deck_cards_listview")
         self.deck_cards_listview.setGeometry(QRect(10, 50, 231, 481))
         self.frame = QFrame(self.centralwidget)

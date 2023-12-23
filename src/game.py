@@ -73,23 +73,6 @@ class Game:
         """
         return "" if not self.deck else self.deck.title
 
-    def get_decks_list(self) -> List[str]:
-        """Returns a list of deck names available in the decks directory.
-
-        TODO: This method is not tested.
-
-        ### Returns:
-            `List[str]`: A list of available deck names.
-        """
-        decks_list = []
-        for f in os.listdir(DECKS_DIR):
-            if os.path.isfile(os.path.join(DECKS_DIR, f)):
-                deck_name = " ".join(
-                    os.path.basename(f).split(".")[0].split("_")
-                ).title()
-                decks_list.append(deck_name)
-        return decks_list
-
     def get_card_display(self, card):
         card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {card.title}"
         logger.debug(f"Current card: {card}")

@@ -15,6 +15,7 @@ class FkPresenter(QtCore.QObject):
         self.mainwindow_presenter = MainWindowPresenter(model, view, app)
         self.quizwindow_presenter = QuizWindowPresenter(model, view, app)
         self.scoringwinow_presenter = ScoringWindowPresenter(model, view, app)
+        self.designerwindow_presenter = DesignerWindowPresenter(model, view, app)
 
         self.view.mainwindow.show()
 
@@ -43,7 +44,7 @@ class MainWindowPresenter(QtCore.QObject):
 
     def on_select_deck_clicked(self):
         decks_list = self.model.get_decks_list()
-        deck_name = self.view.mainwindow.select_deck_dialog(decks_list)
+        deck_name = self.view.select_deck_dialog(decks_list)
         self.model.set_deck(deck_name)
         self.update_deck_display()
 
@@ -95,6 +96,42 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.myQuitSignal.connect(self.quit)
         self.view.designerwindow.actionQuit.triggered.connect(self.quit)
         self.view.designerwindow.actionAbout.triggered.connect(self.about)
+        self.view.designerwindow.new_deck_btn.clicked.connect(self.on_new_deck_button)
+        self.view.designerwindow.load_deck_btn.clicked.connect(
+            self.on_load_deck_clicked
+        )
+        self.view.designerwindow.add_card_btn.clicked.connect(self.on_add_card_clicked)
+        self.view.designerwindow.delete_card_btn.clicked.connect(
+            self.on_delete_card_clicked
+        )
+        self.view.designerwindow.save_card_btn.clicked.connect(
+            self.on_save_card_clicked
+        )
+        self.view.designerwindow.exit_designer_btn.clicked.connect(
+            self.on_exit_designer_clicked
+        )
+
+    def on_new_deck_button(self):
+        pass
+
+    def on_load_deck_clicked(self):
+        decks_list = self.model.get_decks_list()
+        deck_title = self.view.select_deck_dialog(decks_list)
+        deck = self.model.open_deck_by_name(deck_title)
+        deck_card_names = [card.title for card in deck._cards]
+        self.view.designerwindow.display_deck_cards(deck_card_names)
+
+    def on_add_card_clicked(self):
+        pass
+
+    def on_delete_card_clicked(self):
+        pass
+
+    def on_save_card_clicked(self):
+        pass
+
+    def on_exit_designer_clicked(self):
+        pass
 
     def about(self):
         self.view.show_about_message(self.view.mainwindow)
