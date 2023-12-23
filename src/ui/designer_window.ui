@@ -62,7 +62,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="edit_deck_btn">
+   <widget class="QPushButton" name="load_deck_btn">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -83,7 +83,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Edit Deck</string>
+     <string>Load Deck</string>
     </property>
     <property name="checkable">
      <bool>true</bool>

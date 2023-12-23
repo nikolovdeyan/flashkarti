@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
 from ui.ui_main_window import Ui_MainWindow
 from ui.ui_quiz_window import Ui_QuizWindow
 from ui.ui_score_window import Ui_ScoreWindow
+from ui.ui_designer_window import Ui_DesignerWindow
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,7 @@ class FkView(QtCore.QObject):
         self.mainwindow = MainWindowView()
         self.quizwindow = QuizWindowView()
         self.scorewindow = ScoreWindowView()
+        self.designerWindow = DesignerWindowView()
 
     def select_player(self, players_list: List) -> str:
         """Provides a list dialog to select a player from a provided list.
@@ -95,6 +97,20 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
             selected_deck = dialog.get_selected_deck()
             dialog.close()
         return selected_deck
+
+    def closeEvent(self, event):
+        """
+        This method overrides the mainwindow's closeEvent method
+        which gets called when the user tries to close the mainwindow
+        """
+        logger.debug("closeEvent called")
+        event.ignore()
+        self.myQuitSignal.emit()
+
+
+class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
+    def __init__(self):
+        super(DesignerWindowView, self).__init__()
 
     def closeEvent(self, event):
         """
