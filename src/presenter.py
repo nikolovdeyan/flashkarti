@@ -37,8 +37,9 @@ class MainWindowPresenter(QtCore.QObject):
         self.view.mainwindow.quit_btn.clicked.connect(self.quit)
         self.view.mainwindow.actionAbout.triggered.connect(self.about)
         self.view.mainwindow.player_btn.clicked.connect(self.on_select_player_clicked)
-        self.view.mainwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
         self.view.mainwindow.deck_btn.clicked.connect(self.on_select_deck_clicked)
+        self.view.mainwindow.designer_btn.clicked.connect(self.on_designer_clicked)
+        self.view.mainwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
 
     def on_select_deck_clicked(self):
         decks_list = self.model.get_decks_list()
@@ -51,6 +52,9 @@ class MainWindowPresenter(QtCore.QObject):
         player_name = self.view.select_player(players_list)
         self.model.set_player(player_name)
         self.update_player_display()
+
+    def on_designer_clicked(self):
+        self.view.start_designer()
 
     def on_start_quiz_clicked(self):
         self.model.start_quiz()
@@ -68,6 +72,29 @@ class MainWindowPresenter(QtCore.QObject):
     def update_player_display(self):
         player = self.model.get_player_name()
         self.view.mainwindow.player_label.setText(f"Selected player: {player}")
+
+    def about(self):
+        self.view.show_about_message(self.view.mainwindow)
+
+    def quit(self):
+        self.model.quit()
+        self.view.quit()
+
+
+class DesignerWindowPresenter(QtCore.QObject):
+    def __init__(self, model, view, app):
+        super(DesignerWindowPresenter, self).__init__()
+
+        self.model = model
+        self.view = view
+        self.app = app
+
+        self.connectSignals()
+
+    def connectSignals(self):
+        self.view.designerwindow.myQuitSignal.connect(self.quit)
+        self.view.designerwindow.actionQuit.triggered.connect(self.quit)
+        self.view.designerwindow.actionAbout.triggered.connect(self.about)
 
     def about(self):
         self.view.show_about_message(self.view.mainwindow)

@@ -29,7 +29,7 @@ class FkView(QtCore.QObject):
         self.mainwindow = MainWindowView()
         self.quizwindow = QuizWindowView()
         self.scorewindow = ScoreWindowView()
-        self.designerWindow = DesignerWindowView()
+        self.designerwindow = DesignerWindowView()
 
     def select_player(self, players_list: List) -> str:
         """Provides a list dialog to select a player from a provided list.
@@ -47,6 +47,11 @@ class FkView(QtCore.QObject):
         self.mainwindow.hide()
         self.quizwindow.show()
         self.quizwindow.quiz_progress_bar.setValue(0)
+
+    def start_designer(self) -> None:
+        """Starts the designer window."""
+        self.mainwindow.hide()
+        self.designerwindow.show()
 
     def start_scoring(self) -> None:
         """Starts a new scoring window."""
@@ -109,17 +114,20 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
 
 
 class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
+    myQuitSignal = QtCore.Signal()
+
     def __init__(self):
         super(DesignerWindowView, self).__init__()
+        self.setupUi(self)
 
-    def closeEvent(self, event):
-        """
-        This method overrides the mainwindow's closeEvent method
-        which gets called when the user tries to close the mainwindow
-        """
-        logger.debug("closeEvent called")
-        event.ignore()
-        self.myQuitSignal.emit()
+    # def closeEvent(self, event):
+    #    """
+    #    This method overrides the mainwindow's closeEvent method
+    #    which gets called when the user tries to close the mainwindow
+    #    """
+    #    logger.debug("closeEvent called")
+    #    event.ignore()
+    #    self.myQuitSignal.emit()
 
 
 class QuizWindowView(QMainWindow, Ui_QuizWindow):
