@@ -77,11 +77,7 @@ class FkModel(QtCore.QObject):
 
     def open_deck_by_name(self, deck_title: str) -> Deck:
         deck_filename = "_".join(deck_title.lower().split(" ")) + ".json"
-        logger.debug(deck_filename)
-
         deck_file = os.path.join(DECKS_DIR, deck_filename)
-        logger.debug(deck_file)
-
         try:
             with open(deck_file, "r") as f:
                 deck_list = json.load(f)

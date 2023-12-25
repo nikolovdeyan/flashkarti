@@ -130,7 +130,7 @@ class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
         self.myQuitSignal.emit()
 
     def display_deck_cards(self, deck: list) -> None:
-        self.deck_cards_listview.addItems(deck)
+        self.deck_cards_listwidget.addItems(deck)
 
 
 class QuizWindowView(QMainWindow, Ui_QuizWindow):

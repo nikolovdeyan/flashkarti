@@ -92,7 +92,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QListWidget" name="deck_cards_listview">
+   <widget class="QListWidget" name="deck_cards_listwidget">
     <property name="geometry">
      <rect>
       <x>10</x>

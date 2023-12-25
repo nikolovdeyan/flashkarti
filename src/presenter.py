@@ -110,6 +110,12 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.exit_designer_btn.clicked.connect(
             self.on_exit_designer_clicked
         )
+        self.view.designerwindow.deck_cards_listwidget.itemClicked.connect(
+            self.on_deck_cards_item_clicked
+        )
+
+    def on_deck_cards_item_clicked(self, item):
+        logger.debug(f"deck_cards_itemwidget clicked with {item.text()}")
 
     def on_new_deck_button(self):
         pass
