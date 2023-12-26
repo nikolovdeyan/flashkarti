@@ -115,7 +115,9 @@ class DesignerWindowPresenter(QtCore.QObject):
         )
 
     def on_deck_cards_item_clicked(self, item):
-        logger.debug(f"deck_cards_itemwidget clicked with {item.text()}")
+        self.view.designerwindow.display_card(
+            self.model.get_card_display_by_card_title(item.text())
+        )
 
     def on_new_deck_button(self):
         pass
@@ -123,9 +125,8 @@ class DesignerWindowPresenter(QtCore.QObject):
     def on_load_deck_clicked(self):
         decks_list = self.model.get_decks_list()
         deck_title = self.view.select_deck_dialog(decks_list)
-        deck = self.model.open_deck_by_name(deck_title)
-        deck_card_names = [card.title for card in deck._cards]
-        self.view.designerwindow.display_deck_cards(deck_card_names)
+        self.model.set_deck(deck_title)
+        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
 
     def on_add_card_clicked(self):
         pass
@@ -134,9 +135,20 @@ class DesignerWindowPresenter(QtCore.QObject):
         pass
 
     def on_save_card_clicked(self):
-        pass
+        logger.debug("called on_save_card_clicked")
+        self.model.set_current_card(
+            {
+                "card_title": self.view.designerwindow.card_title_lineedit.text(),
+                "card_contents": self.view.designerwindow.question_textedit.toHtml(),
+                "answer": self.view.designerwindow.expected_answer_textedit.toHtml(),
+            }
+        )
+        logger.debug(
+            f"with card_title: {self.view.designerwindow.card_title_lineedit.text()}"
+        )
 
     def on_exit_designer_clicked(self):
+        # TODO: Null the current game.deck here!
         pass
 
     def about(self):

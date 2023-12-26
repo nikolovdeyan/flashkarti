@@ -75,25 +75,13 @@ class FkModel(QtCore.QObject):
         """
         return self.game.get_deck_title()
 
-    def open_deck_by_name(self, deck_title: str) -> Deck:
-        deck_filename = "_".join(deck_title.lower().split(" ")) + ".json"
-        deck_file = os.path.join(DECKS_DIR, deck_filename)
-        try:
-            with open(deck_file, "r") as f:
-                deck_list = json.load(f)
-                deck_cards = []
-                for card_dict in deck_list:
-                    card = Card(
-                        title=card_dict.get("title"),
-                        contents=card_dict.get("contents"),
-                        answer=card_dict.get("answer"),
-                        references=card_dict.get("references"),
-                    )
-                    deck_cards.append(card)
-                deck = Deck(title=deck_title, cards=deck_cards)
-        except:
-            logger.error(f"Could not open file {deck_file}")
-        return deck
+    def get_cards_names(self) -> List[str]:
+        """Returns the names of cards available in currently loaded deck
+
+        ### Returns:
+            `List[str]`: A list of the cards' names.
+        """
+        return self.game.get_cards_names()
 
     def set_deck(self, deck_title: str) -> None:
         """Calls the game method to load a deck from the decks dir.
@@ -135,6 +123,17 @@ class FkModel(QtCore.QObject):
             `dict`: The display information of the current card in the deck.
         """
         return self.game.get_card_display(self.game.get_current_card())
+
+    def get_card_display_by_card_title(self, card_title: str) -> dict:
+        """Returns the display information of a card by given card title.
+
+        ### Args:
+            `card_title (str): The title of the card to get display info of.
+
+        Returns:
+            `dict`: The display information of the requested card.
+        """
+        return self.game.get_card_display(self.game.get_card_by_title(card_title))
 
     def set_current_card(self, current_card: dict) -> None:
         """Persists the state of the current card in the deck.

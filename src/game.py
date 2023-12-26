@@ -3,6 +3,7 @@ Stores the main program logic.
 """
 import os
 import json
+import random
 from typing import List
 import logging
 
@@ -24,6 +25,11 @@ class Game:
 
         if not self.settings:
             raise AttributeError("Game instantiated without provided settings.")
+
+    def draw_quiz_cards(self, num_cards: int) -> None:
+        quiz_cards = random.sample(self.deck._cards, num_cards)
+        new_deck = Deck(self.deck.title, quiz_cards)
+        self.deck = new_deck
 
     def set_player(self, player_name: str) -> None:
         """Sets the player of the game from a provided player name.
@@ -73,8 +79,11 @@ class Game:
         """
         return "" if not self.deck else self.deck.title
 
+    def get_cards_names(self) -> List[str]:
+        return [card.title for card in self.deck._cards]
+
     def get_card_display(self, card):
-        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.quiz_size}: {card.title}"
+        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.size}: {card.title}"
         logger.debug(f"Current card: {card}")
         return {
             "deck_title": self.deck.title,
@@ -89,8 +98,17 @@ class Game:
     def get_current_card(self) -> Card:
         return self.deck.draw_current_card()
 
+    def get_card_by_title(self, card_title) -> Card:
+        return self.deck.draw_card(card_title)
+
     def set_current_card(self, card_values) -> None:
         card = self.deck.draw_current_card()
+        if card_values.get("card_title") is not None:
+            card.title = card_values.get("card_title")
+        if card_values.get("card_contents") is not None:
+            card.contents = card_values.get("card_contents")
+        if card_values.get("answer") is not None:
+            card.answer = card_values.get("answer")
         if card_values.get("user_answer") is not None:
             card.user_answer = card_values.get("user_answer")
         if card_values.get("answer_score") is not None:
@@ -134,9 +152,9 @@ class Game:
 
     def start_quiz(self):
         self.deck.shuffle_deck()
-        self.deck.draw_quiz_cards(int(self.settings.num_questions_per_round))
+        self.draw_quiz_cards(int(self.settings.num_questions_per_round))
         logger.debug(f"Game starting: {self}")
-        logger.debug(f"Game started with cards: {self.deck._quiz_cards}")
+        logger.debug(f"Game started with cards: {self.deck._cards}")
 
     def __repr__(self):
         return f"Game with deck: {self.deck.title}, player: {self.player} and settings: {self.settings}"

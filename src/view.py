@@ -132,6 +132,11 @@ class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
     def display_deck_cards(self, deck: list) -> None:
         self.deck_cards_listwidget.addItems(deck)
 
+    def display_card(self, card_data: dict) -> None:
+        self.card_title_lineedit.setText(card_data.get("card_title"))
+        self.question_textedit.setHtml(card_data.get("card_contents"))
+        self.expected_answer_textedit.setHtml(card_data.get("answer"))
+
 
 class QuizWindowView(QMainWindow, Ui_QuizWindow):
     myQuitSignal = QtCore.Signal()
@@ -153,12 +158,12 @@ class QuizWindowView(QMainWindow, Ui_QuizWindow):
         else:
             return False
 
-    def display_quiz_card(self, current_card):
-        self.deck_title_label.setText(current_card.get("deck_title"))
-        self.card_title_label.setText(current_card.get("card_title"))
-        self.card_question_field.setText(current_card.get("card_contents"))
-        self.card_answer_field.setPlainText(current_card.get("user_answer"))
-        self.quiz_progress_bar.setValue(current_card.get("num_answered_cards"))
+    def display_quiz_card(self, card_data):
+        self.deck_title_label.setText(card_data.get("deck_title"))
+        self.card_title_label.setText(card_data.get("card_title"))
+        self.card_question_field.setText(card_data.get("card_contents"))
+        self.card_answer_field.setPlainText(card_data.get("user_answer"))
+        self.quiz_progress_bar.setValue(card_data.get("num_answered_cards"))
 
 
 class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
