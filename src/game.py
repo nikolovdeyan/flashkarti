@@ -101,7 +101,7 @@ class Game:
     def get_card_by_title(self, card_title) -> Card:
         return self.deck.draw_card(card_title)
 
-    def set_current_card(self, card_values) -> None:
+    def set_current_card(self, card_values: dict) -> None:
         card = self.deck.draw_current_card()
         if card_values.get("card_title") is not None:
             card.title = card_values.get("card_title")
@@ -114,6 +114,9 @@ class Game:
         if card_values.get("answer_score") is not None:
             card.answer_score = card_values.get("answer_score")
         self.deck._update_num_answered_cards()
+
+    def set_current_card_index(self, card_title: str):
+        self.deck.set_current_card_index(card_title)
 
     def get_next_card(self) -> Card:
         self.deck.next_card()
@@ -149,6 +152,10 @@ class Game:
         deck = Deck(title=deck_title, cards=deck_cards)
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
+
+    def create_new_card(self):
+        card = Card("New Card", "New Question", "New Answer", "New References")
+        self.deck.add_card(card)
 
     def start_quiz(self):
         self.deck.shuffle_deck()

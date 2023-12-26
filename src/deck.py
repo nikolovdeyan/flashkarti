@@ -38,6 +38,7 @@ class Deck:
         """
         self._cards.append(card)
         self._update_size()
+        self._curr_card_index = len(self._cards) - 1
 
     def remove_card(self, card: Card) -> None:
         """Removes a provided card from the deck.
@@ -52,6 +53,16 @@ class Deck:
 
     def draw_current_card(self) -> Card:
         return self._cards[self._curr_card_index]
+
+    def set_current_card_index(self, card_title) -> None:
+        logger.debug(f"Requesting card title: {card_title}")
+        try:
+            self._curr_card_index = [card.title for card in self._cards].index(
+                card_title
+            )
+        except ValueError:
+            logger.error("Unknown card title requested")
+            return
 
     def draw_card(self, card_title) -> Card:
         try:

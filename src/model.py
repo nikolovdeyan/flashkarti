@@ -143,5 +143,12 @@ class FkModel(QtCore.QObject):
         """
         self.game.set_current_card(current_card)
 
+    def set_current_card_index(self, current_card_name: str) -> None:
+        self.game.set_current_card_index(current_card_name)
+
+    def create_new_card(self) -> None:
+        """Creates a new empty card in the currently loaded deck."""
+        self.game.create_new_card()
+
     def quit(self):
         pass
