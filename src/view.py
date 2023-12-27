@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
+    QStackedWidget,
     QDialog,
     QDialogButtonBox,
     QVBoxLayout,
@@ -26,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super(MainWindow, self).__init__()
         self.setWindowTitle("FlashKarti")
         self.resize(QtCore.QSize(950, 640))
 
@@ -34,11 +35,21 @@ class MainWindow(QMainWindow):
 class FkView(QtCore.QObject):
     def __init__(self):
         super(FkView, self).__init__()
+
         self.mainwindow = MainWindow()
+
         self.menuwindow = MenuWindowView()
         self.quizwindow = QuizWindowView()
         self.scorewindow = ScoreWindowView()
         self.designerwindow = DesignerWindowView()
+
+        self.stacked_widget = QStackedWidget()
+        self.stacked_widget.addWidget(self.menuwindow)
+        self.stacked_widget.addWidget(self.quizwindow)
+        self.stacked_widget.addWidget(self.scorewindow)
+        self.stacked_widget.addWidget(self.designerwindow)
+
+        self.mainwindow.setCentralWidget(self.stacked_widget)
         self.mainwindow.show()
 
     def select_player(self, players_list: List) -> str:
@@ -60,26 +71,20 @@ class FkView(QtCore.QObject):
         return selected_deck
 
     def start_menu(self) -> None:
-        self.mainwindow.setCentralWidget(self.menuwindow)
-        self.menuwindow.show()
+        self.stacked_widget.setCurrentWidget(self.menuwindow)
 
     def start_quiz(self) -> None:
         """Starts a new quiz round."""
-        self.mainwindow.setCentralWidget(self.quizwindow)
-        self.menuwindow.hide()
-        self.quizwindow.show()
+        self.stacked_widget.setCurrentWidget(self.quizwindow)
         self.quizwindow.quiz_progress_bar.setValue(0)
 
     def start_designer(self) -> None:
         """Starts the designer window."""
-        self.mainwindow.setCentralWidget(self.designerwindow)
-        self.menuwindow.hide()
-        self.designerwindow.show()
+        self.stacked_widget.setCurrentWidget(self.designerwindow)
 
     def start_scoring(self) -> None:
         """Starts a new scoring window."""
-        self.quizwindow.hide()
-        self.scorewindow.show()
+        self.stacked_widget.setCurrentWidget(self.scorewindow)
 
     def show_confirm_start_scoring_message(self) -> bool:
         confirm = QMessageBox.information(

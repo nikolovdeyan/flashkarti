@@ -151,8 +151,7 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
 
     def on_exit_designer_clicked(self):
-        # TODO: Null the current game.deck here!
-        pass
+        self.view.start_menu()
 
     def about(self):
         self.view.show_about_message(self.view.menuwindow)
@@ -188,8 +187,7 @@ class QuizWindowPresenter(QtCore.QObject):
     def on_exit_quiz_clicked(self):
         confirm = self.view.quizwindow.show_confirm_exit_quiz_message()
         if confirm:
-            self.view.quizwindow.hide()
-            self.view.menuwindow.show()
+            self.view.start_menu()
         else:
             return
 
@@ -216,8 +214,7 @@ class QuizWindowPresenter(QtCore.QObject):
             self.view.scorewindow.display_scoring_card(
                 self.model.get_current_card_display()
             )
-            self.view.quizwindow.hide()
-            self.view.scorewindow.show()
+            self.view.start_scoring()
         else:
             return
 
@@ -267,7 +264,7 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.scorewindow.display_scoring_card(self.model.get_prev_card_display())
 
     def on_exit_scoring_clicked(self):
-        self.quit()
+        self.view.start_menu()
 
     def on_end_scoring_clicked(self):
         self.view.scorewindow.show_score_result_dialog()
