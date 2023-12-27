@@ -24,13 +24,22 @@ from ui.ui_designer_window import Ui_DesignerWindow
 logger = logging.getLogger(__name__)
 
 
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("FlashKarti")
+        self.resize(QtCore.QSize(950, 640))
+
+
 class FkView(QtCore.QObject):
     def __init__(self):
         super(FkView, self).__init__()
-        self.mainwindow = MenuWindowView()
+        self.mainwindow = MainWindow()
+        self.menuwindow = MenuWindowView()
         self.quizwindow = QuizWindowView()
         self.scorewindow = ScoreWindowView()
         self.designerwindow = DesignerWindowView()
+        self.mainwindow.show()
 
     def select_player(self, players_list: List) -> str:
         """Provides a list dialog to select a player from a provided list.
@@ -41,7 +50,7 @@ class FkView(QtCore.QObject):
         ### Returns:
             `str`: The name of the player selected.
         """
-        return self.mainwindow.select_player_dialog(players_list)
+        return self.menuwindow.select_player_dialog(players_list)
 
     def select_deck_dialog(self, decks_list):
         dialog = SelectDeckDialog(decks_list)
@@ -50,15 +59,21 @@ class FkView(QtCore.QObject):
             dialog.close()
         return selected_deck
 
+    def start_menu(self) -> None:
+        self.mainwindow.setCentralWidget(self.menuwindow)
+        self.menuwindow.show()
+
     def start_quiz(self) -> None:
         """Starts a new quiz round."""
-        self.mainwindow.hide()
+        self.mainwindow.setCentralWidget(self.quizwindow)
+        self.menuwindow.hide()
         self.quizwindow.show()
         self.quizwindow.quiz_progress_bar.setValue(0)
 
     def start_designer(self) -> None:
         """Starts the designer window."""
-        self.mainwindow.hide()
+        self.mainwindow.setCentralWidget(self.designerwindow)
+        self.menuwindow.hide()
         self.designerwindow.show()
 
     def start_scoring(self) -> None:

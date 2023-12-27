@@ -12,12 +12,12 @@ class FkPresenter(QtCore.QObject):
         self.view = view
         self.app = app
 
-        self.mainwindow_presenter = MenuWindowPresenter(model, view, app)
+        self.menuwindow_presenter = MenuWindowPresenter(model, view, app)
         self.quizwindow_presenter = QuizWindowPresenter(model, view, app)
         self.scoringwinow_presenter = ScoringWindowPresenter(model, view, app)
         self.designerwindow_presenter = DesignerWindowPresenter(model, view, app)
 
-        self.view.mainwindow.show()
+        self.view.start_menu()
 
 
 class MenuWindowPresenter(QtCore.QObject):
@@ -33,14 +33,14 @@ class MenuWindowPresenter(QtCore.QObject):
         self.connectSignals()
 
     def connectSignals(self):
-        self.view.mainwindow.myQuitSignal.connect(self.quit)
-        self.view.mainwindow.actionQuit.triggered.connect(self.quit)
-        self.view.mainwindow.quit_btn.clicked.connect(self.quit)
-        self.view.mainwindow.actionAbout.triggered.connect(self.about)
-        self.view.mainwindow.player_btn.clicked.connect(self.on_select_player_clicked)
-        self.view.mainwindow.deck_btn.clicked.connect(self.on_select_deck_clicked)
-        self.view.mainwindow.designer_btn.clicked.connect(self.on_designer_clicked)
-        self.view.mainwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
+        self.view.menuwindow.myQuitSignal.connect(self.quit)
+        self.view.menuwindow.actionQuit.triggered.connect(self.quit)
+        self.view.menuwindow.quit_btn.clicked.connect(self.quit)
+        self.view.menuwindow.actionAbout.triggered.connect(self.about)
+        self.view.menuwindow.player_btn.clicked.connect(self.on_select_player_clicked)
+        self.view.menuwindow.deck_btn.clicked.connect(self.on_select_deck_clicked)
+        self.view.menuwindow.designer_btn.clicked.connect(self.on_designer_clicked)
+        self.view.menuwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
 
     def on_select_deck_clicked(self):
         decks_list = self.model.get_decks_list()
@@ -65,17 +65,17 @@ class MenuWindowPresenter(QtCore.QObject):
     def update_deck_display(self):
         deck = self.model.get_deck_name()
         if not deck:
-            self.view.mainwindow.start_quiz_btn.setEnabled(False)
+            self.view.menuwindow.start_quiz_btn.setEnabled(False)
         else:
-            self.view.mainwindow.start_quiz_btn.setEnabled(True)
-        self.view.mainwindow.deck_label.setText(f"Selected deck: {deck}")
+            self.view.menuwindow.start_quiz_btn.setEnabled(True)
+        self.view.menuwindow.deck_label.setText(f"Selected deck: {deck}")
 
     def update_player_display(self):
         player = self.model.get_player_name()
-        self.view.mainwindow.player_label.setText(f"Selected player: {player}")
+        self.view.menuwindow.player_label.setText(f"Selected player: {player}")
 
     def about(self):
-        self.view.show_about_message(self.view.mainwindow)
+        self.view.show_about_message(self.view.menuwindow)
 
     def quit(self):
         self.model.quit()
@@ -155,7 +155,7 @@ class DesignerWindowPresenter(QtCore.QObject):
         pass
 
     def about(self):
-        self.view.show_about_message(self.view.mainwindow)
+        self.view.show_about_message(self.view.menuwindow)
 
     def quit(self):
         self.model.quit()
@@ -189,7 +189,7 @@ class QuizWindowPresenter(QtCore.QObject):
         confirm = self.view.quizwindow.show_confirm_exit_quiz_message()
         if confirm:
             self.view.quizwindow.hide()
-            self.view.mainwindow.show()
+            self.view.menuwindow.show()
         else:
             return
 
