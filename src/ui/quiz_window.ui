@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>QuizWindow</class>
- <widget class="QMainWindow" name="QuizWindow">
+ <widget class="QWidget" name="QuizWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="QuizWidget">
    <widget class="QLabel" name="deck_title_label">
     <property name="geometry">
      <rect>

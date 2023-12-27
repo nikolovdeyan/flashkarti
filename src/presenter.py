@@ -12,7 +12,7 @@ class FkPresenter(QtCore.QObject):
         self.view = view
         self.app = app
 
-        self.mainwindow_presenter = MainWindowPresenter(model, view, app)
+        self.mainwindow_presenter = MenuWindowPresenter(model, view, app)
         self.quizwindow_presenter = QuizWindowPresenter(model, view, app)
         self.scoringwinow_presenter = ScoringWindowPresenter(model, view, app)
         self.designerwindow_presenter = DesignerWindowPresenter(model, view, app)
@@ -20,9 +20,9 @@ class FkPresenter(QtCore.QObject):
         self.view.mainwindow.show()
 
 
-class MainWindowPresenter(QtCore.QObject):
+class MenuWindowPresenter(QtCore.QObject):
     def __init__(self, model, view, app):
-        super(MainWindowPresenter, self).__init__()
+        super(MenuWindowPresenter, self).__init__()
 
         self.model = model
         self.view = view
@@ -128,6 +128,7 @@ class DesignerWindowPresenter(QtCore.QObject):
         decks_list = self.model.get_decks_list()
         deck_title = self.view.select_deck_dialog(decks_list)
         self.model.set_deck(deck_title)
+        self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
 
     def on_add_card_clicked(self):

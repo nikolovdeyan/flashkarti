@@ -17,9 +17,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
-    QListWidget, QListWidgetItem, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
-    QTextEdit, QToolBar, QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QStatusBar, QTextEdit,
+    QToolBar, QVBoxLayout, QWidget)
 
 class Ui_DesignerWindow(object):
     def setupUi(self, DesignerWindow):
@@ -140,7 +140,6 @@ class Ui_DesignerWindow(object):
         self.save_card_btn.setFont(font1)
         self.save_card_btn.setCheckable(False)
         self.save_card_btn.setChecked(False)
-        DesignerWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(DesignerWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 946, 22))
@@ -148,13 +147,10 @@ class Ui_DesignerWindow(object):
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
-        DesignerWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(DesignerWindow)
         self.statusbar.setObjectName(u"statusbar")
-        DesignerWindow.setStatusBar(self.statusbar)
         self.toolBar = QToolBar(DesignerWindow)
         self.toolBar.setObjectName(u"toolBar")
-        DesignerWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())

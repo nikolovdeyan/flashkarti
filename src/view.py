@@ -6,6 +6,7 @@ from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
+    QWidget,
     QDialog,
     QDialogButtonBox,
     QVBoxLayout,
@@ -15,7 +16,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 
-from ui.ui_main_window import Ui_MainWindow
+from ui.ui_menu_window import Ui_MenuWindow
 from ui.ui_quiz_window import Ui_QuizWindow
 from ui.ui_score_window import Ui_ScoreWindow
 from ui.ui_designer_window import Ui_DesignerWindow
@@ -26,7 +27,7 @@ logger = logging.getLogger(__name__)
 class FkView(QtCore.QObject):
     def __init__(self):
         super(FkView, self).__init__()
-        self.mainwindow = MainWindowView()
+        self.mainwindow = MenuWindowView()
         self.quizwindow = QuizWindowView()
         self.scorewindow = ScoreWindowView()
         self.designerwindow = DesignerWindowView()
@@ -89,11 +90,11 @@ class FkView(QtCore.QObject):
         QApplication.quit()
 
 
-class MainWindowView(QMainWindow, Ui_MainWindow):
+class MenuWindowView(QWidget, Ui_MenuWindow):
     myQuitSignal = QtCore.Signal()
 
     def __init__(self):
-        super(MainWindowView, self).__init__()
+        super(MenuWindowView, self).__init__()
         self.setupUi(self)
 
     def select_player_dialog(self, players_list):
@@ -113,7 +114,7 @@ class MainWindowView(QMainWindow, Ui_MainWindow):
         self.myQuitSignal.emit()
 
 
-class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
+class DesignerWindowView(QWidget, Ui_DesignerWindow):
     myQuitSignal = QtCore.Signal()
 
     def __init__(self):
@@ -141,7 +142,7 @@ class DesignerWindowView(QMainWindow, Ui_DesignerWindow):
         self.expected_answer_textedit.setHtml(card_data.get("answer"))
 
 
-class QuizWindowView(QMainWindow, Ui_QuizWindow):
+class QuizWindowView(QWidget, Ui_QuizWindow):
     myQuitSignal = QtCore.Signal()
 
     def __init__(self):
@@ -169,7 +170,7 @@ class QuizWindowView(QMainWindow, Ui_QuizWindow):
         self.quiz_progress_bar.setValue(card_data.get("num_answered_cards"))
 
 
-class ScoreWindowView(QMainWindow, Ui_ScoreWindow):
+class ScoreWindowView(QWidget, Ui_ScoreWindow):
     myQuitSignal = QtCore.Signal()
 
     def __init__(self):

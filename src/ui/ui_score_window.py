@@ -16,9 +16,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
-    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
-    QSizePolicy, QStatusBar, QTextBrowser, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMenu,
+    QMenuBar, QPlainTextEdit, QPushButton, QSizePolicy,
+    QStatusBar, QTextBrowser, QWidget)
 
 class Ui_ScoreWindow(object):
     def setupUi(self, ScoreWindow):
@@ -114,7 +114,6 @@ class Ui_ScoreWindow(object):
         self.score_answer_incomplete_btn.setSizePolicy(sizePolicy)
         self.score_answer_incomplete_btn.setFont(font1)
         self.score_answer_incomplete_btn.setCheckable(True)
-        ScoreWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ScoreWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 963, 22))
@@ -122,10 +121,8 @@ class Ui_ScoreWindow(object):
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
-        ScoreWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(ScoreWindow)
         self.statusbar.setObjectName(u"statusbar")
-        ScoreWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())

@@ -16,10 +16,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
-    QMenu, QMenuBar, QPlainTextEdit, QProgressBar,
-    QPushButton, QSizePolicy, QStatusBar, QTextBrowser,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMenu,
+    QMenuBar, QPlainTextEdit, QProgressBar, QPushButton,
+    QSizePolicy, QStatusBar, QTextBrowser, QWidget)
 
 class Ui_QuizWindow(object):
     def setupUi(self, QuizWindow):
@@ -32,15 +31,15 @@ class Ui_QuizWindow(object):
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionAbout = QAction(QuizWindow)
         self.actionAbout.setObjectName(u"actionAbout")
-        self.centralwidget = QWidget(QuizWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
-        self.deck_title_label = QLabel(self.centralwidget)
+        self.QuizWidget = QWidget(QuizWindow)
+        self.QuizWidget.setObjectName(u"QuizWidget")
+        self.deck_title_label = QLabel(self.QuizWidget)
         self.deck_title_label.setObjectName(u"deck_title_label")
         self.deck_title_label.setGeometry(QRect(20, 10, 901, 31))
         font = QFont()
         font.setPointSize(14)
         self.deck_title_label.setFont(font)
-        self.frame = QFrame(self.centralwidget)
+        self.frame = QFrame(self.QuizWidget)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(20, 50, 921, 451))
         self.frame.setFrameShape(QFrame.StyledPanel)
@@ -62,7 +61,7 @@ class Ui_QuizWindow(object):
         self.quiz_progress_bar.setGeometry(QRect(10, 420, 901, 21))
         self.quiz_progress_bar.setFont(font1)
         self.quiz_progress_bar.setValue(24)
-        self.next_card_btn = QPushButton(self.centralwidget)
+        self.next_card_btn = QPushButton(self.QuizWidget)
         self.next_card_btn.setObjectName(u"next_card_btn")
         self.next_card_btn.setGeometry(QRect(840, 510, 101, 31))
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -71,19 +70,18 @@ class Ui_QuizWindow(object):
         sizePolicy.setHeightForWidth(self.next_card_btn.sizePolicy().hasHeightForWidth())
         self.next_card_btn.setSizePolicy(sizePolicy)
         self.next_card_btn.setFont(font1)
-        self.prev_card_btn = QPushButton(self.centralwidget)
+        self.prev_card_btn = QPushButton(self.QuizWidget)
         self.prev_card_btn.setObjectName(u"prev_card_btn")
         self.prev_card_btn.setGeometry(QRect(20, 510, 101, 31))
         sizePolicy.setHeightForWidth(self.prev_card_btn.sizePolicy().hasHeightForWidth())
         self.prev_card_btn.setSizePolicy(sizePolicy)
         self.prev_card_btn.setFont(font1)
-        self.start_scoring_btn = QPushButton(self.centralwidget)
+        self.start_scoring_btn = QPushButton(self.QuizWidget)
         self.start_scoring_btn.setObjectName(u"start_scoring_btn")
         self.start_scoring_btn.setGeometry(QRect(840, 550, 101, 31))
         sizePolicy.setHeightForWidth(self.start_scoring_btn.sizePolicy().hasHeightForWidth())
         self.start_scoring_btn.setSizePolicy(sizePolicy)
         self.start_scoring_btn.setFont(font1)
-        QuizWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(QuizWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 963, 22))
@@ -91,10 +89,8 @@ class Ui_QuizWindow(object):
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
-        QuizWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(QuizWindow)
         self.statusbar.setObjectName(u"statusbar")
-        QuizWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
