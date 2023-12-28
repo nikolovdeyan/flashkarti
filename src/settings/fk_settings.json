@@ -1,18 +1,19 @@
 {
     "game_settings": {
-        "current_player": null,
         "num_questions_per_round": "6"
     },
     "players": [
         {
             "name": "Deo",
             "rounds_played": 0,
-            "total_score": 0
+            "total_score": 0,
+            "average_correct": 0
         },
         {
             "name": "Test Player",
-            "rounds_played": 1,
-            "total_score": 3.5
+            "rounds_played": 4,
+            "total_score": 7.0,
+            "average_correct": 0
         }
     ]
 }

@@ -154,7 +154,8 @@ class FkModel(QtCore.QObject):
         return self.game.deck.get_quiz_scores()
 
     def update_player_scores(self, correct, partial, incorrect):
-        self.game.player.update_scores(correct, partial, incorrect)
+        num_questions = int(self.game.settings.num_questions_per_round)
+        self.game.player.update_scores(correct, partial, incorrect, num_questions)
         self.game.settings.save_to_file(self.game.player)
 
     def quit(self):
