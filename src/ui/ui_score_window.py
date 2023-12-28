@@ -33,6 +33,7 @@ class Ui_ScoreWindow(object):
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(ScoreWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setGeometry(QRect(0, 20, 961, 611))
         self.deck_title_label = QLabel(self.centralwidget)
         self.deck_title_label.setObjectName(u"deck_title_label")
         self.deck_title_label.setGeometry(QRect(20, 20, 901, 21))
@@ -123,6 +124,7 @@ class Ui_ScoreWindow(object):
         self.menuHelp.setObjectName(u"menuHelp")
         self.statusbar = QStatusBar(ScoreWindow)
         self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setGeometry(QRect(0, 0, 3, 22))
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())

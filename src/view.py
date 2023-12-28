@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("FlashKarti")
-        self.resize(QtCore.QSize(950, 640))
+        self.resize(QtCore.QSize(950, 650))
 
 
 class FkView(QtCore.QObject):
@@ -117,12 +117,13 @@ class MenuWindowView(QWidget, Ui_MenuWindow):
         super(MenuWindowView, self).__init__()
         self.setupUi(self)
 
-    def select_player_dialog(self, players_list):
+    def select_player_dialog(self, players_list: List[str]) -> str:
         dialog = SelectPlayerDialog(players_list)
         if dialog.exec():
             selected_player = dialog.get_selected_player()
             dialog.close()
-        return selected_player
+            return selected_player
+        return ""
 
     def closeEvent(self, event):
         """

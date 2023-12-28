@@ -34,6 +34,7 @@ class Ui_DesignerWindow(object):
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(DesignerWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setGeometry(QRect(0, 50, 941, 581))
         self.deck_designer_label = QLabel(self.centralwidget)
         self.deck_designer_label.setObjectName(u"deck_designer_label")
         self.deck_designer_label.setGeometry(QRect(400, 10, 151, 31))
@@ -149,8 +150,10 @@ class Ui_DesignerWindow(object):
         self.menuHelp.setObjectName(u"menuHelp")
         self.statusbar = QStatusBar(DesignerWindow)
         self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setGeometry(QRect(0, 0, 3, 22))
         self.toolBar = QToolBar(DesignerWindow)
         self.toolBar.setObjectName(u"toolBar")
+        self.toolBar.setGeometry(QRect(0, 0, 8, 17))
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())

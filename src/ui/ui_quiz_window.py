@@ -33,6 +33,7 @@ class Ui_QuizWindow(object):
         self.actionAbout.setObjectName(u"actionAbout")
         self.QuizWidget = QWidget(QuizWindow)
         self.QuizWidget.setObjectName(u"QuizWidget")
+        self.QuizWidget.setGeometry(QRect(0, 40, 961, 591))
         self.deck_title_label = QLabel(self.QuizWidget)
         self.deck_title_label.setObjectName(u"deck_title_label")
         self.deck_title_label.setGeometry(QRect(20, 10, 901, 31))
@@ -91,6 +92,7 @@ class Ui_QuizWindow(object):
         self.menuHelp.setObjectName(u"menuHelp")
         self.statusbar = QStatusBar(QuizWindow)
         self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setGeometry(QRect(0, 0, 3, 22))
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())

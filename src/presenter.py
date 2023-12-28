@@ -30,6 +30,7 @@ class MenuWindowPresenter(QtCore.QObject):
 
         self.update_player_display()
         self.update_deck_display()
+        self.update_start_quiz_btn_display()
         self.connectSignals()
 
     def connectSignals(self):
@@ -47,12 +48,14 @@ class MenuWindowPresenter(QtCore.QObject):
         deck_name = self.view.select_deck_dialog(decks_list)
         self.model.set_deck(deck_name)
         self.update_deck_display()
+        self.update_start_quiz_btn_display()
 
     def on_select_player_clicked(self):
         players_list = self.model.get_players_list()
         player_name = self.view.select_player(players_list)
         self.model.set_player(player_name)
         self.update_player_display()
+        self.update_start_quiz_btn_display()
 
     def on_designer_clicked(self):
         self.view.start_designer()
@@ -62,17 +65,21 @@ class MenuWindowPresenter(QtCore.QObject):
         self.view.start_quiz()
         self.view.quizwindow.display_quiz_card(self.model.get_current_card_display())
 
-    def update_deck_display(self):
+    def update_deck_display(self) -> None:
         deck = self.model.get_deck_name()
-        if not deck:
-            self.view.menuwindow.start_quiz_btn.setEnabled(False)
-        else:
-            self.view.menuwindow.start_quiz_btn.setEnabled(True)
         self.view.menuwindow.deck_label.setText(f"Selected deck: {deck}")
 
-    def update_player_display(self):
+    def update_player_display(self) -> None:
         player = self.model.get_player_name()
         self.view.menuwindow.player_label.setText(f"Selected player: {player}")
+
+    def update_start_quiz_btn_display(self) -> None:
+        player = self.model.get_player_name()
+        deck = self.model.get_deck_name()
+        if deck and player:
+            self.view.menuwindow.start_quiz_btn.setEnabled(True)
+        else:
+            self.view.menuwindow.start_quiz_btn.setEnabled(False)
 
     def about(self):
         self.view.show_about_message(self.view.menuwindow)
