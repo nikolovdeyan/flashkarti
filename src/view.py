@@ -10,12 +10,14 @@ from PySide6.QtWidgets import (
     QStackedWidget,
     QDialog,
     QDialogButtonBox,
+    QTableView,
     QVBoxLayout,
     QLabel,
     QListWidget,
     QButtonGroup,
     QMessageBox,
 )
+from PySide6.QtCore import Qt
 
 from ui.ui_menu_window import Ui_MenuWindow
 from ui.ui_quiz_window import Ui_QuizWindow
@@ -233,8 +235,8 @@ class ScoreWindowView(QWidget, Ui_ScoreWindow):
             case None:
                 self.uncheck_answer_buttons()
 
-    def show_score_result_dialog(self):
-        dialog = ScoreResultDialog()
+    def show_score_result_dialog(self, quiz_scores: List) -> None:
+        dialog = ScoreResultDialog(quiz_scores)
         dialog.raise_()
         if dialog.exec():
             dialog.close()
@@ -242,19 +244,25 @@ class ScoreWindowView(QWidget, Ui_ScoreWindow):
 
 
 class ScoreResultDialog(QDialog):
-    def __init__(self):
+    def __init__(self, quiz_scores: List) -> None:
         super().__init__()
 
         self.setModal(True)
-        self.setMinimumWidth(300)
+        self.setMinimumWidth(700)
         self.setWindowTitle("Quiz Results")
+
         results_label = QLabel("Quiz Results:")
+
+        self.table = QTableView()
+        self.model = TableModel(quiz_scores)
+        self.table.setModel(self.model)
 
         ok_btn = QDialogButtonBox.Ok
         self.button_box = QDialogButtonBox(ok_btn)
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(results_label)
+        self.layout.addWidget(self.table)
         self.layout.addWidget(self.button_box)
 
         self.button_box.accepted.connect(self.accept)
@@ -322,3 +330,20 @@ class SelectDeckDialog(QDialog):
             return self.decks_list.currentItem().text()
         else:
             return ""
+
+
+# See: https://www.pythonguis.com/tutorials/pyside6-qtableview-modelviews-numpy-pandas/
+class TableModel(QtCore.QAbstractTableModel):
+    def __init__(self, data):
+        super(TableModel, self).__init__()
+        self._data = data
+
+    def data(self, index, role):
+        if role == Qt.DisplayRole:
+            return self._data[index.row()][index.column()]
+
+    def rowCount(self, index):
+        return len(self._data)
+
+    def columnCount(self, index):
+        return len(self._data[0])

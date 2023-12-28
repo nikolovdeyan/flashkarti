@@ -8,11 +8,13 @@
     [
         {
             "name": "Deo",
-            "rounds_played": 0
+            "rounds_played": 0,
+            "total_score": 0
         },
         {
             "name": "Test Player",
-            "rounds_played": 0
+            "rounds_played": 0,
+            "total_score": 0
         }
     ]
 }

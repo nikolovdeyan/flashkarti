@@ -3,6 +3,7 @@ Represents a deck of cards, storing its state and possible actions.
 """
 import random
 import logging
+from typing import List, Tuple
 
 from card import Card
 
@@ -91,6 +92,12 @@ class Deck:
         if not self.size:
             return 0
         return int(round(self._num_answered_cards / self.size, 2) * 100)
+
+    def get_quiz_scores(self) -> List[Tuple[float, str]]:
+        scores = []
+        for card in self._cards:
+            scores.append((card.title, card.answer_score))
+        return scores
 
     def shuffle_deck(self):
         random.shuffle(self._cards)

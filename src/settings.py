@@ -29,7 +29,9 @@ class Settings:
             "current_player": self.current_player_name,
             "num_questions_per_round": self.num_questions_per_round,
         }
+
         players = self.players
+
         settings_dict = {
             "game_settings": game_settings,
             "players": players,

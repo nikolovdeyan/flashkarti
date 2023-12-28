@@ -150,5 +150,11 @@ class FkModel(QtCore.QObject):
         """Creates a new empty card in the currently loaded deck."""
         self.game.create_new_card()
 
+    def calculate_quiz_scores(self):
+        return self.game.deck.get_quiz_scores()
+
+    def update_player_scores(self, correct, partial, incorrect):
+        self.game.player.update_scores(correct, partial, incorrect)
+
     def quit(self):
         pass

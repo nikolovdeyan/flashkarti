@@ -274,7 +274,21 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.start_menu()
 
     def on_end_scoring_clicked(self):
-        self.view.scorewindow.show_score_result_dialog()
+        quiz_scores = self.model.calculate_quiz_scores()
+
+        num_correct = 0
+        num_partial = 0
+        num_incorrect = 0
+        for question in quiz_scores:
+            if question[1] == 1:
+                num_correct += 1
+            elif question[1] == 0.5:
+                num_partial += 1
+            elif question[1] == 0:
+                num_incorrect += 1
+
+        self.model.update_player_scores(num_correct, num_partial, num_incorrect)
+        self.view.scorewindow.show_score_result_dialog(quiz_scores)
 
     def score_answer(self) -> float:
         if self.view.scorewindow.score_answer_complete_btn.isChecked():
