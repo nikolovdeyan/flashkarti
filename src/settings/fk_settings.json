@@ -1,11 +1,9 @@
 {
-    "game_settings":
-    {
+    "game_settings": {
         "current_player": null,
         "num_questions_per_round": "6"
     },
-    "players":
-    [
+    "players": [
         {
             "name": "Deo",
             "rounds_played": 0,
@@ -13,8 +11,8 @@
         },
         {
             "name": "Test Player",
-            "rounds_played": 0,
-            "total_score": 0
+            "rounds_played": 1,
+            "total_score": 3.5
         }
     ]
 }

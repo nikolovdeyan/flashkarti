@@ -155,6 +155,7 @@ class FkModel(QtCore.QObject):
 
     def update_player_scores(self, correct, partial, incorrect):
         self.game.player.update_scores(correct, partial, incorrect)
+        self.game.settings.save_to_file(self.game.player)
 
     def quit(self):
         pass
