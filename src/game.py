@@ -32,26 +32,17 @@ class Game:
         self.deck = new_deck
 
     def set_player(self, player_name: str) -> None:
-        """Sets the player of the game from a provided player name.
+        player_info = self.get_player_info(player_name)
+        self.player = Player(player_info.get("name"), player_info.get("stats"))
+        logging.debug(f"Player loaded: {self.player}")
 
-        When passed a string with the player name this function checks against
-        the available players in the settings file if it is available. When
-        available, the player is instantiated and applied to the current game.
-
-        ### Args:
-            `player_name (str)`: The name of the player.
-
-        ### Raises:
-            `ValueError`: If the `player_name` provided is invalid.
-        """
+    def get_player_info(self, player_name: str) -> dict:
         players_list = self.get_players_list()
-
+        players_info = self.settings.players
         if not player_name in players_list:
             raise ValueError("Can't set an unknown player. Create the player first.")
-
-        player_dict = players_list[players_list.index(player_name)]
-        self.player = Player(player_dict)
-        logging.debug(f"Player loaded: {self.player}")
+        player_dict = players_info[players_list.index(player_name)]
+        return player_dict
 
     def get_player_name(self) -> str:
         """Returns the player name if a player is set, else "".

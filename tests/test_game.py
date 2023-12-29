@@ -67,7 +67,7 @@ def test__get_players_list__returns_players_list(fx_settings):
     expected_result = ["Fake Player 1", "Fake Player 2"]
     game = Game(fx_settings)
 
-    result = game.get_players_list()
+    result = game.get_players_info()
 
     assert result == expected_result
 

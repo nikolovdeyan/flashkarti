@@ -19,14 +19,17 @@ STYLES_DIR = os.path.abspath(os.path.join(GAME_DIR, os.pardir, "styles"))
 
 logger = logging.getLogger(__name__)
 
+
+def apply_style(app):
+    with open(os.path.join(STYLES_DIR, "fk_default.qss"), "r") as f:
+        style = f.read()
+        app.setStyleSheet(style)
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
-    with open(os.path.join(STYLES_DIR, "fk_default.qss"), "r") as f:
-        style = f.read()
-
-        app.setStyleSheet(style)
-    logger.info(f"Application style applied: {app.style().objectName()}")
+    apply_style(app)
 
     model = FkModel()
     view = FkView()

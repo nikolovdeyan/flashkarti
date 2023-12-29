@@ -93,7 +93,7 @@ class Deck:
             return 0
         return int(round(self._num_answered_cards / self.size, 2) * 100)
 
-    def get_quiz_scores(self) -> List[Tuple[float, str]]:
+    def get_quiz_scores(self) -> List[Tuple[str, float]]:
         scores = []
         for card in self._cards:
             scores.append((card.title, card.answer_score))
