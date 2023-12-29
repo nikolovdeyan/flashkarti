@@ -8,6 +8,9 @@
             "stats": {
                 "rounds_played": 0,
                 "total_score": 0,
+                "total_correct": 0,
+                "total_partial": 0,
+                "total_incorrect": 0,
                 "average_correct": 0
             }
         },
@@ -15,8 +18,11 @@
             "name": "Test Player",
             "stats": {
                 "rounds_played": 2,
-                "total_score": 9.0,
-                "average_correct": 75.0
+                "total_score": 12.5,
+                "total_correct": 9,
+                "total_partial": 7,
+                "total_incorrect": 2,
+                "average_correct": 70.84
             }
         }
     ]

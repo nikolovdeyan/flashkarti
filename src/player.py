@@ -8,9 +8,9 @@ class Player:
         self.name = name
         self.rounds_played = stats.get("rounds_played", 0)
         self.total_score = stats.get("total_score", 0)
-        self.total_correct = 0
-        self.total_partial = 0
-        self.total_incorrect = 0
+        self.total_correct = stats.get("total_correct", 0)
+        self.total_partial = stats.get("total_partial", 0)
+        self.total_incorrect = stats.get("total_incorrect", 0)
         self.average_correct = stats.get("average_correct", 0)
 
     def update_scores(self, correct, partial, incorrect, num_questions):
@@ -27,9 +27,10 @@ class Player:
     def update_average_correct(self, correct, partial, num_questions):
         round_points = correct + (partial / 2)
         this_round_percentage = round(round_points / num_questions * 100, 2)
-        self.average_correct = (
+        average_correct = (
             self.average_correct * self.rounds_played + this_round_percentage
         ) / (self.rounds_played + 1)
+        self.average_correct = round(average_correct, 2)
 
     def __repr__(self):
         return f"Player: {self.name}, Average Score: {self.average_correct}"

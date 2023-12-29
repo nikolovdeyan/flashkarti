@@ -37,6 +37,9 @@ class Settings:
         for player in players:
             if player.get("name") == current_player.name:
                 player["stats"]["rounds_played"] += 1
+                player["stats"]["total_correct"] += current_player.total_correct
+                player["stats"]["total_partial"] += current_player.total_partial
+                player["stats"]["total_incorrect"] += current_player.total_incorrect
                 player["stats"]["total_score"] += current_player.total_score
                 player["stats"]["average_correct"] = current_player.average_correct
 
