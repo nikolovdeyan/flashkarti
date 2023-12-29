@@ -22,16 +22,24 @@ class FkModel(QtCore.QObject):
         self.settings = Settings()
         self.game = Game(self.settings)
 
-    def set_player(self, player_name: str) -> None:
+    def load_player(self, player_name: str) -> None:
         """
-        Calls the game method to create a player from the provided string.
+        Calls the game method to load a player from the provided string.
 
         ### Args:
             `player_name` (str): The name of the player to be created.
         """
-        self.game.set_player(player_name)
+        self.game.load_player(player_name)
 
-    def get_players_list(self) -> List[str]:
+    def load_deck(self, deck_title: str) -> None:
+        """Calls the game method to load a deck from the decks dir.
+
+        ### Args:
+            `deck_title (str)`: The name of the deck to be loaded.
+        """
+        self.game.load_deck(deck_title)
+
+    def list_players_names(self) -> List[str]:
         """
         Calls the game method to return a list of available players.
 
@@ -40,7 +48,7 @@ class FkModel(QtCore.QObject):
         ### Returns:
             `List[str]`: The list of available players.
         """
-        return self.game.get_players_list()
+        return self.game.list_player_names()
 
     def get_player_name(self) -> str:
         """
@@ -82,14 +90,6 @@ class FkModel(QtCore.QObject):
             `List[str]`: A list of the cards' names.
         """
         return self.game.get_cards_names()
-
-    def set_deck(self, deck_title: str) -> None:
-        """Calls the game method to load a deck from the decks dir.
-
-        ### Args:
-            `deck_title (str)`: The name of the deck to be loaded.
-        """
-        self.game.set_deck(deck_title)
 
     def start_quiz(self) -> None:
         """

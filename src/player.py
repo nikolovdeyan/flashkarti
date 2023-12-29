@@ -19,9 +19,9 @@ class Player:
         self.total_correct += correct
         self.total_partial += partial
         self.total_incorrect += incorrect
-        self.update_total_scores()
+        self.update_total_score()
 
-    def update_total_scores(self):
+    def update_total_score(self):
         self.total_score = self.total_correct + (self.total_partial / 2)
 
     def update_average_correct(self, correct, partial, num_questions):

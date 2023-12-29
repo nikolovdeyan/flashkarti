@@ -26,34 +26,61 @@ class Game:
         if not self.settings:
             raise AttributeError("Game instantiated without provided settings.")
 
-    def draw_quiz_cards(self, num_cards: int) -> None:
-        quiz_cards = random.sample(self.deck._cards, num_cards)
-        new_deck = Deck(self.deck.title, quiz_cards)
-        self.deck = new_deck
+    def load_player(self, player_name: str) -> None:
+        """Loads a player with the provided name in the game.
 
-    def set_player(self, player_name: str) -> None:
-        player_info = self.get_player_info(player_name)
+        ### Args:
+            `player_name (str)`: The name of the player to be loaded.
+
+        ### Raises:
+            `ValueError`: If the provided name doesn't exist in the game settings.
+        """
+        players_list = self.list_player_names()
+        players_info = self.settings.players
+
+        if not player_name in players_list:
+            raise ValueError("Can't set an unknown player. Create the player first.")
+
+        player_info = players_info[players_list.index(player_name)]
         self.player = Player(player_info.get("name"), player_info.get("stats"))
         logging.debug(f"Player loaded: {self.player}")
 
-    def get_player_info(self, player_name: str) -> dict:
-        players_list = self.get_players_list()
-        players_info = self.settings.players
-        if not player_name in players_list:
-            raise ValueError("Can't set an unknown player. Create the player first.")
-        player_dict = players_info[players_list.index(player_name)]
-        return player_dict
+    def load_deck(self, deck_title: str) -> None:
+        """Loads a deck with the provided title in the game.
+
+        ### Args:
+            `deck_title (str)`: The title of the deck to be loaded.
+        """
+        deck_title_to_files = self._get_deck_title_to_files()
+        deck_file = deck_title_to_files.get(deck_title)
+
+        with open(deck_file, "r") as f:
+            deck_list = json.load(f)
+
+        deck_cards = self._load_deck_cards(deck_list)
+
+        deck = Deck(title=deck_title, cards=deck_cards)
+        self.deck = deck
+        logger.debug(f"Deck loaded: {self.deck}")
 
     def get_player_name(self) -> str:
-        """Returns the player name if a player is set, else "".
+        """Returns the player name of the player set in the game, else "".
 
         ### Returns:
             `str`: The player name loaded in the game.
         """
         return "" if not self.player else self.player.name
 
-    def get_players_list(self) -> List[str]:
-        """Returns a list of the player names available in the settings.
+    def get_deck_title(self) -> str:
+        """Returns the deck title of the deck set in the game, else "".
+
+        ### Returns:
+            `str`: The deck title loaded in the game.
+        """
+        return "" if not self.deck else self.deck.title
+
+    def list_player_names(self) -> List[str]:
+        """Returns a list of the player names available in the settings, else [].
 
         ### Returns:
             `List[str]`: A list of player names.
@@ -62,13 +89,7 @@ class Game:
             return []
         return [player.get("name") for player in self.settings.players]
 
-    def get_deck_title(self) -> str:
-        """Returns the deck title if a deck is set, else "".
-
-        ### Returns:
-            `str`: The deck title loaded in the game.
-        """
-        return "" if not self.deck else self.deck.title
+    ### ------ CURRENT LINE  ------ ###
 
     def get_cards_names(self) -> List[str]:
         return [card.title for card in self.deck._cards]
@@ -117,42 +138,56 @@ class Game:
         self.deck.prev_card()
         return self.deck.draw_current_card()
 
-    def set_deck(self, deck_title):
-        decks_dict = {}
+    def create_new_card(self):
+        card = Card("New Card", "New Question", "New Answer", "New References")
+        self.deck.add_card(card)
+
+    def start_quiz(self) -> None:
+        self.deck.shuffle_deck()
+        num_cards_to_draw = int(self.settings.num_questions_per_round)
+        self.deck = self._draw_quiz_cards(self.deck, num_cards_to_draw)
+        logger.info(f"Game starting: {self}")
+        logger.debug(f"Game started with cards: {self.deck._cards}")
+
+    def _get_deck_title_to_files(self) -> dict:
+        """A helper function returning a mapping of deck title to a respective filepath."""
+        result = {}
         for f in os.listdir(DECKS_DIR):
             if os.path.isfile(os.path.join(DECKS_DIR, f)):
-                deck_title = " ".join(
-                    os.path.basename(f).split(".")[0].split("_")
-                ).title()
-                decks_dict[deck_title] = os.path.abspath(os.path.join(DECKS_DIR, f))
+                title = " ".join(os.path.basename(f).split(".")[0].split("_")).title()
+                result[title] = os.path.abspath(os.path.join(DECKS_DIR, f))
+        return result
 
-        deck_file = decks_dict.get(deck_title)
-        with open(deck_file, "r") as f:
-            deck_list = json.load(f)
+    def _load_deck_cards(self, cards_info: List[dict]) -> List[Card]:
+        """A helper function to create a collection of cards.
 
-        deck_cards = []
-        for card_dict in deck_list:
+        Args:
+            `cards_info (List)`: A collection containing the cards' infomation.
+
+        Returns:
+            `List[Card]`: A collection of Card objects.
+        """
+        result = []
+        for card_dict in cards_info:
             card = Card(
                 title=card_dict.get("title"),
                 contents=card_dict.get("contents"),
                 answer=card_dict.get("answer"),
                 references=card_dict.get("references"),
             )
-            deck_cards.append(card)
+            result.append(card)
+        return result
 
-        deck = Deck(title=deck_title, cards=deck_cards)
-        self.deck = deck
-        logger.debug(f"Deck loaded: {self.deck}")
+    def _draw_quiz_cards(self, deck: Deck, num_cards: int) -> Deck:
+        """Creates a new Deck containing only the randomly drawn cards.
 
-    def create_new_card(self):
-        card = Card("New Card", "New Question", "New Answer", "New References")
-        self.deck.add_card(card)
-
-    def start_quiz(self):
-        self.deck.shuffle_deck()
-        self.draw_quiz_cards(int(self.settings.num_questions_per_round))
-        logger.debug(f"Game starting: {self}")
-        logger.debug(f"Game started with cards: {self.deck._cards}")
+        Args:
+            `deck (Deck)`: A deck of cards to draw from.
+            `num_cards (int)`: The number of cards to be drawn.
+        """
+        quiz_cards = random.sample(deck._cards, num_cards)
+        result = Deck(deck.title, quiz_cards)
+        return result
 
     def __repr__(self):
         return f"Game with deck: {self.deck.title}, player: {self.player} and settings: {self.settings}"

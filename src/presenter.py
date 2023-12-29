@@ -46,14 +46,14 @@ class MenuWindowPresenter(QtCore.QObject):
     def on_select_deck_clicked(self):
         decks_list = self.model.get_decks_list()
         deck_name = self.view.select_deck_dialog(decks_list)
-        self.model.set_deck(deck_name)
+        self.model.load_deck(deck_name)
         self.update_deck_display()
         self.update_start_quiz_btn_display()
 
     def on_select_player_clicked(self):
-        players_list = self.model.get_players_list()
+        players_list = self.model.list_players_names()
         player_name = self.view.select_player(players_list)
-        self.model.set_player(player_name)
+        self.model.load_player(player_name)
         self.update_player_display()
         self.update_start_quiz_btn_display()
 
@@ -80,85 +80,6 @@ class MenuWindowPresenter(QtCore.QObject):
             self.view.menuwindow.start_quiz_btn.setEnabled(True)
         else:
             self.view.menuwindow.start_quiz_btn.setEnabled(False)
-
-    def about(self):
-        self.view.show_about_message(self.view.menuwindow)
-
-    def quit(self):
-        self.model.quit()
-        self.view.quit()
-
-
-class DesignerWindowPresenter(QtCore.QObject):
-    def __init__(self, model, view, app):
-        super(DesignerWindowPresenter, self).__init__()
-
-        self.model = model
-        self.view = view
-        self.app = app
-
-        self.connectSignals()
-
-    def connectSignals(self):
-        self.view.designerwindow.myQuitSignal.connect(self.quit)
-        self.view.designerwindow.actionQuit.triggered.connect(self.quit)
-        self.view.designerwindow.actionAbout.triggered.connect(self.about)
-        self.view.designerwindow.new_deck_btn.clicked.connect(self.on_new_deck_button)
-        self.view.designerwindow.load_deck_btn.clicked.connect(
-            self.on_load_deck_clicked
-        )
-        self.view.designerwindow.add_card_btn.clicked.connect(self.on_add_card_clicked)
-        self.view.designerwindow.delete_card_btn.clicked.connect(
-            self.on_delete_card_clicked
-        )
-        self.view.designerwindow.save_card_btn.clicked.connect(
-            self.on_save_card_clicked
-        )
-        self.view.designerwindow.exit_designer_btn.clicked.connect(
-            self.on_exit_designer_clicked
-        )
-        self.view.designerwindow.deck_cards_listwidget.itemClicked.connect(
-            self.on_deck_cards_item_clicked
-        )
-
-    def on_deck_cards_item_clicked(self, item):
-        card_title = item.text()
-        self.model.set_current_card_index(card_title)
-        self.view.designerwindow.display_card(
-            self.model.get_card_display_by_card_title(card_title)
-        )
-
-    def on_new_deck_button(self):
-        pass
-
-    def on_load_deck_clicked(self):
-        decks_list = self.model.get_decks_list()
-        deck_title = self.view.select_deck_dialog(decks_list)
-        self.model.set_deck(deck_title)
-        self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
-
-    def on_add_card_clicked(self):
-        self.model.create_new_card()
-        self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
-
-    def on_delete_card_clicked(self):
-        pass
-
-    def on_save_card_clicked(self):
-        self.model.set_current_card(
-            {
-                "card_title": self.view.designerwindow.card_title_lineedit.text(),
-                "card_contents": self.view.designerwindow.question_textedit.toHtml(),
-                "answer": self.view.designerwindow.expected_answer_textedit.toHtml(),
-            }
-        )
-        self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
-
-    def on_exit_designer_clicked(self):
-        self.view.start_menu()
 
     def about(self):
         self.view.show_about_message(self.view.menuwindow)
@@ -300,6 +221,85 @@ class ScoringWindowPresenter(QtCore.QObject):
 
     def about(self):
         self.view.show_about_message(self.view.scorewindow)
+
+    def quit(self):
+        self.model.quit()
+        self.view.quit()
+
+
+class DesignerWindowPresenter(QtCore.QObject):
+    def __init__(self, model, view, app):
+        super(DesignerWindowPresenter, self).__init__()
+
+        self.model = model
+        self.view = view
+        self.app = app
+
+        self.connectSignals()
+
+    def connectSignals(self):
+        self.view.designerwindow.myQuitSignal.connect(self.quit)
+        self.view.designerwindow.actionQuit.triggered.connect(self.quit)
+        self.view.designerwindow.actionAbout.triggered.connect(self.about)
+        self.view.designerwindow.new_deck_btn.clicked.connect(self.on_new_deck_button)
+        self.view.designerwindow.load_deck_btn.clicked.connect(
+            self.on_load_deck_clicked
+        )
+        self.view.designerwindow.add_card_btn.clicked.connect(self.on_add_card_clicked)
+        self.view.designerwindow.delete_card_btn.clicked.connect(
+            self.on_delete_card_clicked
+        )
+        self.view.designerwindow.save_card_btn.clicked.connect(
+            self.on_save_card_clicked
+        )
+        self.view.designerwindow.exit_designer_btn.clicked.connect(
+            self.on_exit_designer_clicked
+        )
+        self.view.designerwindow.deck_cards_listwidget.itemClicked.connect(
+            self.on_deck_cards_item_clicked
+        )
+
+    def on_deck_cards_item_clicked(self, item):
+        card_title = item.text()
+        self.model.set_current_card_index(card_title)
+        self.view.designerwindow.display_card(
+            self.model.get_card_display_by_card_title(card_title)
+        )
+
+    def on_new_deck_button(self):
+        pass
+
+    def on_load_deck_clicked(self):
+        decks_list = self.model.get_decks_list()
+        deck_title = self.view.select_deck_dialog(decks_list)
+        self.model.load_deck(deck_title)
+        self.view.designerwindow.clear_deck_cards()
+        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+
+    def on_add_card_clicked(self):
+        self.model.create_new_card()
+        self.view.designerwindow.clear_deck_cards()
+        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+
+    def on_delete_card_clicked(self):
+        pass
+
+    def on_save_card_clicked(self):
+        self.model.set_current_card(
+            {
+                "card_title": self.view.designerwindow.card_title_lineedit.text(),
+                "card_contents": self.view.designerwindow.question_textedit.toHtml(),
+                "answer": self.view.designerwindow.expected_answer_textedit.toHtml(),
+            }
+        )
+        self.view.designerwindow.clear_deck_cards()
+        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+
+    def on_exit_designer_clicked(self):
+        self.view.start_menu()
+
+    def about(self):
+        self.view.show_about_message(self.view.menuwindow)
 
     def quit(self):
         self.model.quit()
