@@ -4,6 +4,30 @@ from src.game import Game
 
 
 @pytest.fixture
+def fx_deck(mocker):
+    fake_card_1 = mocker.patch("src.card.Card")
+    fake_card_1.title = "Fake Card 1"
+    fake_card_1.contents = "Fake Card 1 Contents"
+    fake_card_1.answer = "Fake Card 1 Answer"
+    fake_card_1.user_answer = None
+    fake_card_1.answer_score = None
+
+    fake_card_2 = mocker.patch("src.card.Card")
+    fake_card_2.title = "Fake Card 2"
+    fake_card_2.contents = "Fake Card 2 Contents"
+    fake_card_2.answer = "Fake Card 2 Answer"
+    fake_card_2.user_answer = None
+    fake_card_2.answer_score = None
+
+    fake_deck = mocker.patch("src.deck.Deck")
+    fake_deck.title = "Fake Deck"
+    fake_deck.cards = [fake_card_1, fake_card_2]
+    fake_deck.size = 2
+
+    yield fake_deck
+
+
+@pytest.fixture
 def fx_settings(mocker):
     fake_settings = mocker.patch("src.settings.Settings")
     fake_settings.players = [
@@ -45,7 +69,7 @@ def test__load_player__with_unknown_player_name__raises_ValueError(fx_settings):
         game.load_player("Unknown Player")
 
 
-def test__load_player__with_player_name__sets_player(fx_settings):
+def test__load_player__with_player_name__loads_player(fx_settings):
     game = Game(fx_settings)
     expected_result = "Fake Player 1"
 
@@ -55,7 +79,14 @@ def test__load_player__with_player_name__sets_player(fx_settings):
     assert result == expected_result
 
 
-def test__get_player_name__with_unset_player__returns_empty_string(fx_settings):
+def test__load_deck__with_unknown_deck__raises_ValueError(fx_settings):
+    game = Game(fx_settings)
+
+    with pytest.raises(ValueError):
+        game.load_deck("Unknown Deck")
+
+
+def test__get_player_name__without_player_loaded__returns_empty_string(fx_settings):
     game = Game(fx_settings)
     expected_result = ""
 
@@ -65,7 +96,7 @@ def test__get_player_name__with_unset_player__returns_empty_string(fx_settings):
     assert result == expected_result
 
 
-def test__get_player_name__with_set_player__returns_player_name(mocker, fx_settings):
+def test__get_player_name__with_player_loaded__returns_player_name(mocker, fx_settings):
     expected_result = "Fake Player 0"
     fake_player = mocker.patch("src.player.Player")
     fake_player.name = expected_result
@@ -73,6 +104,28 @@ def test__get_player_name__with_set_player__returns_player_name(mocker, fx_setti
     game.player = fake_player
 
     result = game.get_player_name()
+
+    assert result == expected_result
+
+
+def test__get_deck_title__with_unset_deck__returns_empty_string(fx_settings):
+    game = Game(fx_settings)
+    expected_result = ""
+
+    result = game.get_deck_title()
+
+    assert type(result) is str
+    assert result == expected_result
+
+
+def test__get_deck_title__with_set_deck__returns_deck_name(mocker, fx_settings):
+    expected_result = "Fake Deck"
+    fake_deck = mocker.patch("src.deck.Deck")
+    fake_deck.title = expected_result
+    game = Game(fx_settings)
+    game.deck = fake_deck
+
+    result = game.get_deck_title()
 
     assert result == expected_result
 
@@ -96,23 +149,11 @@ def test__list_player_names__with_settings_loaded__returns_players_list(fx_setti
     assert result == expected_result
 
 
-def test__get_deck_title__with_unset_deck__returns_empty_string(fx_settings):
+def test__list_card_titles__with_deck_loaded__returns_card_titles(fx_settings, fx_deck):
+    expected_result = ["Fake Card 1", "Fake Card 2"]
     game = Game(fx_settings)
-    expected_result = ""
+    game.deck = fx_deck
 
-    result = game.get_deck_title()
-
-    assert type(result) is str
-    assert result == expected_result
-
-
-def test__get_deck_title__with_set_deck__returns_deck_name(mocker, fx_settings):
-    expected_result = "Fake Deck"
-    fake_deck = mocker.patch("src.deck.Deck")
-    fake_deck.title = expected_result
-    game = Game(fx_settings)
-    game.deck = fake_deck
-
-    result = game.get_deck_title()
+    result = game.list_card_titles()
 
     assert result == expected_result

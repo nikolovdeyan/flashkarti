@@ -83,13 +83,13 @@ class FkModel(QtCore.QObject):
         """
         return self.game.get_deck_title()
 
-    def get_cards_names(self) -> List[str]:
-        """Returns the names of cards available in currently loaded deck
+    def list_card_titles(self) -> List[str]:
+        """Returns the titles of cards available in currently loaded deck
 
         ### Returns:
-            `List[str]`: A list of the cards' names.
+            `List[str]`: A list of the cards' titles.
         """
-        return self.game.get_cards_names()
+        return self.game.list_card_titles()
 
     def start_quiz(self) -> None:
         """
@@ -104,7 +104,8 @@ class FkModel(QtCore.QObject):
         ### Returns:
             `dict`: The display information of the next card in the deck.
         """
-        return self.game.get_card_display(self.game.get_next_card())
+        self.game.deck.next_card()
+        return self.game.get_card_display_data(self.game.deck.get_current_card())
 
     def get_prev_card_display(self) -> dict:
         """
@@ -113,7 +114,8 @@ class FkModel(QtCore.QObject):
         ### Returns:
             `dict`: The display information of the previous card in the deck.
         """
-        return self.game.get_card_display(self.game.get_prev_card())
+        self.game.deck.prev_card()
+        return self.game.get_card_display_data(self.game.deck.get_current_card())
 
     def get_current_card_display(self) -> dict:
         """
@@ -122,7 +124,7 @@ class FkModel(QtCore.QObject):
         ### Returns:
             `dict`: The display information of the current card in the deck.
         """
-        return self.game.get_card_display(self.game.get_current_card())
+        return self.game.get_card_display_data(self.game.deck.get_current_card())
 
     def get_card_display_by_card_title(self, card_title: str) -> dict:
         """Returns the display information of a card by given card title.
@@ -133,7 +135,9 @@ class FkModel(QtCore.QObject):
         Returns:
             `dict`: The display information of the requested card.
         """
-        return self.game.get_card_display(self.game.get_card_by_title(card_title))
+        return self.game.get_card_display_data(
+            self.game.deck.get_card_by_title(card_title)
+        )
 
     def set_current_card(self, current_card: dict) -> None:
         """Persists the state of the current card in the deck.

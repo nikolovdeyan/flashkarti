@@ -195,6 +195,8 @@ class ScoringWindowPresenter(QtCore.QObject):
         self.view.start_menu()
 
     def on_end_scoring_clicked(self):
+        score = self.score_answer()
+        self.model.set_current_card({"answer_score": score})
         quiz_scores = self.model.calculate_quiz_scores()
 
         num_correct = 0
@@ -210,6 +212,7 @@ class ScoringWindowPresenter(QtCore.QObject):
 
         self.model.update_player_scores(num_correct, num_partial, num_incorrect)
         self.view.scorewindow.show_score_result_dialog(quiz_scores)
+        self.view.start_menu()
 
     def score_answer(self) -> float:
         if self.view.scorewindow.score_answer_complete_btn.isChecked():
@@ -274,12 +277,12 @@ class DesignerWindowPresenter(QtCore.QObject):
         deck_title = self.view.select_deck_dialog(decks_list)
         self.model.load_deck(deck_title)
         self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+        self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
     def on_add_card_clicked(self):
         self.model.create_new_card()
         self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+        self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
     def on_delete_card_clicked(self):
         pass
@@ -293,7 +296,7 @@ class DesignerWindowPresenter(QtCore.QObject):
             }
         )
         self.view.designerwindow.clear_deck_cards()
-        self.view.designerwindow.display_deck_cards(self.model.get_cards_names())
+        self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
     def on_exit_designer_clicked(self):
         self.view.start_menu()

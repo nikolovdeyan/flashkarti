@@ -27,7 +27,7 @@ def test__add_card__with_card_added__appends_card(fx_cards):
 
     deck.add_card(fake_card)
 
-    assert fake_card in deck._cards
+    assert fake_card in deck.cards
 
 
 def test__add_card__with_card_added__updates_size(fx_cards):
@@ -44,18 +44,18 @@ def test__add_card__with_card_added__updates_size(fx_cards):
 def test__remove_card__with_existing_card__removes_card(fx_cards):
     deck = Deck()
     fake_card = fx_cards[0]
-    deck._cards.append(fake_card)
+    deck.cards.append(fake_card)
     deck.size = 1
 
     deck.remove_card(fake_card)
 
-    assert fake_card not in deck._cards
+    assert fake_card not in deck.cards
 
 
 def test__remove_card__with_existing_card__updates_size(fx_cards):
     deck = Deck()
     fake_card = fx_cards[0]
-    deck._cards.append(fake_card)
+    deck.cards.append(fake_card)
     deck.size = 1
 
     deck.remove_card(fake_card)

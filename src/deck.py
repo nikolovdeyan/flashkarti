@@ -26,7 +26,7 @@ class Deck:
     def __init__(self, title=None, cards=None):
         self.title = title
         self.size = 0
-        self._cards = cards if cards else []
+        self.cards = cards if cards else []
         self._curr_card_index = 0
         self._num_answered_cards = 0
         self._update_size()
@@ -37,9 +37,9 @@ class Deck:
         ### Args:
             `card (Card)`: The card to be added to the deck.
         """
-        self._cards.append(card)
+        self.cards.append(card)
         self._update_size()
-        self._curr_card_index = len(self._cards) - 1
+        self._curr_card_index = len(self.cards) - 1
 
     def remove_card(self, card: Card) -> None:
         """Removes a provided card from the deck.
@@ -47,70 +47,71 @@ class Deck:
         ### Args:
             `card (Card)`: The card to be removed from the deck.
         """
-        for deck_card in self._cards:
+        for deck_card in self.cards:
             if deck_card.title == card.title:
-                self._cards.remove(deck_card)
+                self.cards.remove(deck_card)
                 self._update_size()
 
-    def draw_current_card(self) -> Card:
-        return self._cards[self._curr_card_index]
+    ### ------ CURRENT LINE  ------ ###
 
-    def set_current_card_index(self, card_title) -> None:
-        logger.debug(f"Requesting card title: {card_title}")
+    def get_current_card(self) -> Card:
+        return self.cards[self._curr_card_index]
+
+    def get_card_by_title(self, card_title: str) -> Card:
         try:
-            self._curr_card_index = [card.title for card in self._cards].index(
+            index = [card.title for card in self.cards].index(card_title)
+        except ValueError:
+            logger.error("Unknown card title requested")
+            return
+        return self.cards[index]
+
+    def set_current_card_index(self, card_title: str) -> None:
+        try:
+            self._curr_card_index = [card.title for card in self.cards].index(
                 card_title
             )
         except ValueError:
             logger.error("Unknown card title requested")
             return
 
-    def draw_card(self, card_title) -> Card:
-        try:
-            index = [card.title for card in self._cards].index(card_title)
-        except ValueError:
-            logger.error("Unknown card title requested")
-            return
-        return self._cards[index]
+    def get_current_card_number(self) -> str:
+        return str(self._curr_card_index + 1)
 
-    def next_card(self):
+    def next_card(self) -> None:
         if self._curr_card_index >= self.size - 1:
             self._curr_card_index = 0
         else:
             self._curr_card_index += 1
 
-    def prev_card(self):
+    def prev_card(self) -> None:
         if self._curr_card_index == 0:
             self._curr_card_index = self.size - 1
         else:
             self._curr_card_index -= 1
 
-    def get_current_card_number(self):
-        return str(self._curr_card_index + 1)
-
-    def get_progress(self):
+    def get_progress_percentage(self) -> int:
         if not self.size:
             return 0
         return int(round(self._num_answered_cards / self.size, 2) * 100)
 
     def get_quiz_scores(self) -> List[Tuple[str, float]]:
         scores = []
-        for card in self._cards:
+        for card in self.cards:
             scores.append((card.title, card.answer_score))
         return scores
 
-    def shuffle_deck(self):
-        random.shuffle(self._cards)
+    def shuffle(self) -> None:
+        random.shuffle(self.cards)
 
-    def _update_size(self):
-        self.size = len(self._cards)
+    def _update_size(self) -> None:
+        self.size = len(self.cards)
 
-    def _update_num_answered_cards(self):
+    def _update_num_answered_cards(self) -> None:
         result = 0
-        for card in self._cards:
+        for card in self.cards:
             if card.user_answer:
                 result += 1
         self._num_answered_cards = result
 
-    def __repr__(self):
-        return f"Deck: {self.title}: {[card for card in self._cards]}"
+    def __repr__(self) -> str:
+        return f"Deck: {self.title}: {[card for card in self.cards]}"

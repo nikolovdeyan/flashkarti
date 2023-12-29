@@ -48,11 +48,19 @@ class Game:
     def load_deck(self, deck_title: str) -> None:
         """Loads a deck with the provided title in the game.
 
+        TODO: This method is hard to test with all the instantiation going on inside it.
+
         ### Args:
             `deck_title (str)`: The title of the deck to be loaded.
+
+        ### Raises:
+            `ValueError`: If the provided deck doesn't exist in the decks dir.
         """
         deck_title_to_files = self._get_deck_title_to_files()
         deck_file = deck_title_to_files.get(deck_title)
+
+        if not deck_file:
+            raise ValueError("Can't set an unknown deck. Create the deck first.")
 
         with open(deck_file, "r") as f:
             deck_list = json.load(f)
@@ -89,32 +97,33 @@ class Game:
             return []
         return [player.get("name") for player in self.settings.players]
 
+    def list_card_titles(self) -> List[str]:
+        """Returns a list of the card titles available in the loaded deck.
+
+        Returns:
+            `List[str]`: A list of card titles.
+        """
+        return [card.title for card in self.deck.cards]
+
     ### ------ CURRENT LINE  ------ ###
 
-    def get_cards_names(self) -> List[str]:
-        return [card.title for card in self.deck._cards]
-
-    def get_card_display(self, card):
+    def get_card_display_data(self, card: Card) -> dict:
+        # ? get_quiz_card_display
         card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.size}: {card.title}"
         logger.debug(f"Current card: {card}")
-        return {
+        result = {
             "deck_title": self.deck.title,
             "card_title": card_title,
             "card_contents": card.contents,
             "answer": card.answer,
             "user_answer": card.user_answer,
             "answer_score": card.answer_score,
-            "num_answered_cards": self.deck.get_progress(),
+            "num_answered_cards": self.deck.get_progress_percentage(),
         }
-
-    def get_current_card(self) -> Card:
-        return self.deck.draw_current_card()
-
-    def get_card_by_title(self, card_title) -> Card:
-        return self.deck.draw_card(card_title)
+        return result
 
     def set_current_card(self, card_values: dict) -> None:
-        card = self.deck.draw_current_card()
+        card = self.deck.get_current_card()
         if card_values.get("card_title") is not None:
             card.title = card_values.get("card_title")
         if card_values.get("card_contents") is not None:
@@ -130,24 +139,16 @@ class Game:
     def set_current_card_index(self, card_title: str):
         self.deck.set_current_card_index(card_title)
 
-    def get_next_card(self) -> Card:
-        self.deck.next_card()
-        return self.deck.draw_current_card()
-
-    def get_prev_card(self) -> Card:
-        self.deck.prev_card()
-        return self.deck.draw_current_card()
-
     def create_new_card(self):
         card = Card("New Card", "New Question", "New Answer", "New References")
         self.deck.add_card(card)
 
     def start_quiz(self) -> None:
-        self.deck.shuffle_deck()
+        self.deck.shuffle()
         num_cards_to_draw = int(self.settings.num_questions_per_round)
         self.deck = self._draw_quiz_cards(self.deck, num_cards_to_draw)
         logger.info(f"Game starting: {self}")
-        logger.debug(f"Game started with cards: {self.deck._cards}")
+        logger.debug(f"Game started with cards: {self.deck.cards}")
 
     def _get_deck_title_to_files(self) -> dict:
         """A helper function returning a mapping of deck title to a respective filepath."""
@@ -185,7 +186,7 @@ class Game:
             `deck (Deck)`: A deck of cards to draw from.
             `num_cards (int)`: The number of cards to be drawn.
         """
-        quiz_cards = random.sample(deck._cards, num_cards)
+        quiz_cards = random.sample(deck.cards, num_cards)
         result = Deck(deck.title, quiz_cards)
         return result
 

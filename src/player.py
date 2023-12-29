@@ -1,6 +1,9 @@
 """
 Represents a player of the game.
 """
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Player:
@@ -14,11 +17,19 @@ class Player:
         self.average_correct = stats.get("average_correct", 0)
 
     def update_scores(self, correct, partial, incorrect, num_questions):
+        logger.debug("before update_scores:")
+        logger.debug(
+            f"self.total_correct: {self.total_correct}, self.total_partial: {self.total_partial}"
+        )
         self.update_average_correct(correct, partial, num_questions)
         self.rounds_played += 1
         self.total_correct += correct
         self.total_partial += partial
         self.total_incorrect += incorrect
+        logger.debug("after update_scores:")
+        logger.debug(
+            f"self.total_correct: {self.total_correct}, self.total_partial: {self.total_partial}"
+        )
         self.update_total_score()
 
     def update_total_score(self):
