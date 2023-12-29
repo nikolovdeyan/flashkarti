@@ -5,8 +5,7 @@
     "players": [
         {
             "name": "Deo",
-            "stats": 
-            {
+            "stats": {
                 "rounds_played": 0,
                 "total_score": 0,
                 "average_correct": 0
@@ -14,11 +13,10 @@
         },
         {
             "name": "Test Player",
-            "stats": 
-            {
-                "rounds_played": 7,
-                "total_score": 16.0,
-                "average_correct": 0
+            "stats": {
+                "rounds_played": 2,
+                "total_score": 9.0,
+                "average_correct": 75.0
             }
         }
     ]

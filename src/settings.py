@@ -3,11 +3,14 @@ Holds the game settings.
 """
 import os
 import json
+import logging
 
 from player import Player
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
 SETTINGS_FILE = os.path.abspath(os.path.join(GAME_DIR, "settings", "fk_settings.json"))
+
+logger = logging.getLogger(__name__)
 
 
 class Settings:
@@ -33,8 +36,9 @@ class Settings:
 
         for player in players:
             if player.get("name") == current_player.name:
-                player["rounds_played"] += 1
-                player["total_score"] += current_player._total_score
+                player["stats"]["rounds_played"] += 1
+                player["stats"]["total_score"] += current_player.total_score
+                player["stats"]["average_correct"] = current_player.average_correct
 
         settings_dict = {
             "game_settings": game_settings,

@@ -6,27 +6,30 @@ Represents a player of the game.
 class Player:
     def __init__(self, name: str, stats: dict):
         self.name = name
-        self._num_rounds = stats.get("rounds_played", 0)
-        self._total_score = stats.get("total_score", 0)
-        self._total_correct = 0
-        self._total_partial = 0
-        self._total_incorrect = 0
-        self._average_correct = stats.get("average_correct", 0)
+        self.rounds_played = stats.get("rounds_played", 0)
+        self.total_score = stats.get("total_score", 0)
+        self.total_correct = 0
+        self.total_partial = 0
+        self.total_incorrect = 0
+        self.average_correct = stats.get("average_correct", 0)
 
     def update_scores(self, correct, partial, incorrect, num_questions):
-        self._num_rounds += 1
-        self._total_correct += correct
-        self._total_partial += partial
-        self._total_incorrect += incorrect
-        self._update_total_scores()
-        self._update_average_correct(correct, partial, num_questions)
+        self.update_average_correct(correct, partial, num_questions)
+        self.rounds_played += 1
+        self.total_correct += correct
+        self.total_partial += partial
+        self.total_incorrect += incorrect
+        self.update_total_scores()
 
-    def _update_total_scores(self):
-        self._total_score = self._total_correct + (self._total_partial / 2)
+    def update_total_scores(self):
+        self.total_score = self.total_correct + (self.total_partial / 2)
 
-    def _update_average_correct(self, correct, partial, num_questions):
+    def update_average_correct(self, correct, partial, num_questions):
         round_points = correct + (partial / 2)
-        self._average_correct = round(round_points / num_questions * 100, 2)
+        this_round_percentage = round(round_points / num_questions * 100, 2)
+        self.average_correct = (
+            self.average_correct * self.rounds_played + this_round_percentage
+        ) / (self.rounds_played + 1)
 
     def __repr__(self):
-        return f"Player: {self.name}, Average Score: {self._average_correct}"
+        return f"Player: {self.name}, Average Score: {self.average_correct}"
