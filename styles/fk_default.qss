@@ -5,6 +5,25 @@ background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                             stop:1 rgb(255,239,97));
 }
 
+QMenuBar {
+    background-color: #BCAA07;
+    spacing: 3px; /* spacing between menu bar items */
+}
+
+QMenuBar::item {
+    padding: 1px 4px;
+    background: transparent;
+    border-radius: 4px;
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+    background: #a8a8a8;
+}
+
+QMenuBar::item:pressed {
+    background: #888888;
+}
+
 QPushButton {
     border: 1px solid rgb(102, 43, 190);
     border-radius: 2px;
@@ -17,7 +36,7 @@ QPushButton {
 
 QPushButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,
-                                    stop: 0 #dadbde, 
+                                    stop: 0 #3c4e85, 
                                     stop: 1 #f6f7fa);
 }
 
@@ -28,13 +47,13 @@ QPushButton:checked {
 }
 
 QPushButton:hover {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                    stop: 0 #754545, 
-                                    stop: 1 #f6f7fa);
+    background-color: #696FE0;
+    color: #ffffff;
 }
 
 QPushButton:disabled {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                    stop: 0 #754545, 
+                                    stop: 0 #ffffff, 
                                     stop: 1 #f6f7fa);
+    color: #a0a0a0;
 }
