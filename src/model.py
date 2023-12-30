@@ -27,9 +27,17 @@ class FkModel(QtCore.QObject):
         Calls the game method to load a player from the provided string.
 
         ### Args:
-            `player_name` (str): The name of the player to be created.
+            `player_name (str)`: The name of the player to be created.
         """
         self.game.load_player(player_name)
+
+    def new_deck(self, deck_title: str) -> None:
+        """Calls the game method to create a new deck with the provided title.
+
+        ### Args:
+            `deck_title (str)`: The title of the deck to be created.
+        """
+        self.game.new_deck(deck_title)
 
     def load_deck(self, deck_title: str) -> None:
         """Calls the game method to load a deck from the decks dir.

@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QGraphicsDropShadowEffect,
     QApplication,
     QMainWindow,
+    QLineEdit,
     QWidget,
     QStackedWidget,
     QDialog,
@@ -165,6 +166,14 @@ class DesignerWindowView(QWidget, Ui_DesignerWindow):
         self.question_textedit.setHtml(card_data.get("card_contents"))
         self.expected_answer_textedit.setHtml(card_data.get("answer"))
 
+    def new_deck_dialog(self) -> str:
+        dialog = NewDeckDialog()
+        if dialog.exec():
+            new_deck_title = dialog.get_deck_name()
+            dialog.close()
+            return new_deck_title
+        return ""
+
     def show_confirm_save_deck_message(self) -> bool:
         confirm = QMessageBox.question(
             self,
@@ -316,6 +325,34 @@ class SelectPlayerDialog(QDialog):
             return self.players_list.currentItem().text()
         else:
             return ""
+
+
+class NewDeckDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.setMinimumWidth(300)
+        self.setWindowTitle("New deck")
+
+        message = QLabel("Name the new deck")
+
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.button_box = QDialogButtonBox(q_btn)
+
+        self.deck_name = QLineEdit()
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(message)
+        self.layout.addWidget(self.deck_name)
+        self.layout.addWidget(self.button_box)
+
+        self.button_box.accepted.connect(self.accept)
+        self.button_box.rejected.connect(self.reject)
+
+        self.setLayout(self.layout)
+
+    def get_deck_name(self):
+        return self.deck_name.text()
 
 
 class SelectDeckDialog(QDialog):

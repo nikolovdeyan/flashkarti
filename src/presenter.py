@@ -273,7 +273,8 @@ class DesignerWindowPresenter(QtCore.QObject):
         )
 
     def on_new_deck_button(self):
-        pass
+        deck_title = self.view.designerwindow.new_deck_dialog()
+        self.model.new_deck(deck_title)
 
     def on_load_deck_clicked(self):
         decks_list = self.model.get_decks_list()

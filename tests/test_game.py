@@ -86,6 +86,13 @@ def test__load_deck__with_unknown_deck__raises_ValueError(fx_settings):
         game.load_deck("Unknown Deck")
 
 
+def test__save_deck__without_deck_loaded__raises_AttributeError(fx_settings):
+    game = Game(fx_settings)
+
+    with pytest.raises(AttributeError):
+        game.save_deck()
+
+
 def test__get_player_name__without_player_loaded__returns_empty_string(fx_settings):
     game = Game(fx_settings)
     expected_result = ""

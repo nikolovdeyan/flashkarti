@@ -45,6 +45,16 @@ class Game:
         self.player = Player(player_info.get("name"), player_info.get("stats"))
         logging.debug(f"Player loaded: {self.player}")
 
+    ### ------ CURRENT LINE  ------ ###
+
+    def new_deck(self, deck_title: str) -> None:
+        """Creates a new deck with the provided title and loads it in the game.
+
+        ### Args:
+            `deck_title (str)`: The title of the new deck to be created.
+        """
+        self.deck = Deck(title=deck_title)
+
     def load_deck(self, deck_title: str) -> None:
         """Loads a deck with the provided title in the game.
 
@@ -72,6 +82,10 @@ class Game:
         logger.debug(f"Deck loaded: {self.deck}")
 
     def save_deck(self) -> None:
+        """TODO: testing"""
+        if not self.deck:
+            raise AttributeError("No deck loaded in Deck Designer. Load a deck first.")
+
         deck_filename = "_".join(self.deck.title.lower().split()) + ".json"
         with open(os.path.join(DECKS_DIR, deck_filename), "w") as f:
             cards = [card.to_dict() for card in self.deck.cards]
@@ -111,8 +125,6 @@ class Game:
             `List[str]`: A list of card titles.
         """
         return [card.title for card in self.deck.cards]
-
-    ### ------ CURRENT LINE  ------ ###
 
     def get_card_display_data(self, card: Card) -> dict:
         # ? get_quiz_card_display
