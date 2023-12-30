@@ -186,9 +186,12 @@ class QuizWindowView(QWidget, Ui_QuizWindow):
         else:
             return False
 
-    def display_quiz_card(self, card_data):
+    def display_quiz_card(self, card_data: dict) -> None:
+        question_number = card_data.get("question_number")
+        card_title = card_data.get("card_title")
+
         self.deck_title_label.setText(card_data.get("deck_title"))
-        self.card_title_label.setText(card_data.get("card_title"))
+        self.card_title_label.setText(f"Question {question_number}: {card_title}")
         self.card_question_field.setText(card_data.get("card_contents"))
         self.card_answer_field.setPlainText(card_data.get("user_answer"))
         self.quiz_progress_bar.setValue(card_data.get("num_answered_cards"))

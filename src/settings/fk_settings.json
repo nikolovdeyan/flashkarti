@@ -17,12 +17,12 @@
         {
             "name": "Test Player",
             "stats": {
-                "rounds_played": 2,
+                "rounds_played": 3,
                 "total_score": 7.0,
                 "total_correct": 5,
                 "total_partial": 4,
                 "total_incorrect": 3,
-                "average_correct": 58.34
+                "average_correct": 38.89
             }
         }
     ]

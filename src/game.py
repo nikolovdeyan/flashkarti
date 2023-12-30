@@ -109,11 +109,12 @@ class Game:
 
     def get_card_display_data(self, card: Card) -> dict:
         # ? get_quiz_card_display
-        card_title = f"Question {self.deck.get_current_card_number()} of {self.deck.size}: {card.title}"
+        question_number = f"{self.deck.get_current_card_number()} of {self.deck.size}"
         logger.debug(f"Current card: {card}")
         result = {
             "deck_title": self.deck.title,
-            "card_title": card_title,
+            "question_number": question_number,
+            "card_title": card.title,
             "card_contents": card.contents,
             "answer": card.answer,
             "user_answer": card.user_answer,
