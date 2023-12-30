@@ -299,24 +299,6 @@
      <pixmap>:/fk_logo.svg</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="welcome_label">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>20</y>
-      <width>351</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>24</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Welcome to FlashKarti</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -336,10 +318,10 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>100</y>
-      <width>160</width>
-      <height>150</height>
+      <x>310</x>
+      <y>10</y>
+      <width>300</width>
+      <height>220</height>
      </rect>
     </property>
     <property name="text">

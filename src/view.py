@@ -4,6 +4,7 @@ from typing import List
 
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
+    QGraphicsDropShadowEffect,
     QApplication,
     QMainWindow,
     QWidget,
