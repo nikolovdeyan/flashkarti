@@ -1,7 +1,7 @@
 """
 Represents a flashcard, storing the attributes of a single card.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional
 
 
@@ -31,6 +31,16 @@ class Card:
     references: str
     user_answer: Optional[str] = None
     answer_score: Optional[float] = None
+
+    def to_dict(self) -> dict:
+        """Extract the fields to save as dictionary.
+
+        ### Returns:
+            `dict`: A dictionary including the fields to be saved.
+        """
+        result = asdict(self)
+        fields_to_save = ["title", "contents", "answer", "references"]
+        return dict((k, result[k]) for k in fields_to_save if k in result)
 
     def __repr__(self) -> str:
         """Returns a screen representation of a Card.

@@ -56,7 +56,7 @@ class Game:
         ### Raises:
             `ValueError`: If the provided deck doesn't exist in the decks dir.
         """
-        deck_title_to_files = self._get_deck_title_to_files()
+        deck_title_to_files = self._get_deck_title_to_files_mapping()
         deck_file = deck_title_to_files.get(deck_title)
 
         if not deck_file:
@@ -70,6 +70,13 @@ class Game:
         deck = Deck(title=deck_title, cards=deck_cards)
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
+
+    def save_deck(self) -> None:
+        deck_filename = "_".join(self.deck.title.lower().split()) + ".json"
+        with open(os.path.join(DECKS_DIR, deck_filename), "w") as f:
+            cards = [card.to_dict() for card in self.deck.cards]
+            json.dump(cards, f, indent=4)
+        logger.debug(f"File {deck_filename} saved")
 
     def get_player_name(self) -> str:
         """Returns the player name of the player set in the game, else "".
@@ -151,7 +158,7 @@ class Game:
         logger.info(f"Game starting: {self}")
         logger.debug(f"Game started with cards: {self.deck.cards}")
 
-    def _get_deck_title_to_files(self) -> dict:
+    def _get_deck_title_to_files_mapping(self) -> dict:
         """A helper function returning a mapping of deck title to a respective filepath."""
         result = {}
         for f in os.listdir(DECKS_DIR):

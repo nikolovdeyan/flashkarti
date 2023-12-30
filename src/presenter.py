@@ -248,6 +248,9 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.load_deck_btn.clicked.connect(
             self.on_load_deck_clicked
         )
+        self.view.designerwindow.save_deck_btn.clicked.connect(
+            self.on_save_deck_clicked
+        )
         self.view.designerwindow.add_card_btn.clicked.connect(self.on_add_card_clicked)
         self.view.designerwindow.delete_card_btn.clicked.connect(
             self.on_delete_card_clicked
@@ -278,6 +281,13 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.model.load_deck(deck_title)
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
+
+    def on_save_deck_clicked(self):
+        confirm = self.view.designerwindow.show_confirm_save_deck_message()
+        if confirm:
+            self.model.save_deck()
+        else:
+            return
 
     def on_add_card_clicked(self):
         self.model.create_new_card()

@@ -165,6 +165,19 @@ class DesignerWindowView(QWidget, Ui_DesignerWindow):
         self.question_textedit.setHtml(card_data.get("card_contents"))
         self.expected_answer_textedit.setHtml(card_data.get("answer"))
 
+    def show_confirm_save_deck_message(self) -> bool:
+        confirm = QMessageBox.question(
+            self,
+            "Save your deck?",
+            "Are you sure you want to save your deck? Changes on saved decks are unrecoverable.",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if confirm == QMessageBox.Ok:
+            return True
+        else:
+            return False
+
 
 class QuizWindowView(QWidget, Ui_QuizWindow):
     myQuitSignal = QtCore.Signal()

@@ -39,6 +39,10 @@ class FkModel(QtCore.QObject):
         """
         self.game.load_deck(deck_title)
 
+    def save_deck(self) -> None:
+        """Calls the deck method to persist any changes made."""
+        self.game.save_deck()
+
     def list_players_names(self) -> List[str]:
         """
         Calls the game method to return a list of available players.

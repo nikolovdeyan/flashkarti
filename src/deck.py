@@ -2,6 +2,7 @@
 Represents a deck of cards, storing its state and possible actions.
 """
 import random
+import json
 import logging
 from typing import List, Tuple
 
