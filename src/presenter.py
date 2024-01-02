@@ -296,7 +296,9 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
     def on_delete_card_clicked(self):
-        pass
+        self.model.delete_card_by_title(self.view.designerwindow.get_selected_card())
+        self.view.designerwindow.clear_deck_cards()
+        self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
     def on_save_card_clicked(self):
         self.model.set_current_card(

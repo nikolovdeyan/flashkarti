@@ -163,6 +163,10 @@ class Game:
         card = Card("New Card", "New Question", "New Answer", "New References")
         self.deck.add_card(card)
 
+    def delete_card_by_title(self, card_title: str) -> None:
+        card = self.deck.get_card_by_title(card_title)
+        self.deck.remove_card(card)
+
     def start_quiz(self) -> None:
         self.deck.shuffle()
         num_cards_to_draw = int(self.settings.num_questions_per_round)

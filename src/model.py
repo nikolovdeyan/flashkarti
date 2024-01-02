@@ -166,6 +166,9 @@ class FkModel(QtCore.QObject):
         """Creates a new empty card in the currently loaded deck."""
         self.game.create_new_card()
 
+    def delete_card_by_title(self, card_title: str) -> None:
+        self.game.delete_card_by_title(card_title)
+
     def calculate_quiz_scores(self):
         return self.game.deck.get_quiz_scores()
 
