@@ -1,13 +1,10 @@
 import os
-import json
 import logging
 from typing import List, Dict
 
 from PySide6 import QtCore
 
-from card import Card
 from game import Game
-from deck import Deck
 from settings import Settings
 
 logger = logging.getLogger(__name__)
@@ -62,14 +59,14 @@ class FkModel(QtCore.QObject):
         """
         return self.game.list_player_names()
 
-    def get_player_name(self) -> str:
+    def current_player_name(self) -> str:
         """
         Returns the name of the current player loaded in the game.
 
         ### Returns:
             `str`: The name of the player.
         """
-        return self.game.get_player_name()
+        return self.game.current_player_name()
 
     def get_decks_list(self) -> List[str]:
         """Returns a list of deck names available in the decks directory.
@@ -173,9 +170,13 @@ class FkModel(QtCore.QObject):
         return self.game.deck.get_quiz_scores()
 
     def update_player_scores(self, correct, partial, incorrect):
+        logger.info(
+            f"Quiz ended with {correct} correct, {partial} partial, and {incorrect} incorrect answers."
+        )
         num_questions = int(self.game.settings.num_questions_per_round)
         self.game.player.update_scores(correct, partial, incorrect, num_questions)
         self.game.settings.save_to_file(self.game.player)
+        logger.info(f"New average score for player: {self.game.player.average_correct}")
 
     def quit(self):
-        pass
+        logger.info("Program closed")

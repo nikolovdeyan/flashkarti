@@ -70,11 +70,11 @@ class MenuWindowPresenter(QtCore.QObject):
         self.view.menuwindow.deck_label.setText(f"Selected deck: {deck}")
 
     def update_player_display(self) -> None:
-        player = self.model.get_player_name()
+        player = self.model.current_player_name()
         self.view.menuwindow.player_label.setText(f"Selected player: {player}")
 
     def update_start_quiz_btn_display(self) -> None:
-        player = self.model.get_player_name()
+        player = self.model.current_player_name()
         deck = self.model.get_deck_name()
         if deck and player:
             self.view.menuwindow.start_quiz_btn.setEnabled(True)
@@ -280,6 +280,7 @@ class DesignerWindowPresenter(QtCore.QObject):
         decks_list = self.model.get_decks_list()
         deck_title = self.view.select_deck_dialog(decks_list)
         self.model.load_deck(deck_title)
+        self.view.designerwindow.display_deck_title(deck_title)
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 

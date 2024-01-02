@@ -164,6 +164,9 @@ class DesignerWindowView(QWidget, Ui_DesignerWindow):
     def clear_deck_cards(self) -> None:
         self.deck_cards_listwidget.clear()
 
+    def display_deck_title(self, deck_title: str) -> None:
+        self.deck_designer_label.setText(f"Deck Designer: {deck_title}")
+
     def display_card(self, card_data: dict) -> None:
         self.card_title_lineedit.setText(card_data.get("card_title"))
         self.question_textedit.setHtml(card_data.get("card_contents"))

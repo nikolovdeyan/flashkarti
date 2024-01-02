@@ -92,7 +92,7 @@ class Game:
             json.dump(cards, f, indent=4)
         logger.debug(f"File {deck_filename} saved")
 
-    def get_player_name(self) -> str:
+    def current_player_name(self) -> str:
         """Returns the player name of the player set in the game, else "".
 
         ### Returns:
@@ -171,8 +171,8 @@ class Game:
         self.deck.shuffle()
         num_cards_to_draw = int(self.settings.num_questions_per_round)
         self.deck = self._draw_quiz_cards(self.deck, num_cards_to_draw)
-        logger.info(f"Game starting: {self}")
-        logger.debug(f"Game started with cards: {self.deck.cards}")
+        logger.info(f"Quiz started with {self.deck} and {self.player}")
+        logger.debug(f"Quiz started with cards: {self.deck.cards}")
 
     def _get_deck_title_to_files_mapping(self) -> dict:
         """A helper function returning a mapping of deck title to a respective filepath."""

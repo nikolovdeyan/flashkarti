@@ -93,24 +93,24 @@ def test__save_deck__without_deck_loaded__raises_AttributeError(fx_settings):
         game.save_deck()
 
 
-def test__get_player_name__without_player_loaded__returns_empty_string(fx_settings):
+def test__current_player_name__without_player_loaded__returns_empty_string(fx_settings):
     game = Game(fx_settings)
     expected_result = ""
 
-    result = game.get_player_name()
+    result = game.current_player_name()
 
     assert type(result) is str
     assert result == expected_result
 
 
-def test__get_player_name__with_player_loaded__returns_player_name(mocker, fx_settings):
+def test__current_player_name__with_player__returns_player_name(mocker, fx_settings):
     expected_result = "Fake Player 0"
     fake_player = mocker.patch("src.player.Player")
     fake_player.name = expected_result
     game = Game(fx_settings)
     game.player = fake_player
 
-    result = game.get_player_name()
+    result = game.current_player_name()
 
     assert result == expected_result
 

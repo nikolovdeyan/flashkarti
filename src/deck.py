@@ -115,4 +115,4 @@ class Deck:
         self._num_answered_cards = result
 
     def __repr__(self) -> str:
-        return f"Deck: {self.title}: {[card for card in self.cards]}"
+        return f"Deck: {self.title}"
