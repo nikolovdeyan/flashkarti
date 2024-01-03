@@ -1,0 +1,44 @@
+[
+    {
+        "title": "Basic Text Card",
+        "contents": "This is a basic text card question.",
+        "answer": "This is a basic text card answer.",
+        "references": "New References"
+    },
+    {
+        "title": "Basic Card, Long Text",
+        "contents": "This is a basic card containing long text in paragraphs. \n\nRerum incidunt voluptatem quo aliquid commodi veniam vitae consequatur. Ut quae in facere. Et ab sunt incidunt ea in sed quo. Sequi voluptas ex ipsum aliquam vel error rerum. Explicabo assumenda et qui. Cumque laudantium omnis sit. \nNon soluta iure autem libero fuga molestiae. Ea fuga ut corporis. Unde ducimus ut pariatur. \nMaxime dolor esse adipisci consequatur enim eos. Soluta et eius officia et voluptatem et enim. Asperiores voluptas inventore officia quis eveniet. Est id illum qui ipsum. Dicta modi in temporibus saepe harum aut sed velit. Sit fuga reprehenderit iste et. \nQui debitis aperiam quam. Expedita est voluptatibus aut ratione in consequatur laboriosam. Molestias est aspernatur sint voluptas saepe tempora repellat. Similique et vero ipsum rem quo cum. Illo illum quaerat blanditiis adipisci illum illo. \nSunt consequatur dolorum deserunt. Necessitatibus et rerum sunt eos impedit harum nulla et. Est doloribus maxime aut non qui debitis quia. Veritatis veritatis natus placeat amet tenetur dolorum. Id sed omnis aut sed minima temporibus est dolorem. Sint in earum repellendus. ",
+        "answer": "Rerum incidunt voluptatem quo aliquid commodi veniam vitae consequatur. Ut quae in facere. Et ab sunt incidunt ea in sed quo. Sequi voluptas ex ipsum aliquam vel error rerum. Explicabo assumenda et qui. Cumque laudantium omnis sit. \nNon soluta iure autem libero fuga molestiae. Ea fuga ut corporis. Unde ducimus ut pariatur. \nMaxime dolor esse adipisci consequatur enim eos. Soluta et eius officia et voluptatem et enim. Asperiores voluptas inventore officia quis eveniet. Est id illum qui ipsum. Dicta modi in temporibus saepe harum aut sed velit. Sit fuga reprehenderit iste et. \nQui debitis aperiam quam. Expedita est voluptatibus aut ratione in consequatur laboriosam. Molestias est aspernatur sint voluptas saepe tempora repellat. Similique et vero ipsum rem quo cum. Illo illum quaerat blanditiis adipisci illum illo. \nSunt consequatur dolorum deserunt. Necessitatibus et rerum sunt eos impedit harum nulla et. Est doloribus maxime aut non qui debitis quia. Veritatis veritatis natus placeat amet tenetur dolorum. Id sed omnis aut sed minima temporibus est dolorem. Sint in earum repellendus. ",
+        "references": "New References"
+    },
+    {
+        "title": "Markdown Card -- Headings",
+        "contents": "This card contains markdown formatted headings:\n\n# This is a Title\n\n## This is a second-level heading\n\n### This is a third-level heading\n\n#### This is a fourth-level heading\n\n##### This is a fifth-level heading",
+        "answer": "New Answer",
+        "references": "New References"
+    },
+    {
+        "title": "Markdown Card -- Text Styling",
+        "contents": "This card illustrates text formatting using markdown:\n\nYou can indicate emphasis with bold, italic, strikethrough, subscript, or superscript text in cards:\n\nBold: Use ```**text**```  to create text **looking like this**. \n\nItalic: Use ```*text*``` to create text *looking like this*.\n\nUnderline: Use ```_text_``` to create _underlined text_.\n\nStrikethrough: Use ```~text~``` to create text ~looking like this~.\n\nSubscript: Use ```<sub>text</sub>``` to create text looking like this: <sub> text</sub>.\n\nSuperscript: Use ```<sup>text</sup>``` to create text looking like this <sup>text</sup>.",
+        "answer": "New Answer",
+        "references": "New References"
+    },
+    {
+        "title": "Markdown Card -- Quotes",
+        "contents": "Qutes are supported in markdown format. Use ```>``` to display a quote:\n\n> The rain in Spain stays mainly in the plain.",
+        "answer": "New Answer",
+        "references": "New References"
+    },
+    {
+        "title": "Markdown Card -- Code",
+        "contents": "Inline and block formatting for code is available in Flashkarti:\n\nFor inline code formatting use single backticks `like this`. \n\nFor block code formatting use triple backtics like the example below: \n\n```\ndef hello_world():\n    print(\"Hello, World!\")\n```",
+        "answer": "New Answer",
+        "references": "New References"
+    },
+    {
+        "title": "Markdown Card -- Lists",
+        "contents": "You can make an unordered list by preceding one or more lines of text with `-`, `*`, or `+`.\nYou can make an ordered list by preceding the lines with `1.`.\n\nAn unordered list:\n- item 1\n- item 2\n\nAn ordered list:\n1. step 1\n2. step 2",
+        "answer": "New Answer",
+        "references": "New References"
+    }
+]
