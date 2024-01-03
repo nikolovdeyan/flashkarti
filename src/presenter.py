@@ -305,8 +305,8 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.model.set_current_card(
             {
                 "card_title": self.view.designerwindow.card_title_lineedit.text(),
-                "card_contents": self.view.designerwindow.question_textedit.toHtml(),
-                "answer": self.view.designerwindow.expected_answer_textedit.toHtml(),
+                "card_contents": self.view.designerwindow.question_textedit.toPlainText(),
+                "answer": self.view.designerwindow.expected_answer_textedit.toPlainText(),
             }
         )
         self.view.designerwindow.clear_deck_cards()
