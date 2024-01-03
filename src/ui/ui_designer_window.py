@@ -51,7 +51,7 @@ class Ui_DesignerWindow(object):
         sizePolicy.setHeightForWidth(self.new_deck_btn.sizePolicy().hasHeightForWidth())
         self.new_deck_btn.setSizePolicy(sizePolicy)
         font1 = QFont()
-        font1.setPointSize(12)
+        font1.setPointSize(11)
         self.new_deck_btn.setFont(font1)
         self.new_deck_btn.setCheckable(False)
         self.new_deck_btn.setChecked(False)
@@ -79,7 +79,9 @@ class Ui_DesignerWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.card_title_label = QLabel(self.layoutWidget)
         self.card_title_label.setObjectName(u"card_title_label")
-        self.card_title_label.setFont(font1)
+        font2 = QFont()
+        font2.setPointSize(12)
+        self.card_title_label.setFont(font2)
 
         self.verticalLayout.addWidget(self.card_title_label)
 
@@ -90,7 +92,7 @@ class Ui_DesignerWindow(object):
 
         self.question_label = QLabel(self.layoutWidget)
         self.question_label.setObjectName(u"question_label")
-        self.question_label.setFont(font1)
+        self.question_label.setFont(font2)
 
         self.verticalLayout.addWidget(self.question_label)
 
@@ -101,7 +103,7 @@ class Ui_DesignerWindow(object):
 
         self.expected_answer_label = QLabel(self.layoutWidget)
         self.expected_answer_label.setObjectName(u"expected_answer_label")
-        self.expected_answer_label.setFont(font1)
+        self.expected_answer_label.setFont(font2)
 
         self.verticalLayout.addWidget(self.expected_answer_label)
 
@@ -150,6 +152,14 @@ class Ui_DesignerWindow(object):
         self.save_deck_btn.setFont(font1)
         self.save_deck_btn.setCheckable(False)
         self.save_deck_btn.setChecked(False)
+        self.toggle_card_preview_btn = QPushButton(self.centralwidget)
+        self.toggle_card_preview_btn.setObjectName(u"toggle_card_preview_btn")
+        self.toggle_card_preview_btn.setGeometry(QRect(250, 170, 101, 31))
+        sizePolicy.setHeightForWidth(self.toggle_card_preview_btn.sizePolicy().hasHeightForWidth())
+        self.toggle_card_preview_btn.setSizePolicy(sizePolicy)
+        self.toggle_card_preview_btn.setFont(font1)
+        self.toggle_card_preview_btn.setCheckable(True)
+        self.toggle_card_preview_btn.setChecked(False)
         self.menubar = QMenuBar(DesignerWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 946, 22))
@@ -191,6 +201,7 @@ class Ui_DesignerWindow(object):
         self.delete_card_btn.setText(QCoreApplication.translate("DesignerWindow", u"Delete Card", None))
         self.save_card_btn.setText(QCoreApplication.translate("DesignerWindow", u"Save Card", None))
         self.save_deck_btn.setText(QCoreApplication.translate("DesignerWindow", u"Save Deck", None))
+        self.toggle_card_preview_btn.setText(QCoreApplication.translate("DesignerWindow", u"Card Preview", None))
         self.menuFile.setTitle(QCoreApplication.translate("DesignerWindow", u"File", None))
         self.menuHelp.setTitle(QCoreApplication.translate("DesignerWindow", u"Help", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("DesignerWindow", u"toolBar", None))

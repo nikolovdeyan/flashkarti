@@ -60,7 +60,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -90,7 +90,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -203,7 +203,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -233,7 +233,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -263,7 +263,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -293,7 +293,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -323,7 +323,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="text">
@@ -331,6 +331,36 @@
     </property>
     <property name="checkable">
      <bool>false</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="toggle_card_preview_btn">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>170</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Card Preview</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
     <property name="checked">
      <bool>false</bool>

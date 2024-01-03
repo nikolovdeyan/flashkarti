@@ -258,6 +258,9 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.save_card_btn.clicked.connect(
             self.on_save_card_clicked
         )
+        self.view.designerwindow.toggle_card_preview_btn.toggled.connect(
+            self.on_card_preview_clicked
+        )
         self.view.designerwindow.exit_designer_btn.clicked.connect(
             self.on_exit_designer_clicked
         )
@@ -311,6 +314,16 @@ class DesignerWindowPresenter(QtCore.QObject):
         )
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
+
+    def on_card_preview_clicked(self):
+        card_title = self.view.designerwindow.get_selected_card()
+        if self.view.designerwindow.toggle_card_preview_btn.isChecked():
+            self.view.designerwindow.toggle_card_preview_btn.setChecked(False)
+        else:
+            self.view.designerwindow.toggle_card_preview_btn.setChecked(True)
+        self.view.designerwindow.display_card(
+            self.model.get_card_display_by_card_title(card_title)
+        )
 
     def on_exit_designer_clicked(self):
         self.view.start_menu()

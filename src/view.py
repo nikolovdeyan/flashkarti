@@ -169,8 +169,12 @@ class DesignerWindowView(QWidget, Ui_DesignerWindow):
 
     def display_card(self, card_data: dict) -> None:
         self.card_title_lineedit.setText(card_data.get("card_title"))
-        self.question_textedit.setText(card_data.get("card_contents"))
-        self.expected_answer_textedit.setText(card_data.get("answer"))
+        if self.toggle_card_preview_btn.isChecked():
+            self.question_textedit.setMarkdown(card_data.get("card_contents"))
+            self.expected_answer_textedit.setMarkdown(card_data.get("answer"))
+        else:
+            self.question_textedit.setText(card_data.get("card_contents"))
+            self.expected_answer_textedit.setText(card_data.get("answer"))
 
     def new_deck_dialog(self) -> str:
         dialog = NewDeckDialog()
