@@ -17,12 +17,23 @@
         {
             "name": "Test Player",
             "stats": {
-                "rounds_played": 23,
-                "total_score": 94.5,
-                "total_correct": 76,
-                "total_partial": 37,
-                "total_incorrect": 25,
-                "average_correct": 68.48
+                "rounds_played": 39,
+                "total_score": 155.0,
+                "total_correct": 128,
+                "total_partial": 54,
+                "total_incorrect": 40,
+                "average_correct": 66.25
+            }
+        },
+        {
+            "name": "Demo Player",
+            "stats": {
+                "rounds_played": 0,
+                "total_score": 0,
+                "total_correct": 0,
+                "total_partial": 0,
+                "total_incorrect": 0,
+                "average_correct": 0
             }
         }
     ]

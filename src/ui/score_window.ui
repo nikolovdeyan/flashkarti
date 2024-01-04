@@ -83,7 +83,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="score_card_answer_field">
+    <widget class="QTextBrowser" name="score_card_answer_field">
      <property name="geometry">
       <rect>
        <x>470</x>
@@ -93,7 +93,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="score_card_expected_answer_field">
+    <widget class="QTextBrowser" name="score_card_expected_answer_field">
      <property name="geometry">
       <rect>
        <x>470</x>

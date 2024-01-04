@@ -5,6 +5,7 @@ from typing import List
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
     QApplication,
+    QAbstractScrollArea,
     QMainWindow,
     QLineEdit,
     QWidget,
@@ -129,7 +130,7 @@ https://www.gnu.org/licenses/gpl-3.0.en.html
 class MenuWindowView(QWidget, Ui_MenuWindow):
     myQuitSignal = QtCore.Signal()
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(MenuWindowView, self).__init__()
         self.setupUi(self)
 
@@ -154,11 +155,11 @@ class MenuWindowView(QWidget, Ui_MenuWindow):
 class DesignerWindowView(QWidget, Ui_DesignerWindow):
     myQuitSignal = QtCore.Signal()
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(DesignerWindowView, self).__init__()
         self.setupUi(self)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> None:
         """
         This method overrides the mainwindow's closeEvent method
         which gets called when the user tries to close the mainwindow
@@ -244,7 +245,7 @@ class QuizWindowView(QWidget, Ui_QuizWindow):
 class ScoreWindowView(QWidget, Ui_ScoreWindow):
     myQuitSignal = QtCore.Signal()
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(ScoreWindowView, self).__init__()
         self.setupUi(self)
 
@@ -255,7 +256,7 @@ class ScoreWindowView(QWidget, Ui_ScoreWindow):
         self.answer_buttons.addButton(self.score_answer_partial_btn)
         self.answer_buttons.addButton(self.score_answer_incomplete_btn)
 
-    def uncheck_answer_buttons(self):
+    def uncheck_answer_buttons(self) -> None:
         # The QButtonGroup will always have a checked button when set to exclusive.
         # To show a card where an answer has not been selected yet we use a little hack
         # where we disable the exclusivity of the box, set the buttons to unchecked and
@@ -267,12 +268,12 @@ class ScoreWindowView(QWidget, Ui_ScoreWindow):
         self.score_answer_incomplete_btn.setChecked(False)
         self.answer_buttons.setExclusive(True)
 
-    def display_scoring_card(self, current_card):
+    def display_scoring_card(self, current_card) -> None:
         self.deck_title_label.setText(current_card.get("deck_title"))
         self.score_card_title_label.setText(current_card.get("card_title"))
-        self.score_card_question_field.setText(current_card.get("card_contents"))
+        self.score_card_question_field.setMarkdown(current_card.get("card_contents"))
         self.score_card_answer_field.setPlainText(current_card.get("user_answer"))
-        self.score_card_expected_answer_field.setPlainText(current_card.get("answer"))
+        self.score_card_expected_answer_field.setMarkdown(current_card.get("answer"))
         match current_card.get("answer_score"):
             case 1:
                 self.score_answer_complete_btn.setChecked(True)
@@ -289,33 +290,6 @@ class ScoreWindowView(QWidget, Ui_ScoreWindow):
         if dialog.exec():
             dialog.close()
         return
-
-
-class ScoreResultDialog(QDialog):
-    def __init__(self, quiz_scores: List) -> None:
-        super().__init__()
-
-        self.setModal(True)
-        self.setMinimumWidth(700)
-        self.setWindowTitle("Quiz Results")
-
-        results_label = QLabel("Quiz Results:")
-
-        self.table = QTableView()
-        self.model = TableModel(quiz_scores)
-        self.table.setModel(self.model)
-
-        ok_btn = QDialogButtonBox.Ok
-        self.button_box = QDialogButtonBox(ok_btn)
-
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(results_label)
-        self.layout.addWidget(self.table)
-        self.layout.addWidget(self.button_box)
-
-        self.button_box.accepted.connect(self.accept)
-
-        self.setLayout(self.layout)
 
 
 class SelectPlayerDialog(QDialog):
@@ -408,6 +382,31 @@ class SelectDeckDialog(QDialog):
             return ""
 
 
+class ScoreResultDialog(QDialog):
+    def __init__(self, quiz_scores: List) -> None:
+        super().__init__()
+
+        self.setModal(True)
+        self.setMinimumWidth(700)
+        self.setWindowTitle("Quiz Results")
+
+        results_label = QLabel("Quiz Results:")
+        self.table = QTableView()
+        self.model = TableModel(quiz_scores)
+        self.table.setModel(self.model)
+        ok_btn = QDialogButtonBox.Ok
+        self.button_box = QDialogButtonBox(ok_btn)
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(results_label)
+        self.layout.addWidget(self.table)
+        self.layout.addWidget(self.button_box)
+
+        self.button_box.accepted.connect(self.accept)
+
+        self.setLayout(self.layout)
+
+
 # See: https://www.pythonguis.com/tutorials/pyside6-qtableview-modelviews-numpy-pandas/
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self, data):
@@ -448,4 +447,5 @@ class TableModel(QtCore.QAbstractTableModel):
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
             return self.columns[section]
+
         return super().headerData(section, orientation, role)

@@ -83,7 +83,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="card_answer_field">
+    <widget class="QTextEdit" name="card_answer_field">
      <property name="geometry">
       <rect>
        <x>470</x>

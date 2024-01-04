@@ -17,8 +17,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMenu,
-    QMenuBar, QPlainTextEdit, QPushButton, QSizePolicy,
-    QStatusBar, QTextBrowser, QWidget)
+    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+    QTextBrowser, QWidget)
 
 class Ui_ScoreWindow(object):
     def setupUi(self, ScoreWindow):
@@ -54,10 +54,10 @@ class Ui_ScoreWindow(object):
         self.score_card_question_field = QTextBrowser(self.frame)
         self.score_card_question_field.setObjectName(u"score_card_question_field")
         self.score_card_question_field.setGeometry(QRect(10, 50, 441, 391))
-        self.score_card_answer_field = QPlainTextEdit(self.frame)
+        self.score_card_answer_field = QTextBrowser(self.frame)
         self.score_card_answer_field.setObjectName(u"score_card_answer_field")
         self.score_card_answer_field.setGeometry(QRect(470, 70, 441, 161))
-        self.score_card_expected_answer_field = QPlainTextEdit(self.frame)
+        self.score_card_expected_answer_field = QTextBrowser(self.frame)
         self.score_card_expected_answer_field.setObjectName(u"score_card_expected_answer_field")
         self.score_card_expected_answer_field.setGeometry(QRect(470, 280, 441, 161))
         self.user_answer_label = QLabel(self.frame)
