@@ -7,9 +7,9 @@ import logging
 
 from PySide6 import QtWidgets
 
-from view import FkView
-from presenter import FkPresenter
-from model import FkModel
+from .view import FkView
+from .presenter import FkPresenter
+from .model import FkModel
 
 logging_format = "%(asctime)s|%(name)-10s|%(levelname)-10s|%(message)s"
 logging.basicConfig(level=logging.DEBUG, format=logging_format)
@@ -26,7 +26,7 @@ def apply_style(app):
         app.setStyleSheet(style)
 
 
-if __name__ == "__main__":
+def main():
     app = QtWidgets.QApplication(sys.argv)
 
     apply_style(app)
@@ -36,3 +36,7 @@ if __name__ == "__main__":
     presenter = FkPresenter(model, view, app)
 
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

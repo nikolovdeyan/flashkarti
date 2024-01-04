@@ -4,8 +4,8 @@ from typing import List, Dict
 
 from PySide6 import QtCore
 
-from game import Game
-from settings import Settings
+from .game import Game
+from .settings import Settings
 
 logger = logging.getLogger(__name__)
 

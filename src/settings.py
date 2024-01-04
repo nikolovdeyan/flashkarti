@@ -5,7 +5,7 @@ import os
 import json
 import logging
 
-from player import Player
+from .player import Player
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
 SETTINGS_FILE = os.path.abspath(os.path.join(GAME_DIR, "settings", "fk_settings.json"))

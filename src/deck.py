@@ -6,7 +6,7 @@ import json
 import logging
 from typing import List, Tuple
 
-from card import Card
+from .card import Card
 
 logger = logging.getLogger(__name__)
 

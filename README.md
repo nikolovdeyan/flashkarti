@@ -27,6 +27,15 @@ The application is fully event-driven, where an action in the UI triggers an eve
 
 ## Installation
 
+To install the requirements in your Virtual Environment:
+
+```pip install -r requirements.txt```
+
+
 ## Usage
+
+In the main program directory type:
+
+```python flashkarti.py```
 
 ## License

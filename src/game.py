@@ -7,9 +7,9 @@ import random
 from typing import List
 import logging
 
-from player import Player
-from deck import Deck
-from card import Card
+from .player import Player
+from .deck import Deck
+from .card import Card
 
 logger = logging.getLogger(__name__)
 

@@ -5,7 +5,6 @@ from typing import List
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
     QApplication,
-    QAbstractScrollArea,
     QMainWindow,
     QLineEdit,
     QWidget,
@@ -21,10 +20,10 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 
-from ui.ui_menu_window import Ui_MenuWindow
-from ui.ui_quiz_window import Ui_QuizWindow
-from ui.ui_score_window import Ui_ScoreWindow
-from ui.ui_designer_window import Ui_DesignerWindow
+from .ui.ui_menu_window import Ui_MenuWindow
+from .ui.ui_quiz_window import Ui_QuizWindow
+from .ui.ui_score_window import Ui_ScoreWindow
+from .ui.ui_designer_window import Ui_DesignerWindow
 
 logger = logging.getLogger(__name__)
 
