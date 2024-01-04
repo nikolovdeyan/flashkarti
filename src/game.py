@@ -45,8 +45,6 @@ class Game:
         self.player = Player(player_info.get("name"), player_info.get("stats"))
         logging.debug(f"Player loaded: {self.player}")
 
-    ### ------ CURRENT LINE  ------ ###
-
     def new_deck(self, deck_title: str) -> None:
         """Creates a new deck with the provided title and loads it in the game.
 

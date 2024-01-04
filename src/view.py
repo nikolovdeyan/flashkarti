@@ -71,7 +71,8 @@ class FkView(QtCore.QObject):
         if dialog.exec():
             selected_deck = dialog.get_selected_deck()
             dialog.close()
-        return selected_deck
+            return selected_deck
+        return
 
     def start_menu(self) -> None:
         self.stacked_widget.setCurrentWidget(self.menuwindow)
@@ -103,11 +104,23 @@ class FkView(QtCore.QObject):
             return False
 
     def show_about_message(self, window) -> bool:
-        QMessageBox.information(
-            window,
-            "About title",  # TODO: About title
-            "About message",  # TODO: About message
-        )
+        about_message = """
+FlashKarti 
+
+v. 1.0
+
+Author: Deyan Nikolov
+License: This program is free software and is distributed under the GNU General Public \
+License, version 3. In short, this means you are free to use and distribute this \
+program for any purpose, commercial or non-commercial, without any restrictions. You\
+are also free to modify the program as you wish, with the only restriction that if you\
+distribute the modified version, you must provide access to its source code.
+
+This program is distributed WITHOUT ANY WARRANTY. For more details about thee GNU GPL,\
+please follow the link below:
+https://www.gnu.org/licenses/gpl-3.0.en.html
+"""
+        QMessageBox.information(window, "About FlashKarti", about_message)
 
     def quit(self):
         QApplication.quit()

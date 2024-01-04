@@ -26,7 +26,10 @@ class FkModel(QtCore.QObject):
         ### Args:
             `player_name (str)`: The name of the player to be created.
         """
-        self.game.load_player(player_name)
+        try:
+            self.game.load_player(player_name)
+        except ValueError as e:
+            logger.debug(e)
 
     def new_deck(self, deck_title: str) -> None:
         """Calls the game method to create a new deck with the provided title.
@@ -42,7 +45,10 @@ class FkModel(QtCore.QObject):
         ### Args:
             `deck_title (str)`: The name of the deck to be loaded.
         """
-        self.game.load_deck(deck_title)
+        try:
+            self.game.load_deck(deck_title)
+        except ValueError as e:
+            logger.debug(e)
 
     def save_deck(self) -> None:
         """Calls the deck method to persist any changes made."""

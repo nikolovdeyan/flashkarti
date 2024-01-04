@@ -242,6 +242,9 @@ class DesignerWindowPresenter(QtCore.QObject):
 
     def connectSignals(self):
         self.view.designerwindow.myQuitSignal.connect(self.quit)
+        self.view.designerwindow.actionExit_Designer.triggered.connect(
+            self.on_exit_designer_clicked
+        )
         self.view.designerwindow.actionQuit.triggered.connect(self.quit)
         self.view.designerwindow.actionAbout.triggered.connect(self.about)
         self.view.designerwindow.new_deck_btn.clicked.connect(self.on_new_deck_button)

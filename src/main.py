@@ -12,7 +12,7 @@ from presenter import FkPresenter
 from model import FkModel
 
 logging_format = "%(asctime)s|%(name)-10s|%(levelname)-10s|%(message)s"
-logging.basicConfig(level=logging.INFO, format=logging_format)
+logging.basicConfig(level=logging.DEBUG, format=logging_format)
 
 GAME_DIR = os.path.dirname(os.path.realpath(__file__))
 STYLES_DIR = os.path.abspath(os.path.join(GAME_DIR, os.pardir, "styles"))
