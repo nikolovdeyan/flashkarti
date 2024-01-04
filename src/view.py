@@ -171,7 +171,10 @@ class DesignerWindowView(QWidget, Ui_DesignerWindow):
         self.deck_cards_listwidget.addItems(deck)
 
     def get_selected_card(self) -> str:
-        return self.deck_cards_listwidget.currentItem().text()
+        if self.deck_cards_listwidget.currentItem():
+            return self.deck_cards_listwidget.currentItem().text()
+        else:
+            return
 
     def clear_deck_cards(self) -> None:
         self.deck_cards_listwidget.clear()

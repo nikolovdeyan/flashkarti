@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 
 class FkPresenter(QtCore.QObject):
-    def __init__(self, model, view, app):
+    def __init__(self, model, view, app) -> None:
         super(FkPresenter, self).__init__()
 
         self.model = model
@@ -21,7 +21,7 @@ class FkPresenter(QtCore.QObject):
 
 
 class MenuWindowPresenter(QtCore.QObject):
-    def __init__(self, model, view, app):
+    def __init__(self, model, view, app) -> None:
         super(MenuWindowPresenter, self).__init__()
 
         self.model = model
@@ -33,7 +33,7 @@ class MenuWindowPresenter(QtCore.QObject):
         self.update_start_quiz_btn_display()
         self.connectSignals()
 
-    def connectSignals(self):
+    def connectSignals(self) -> None:
         self.view.menuwindow.myQuitSignal.connect(self.quit)
         self.view.menuwindow.actionQuit.triggered.connect(self.quit)
         self.view.menuwindow.quit_btn.clicked.connect(self.quit)
@@ -43,24 +43,24 @@ class MenuWindowPresenter(QtCore.QObject):
         self.view.menuwindow.designer_btn.clicked.connect(self.on_designer_clicked)
         self.view.menuwindow.start_quiz_btn.clicked.connect(self.on_start_quiz_clicked)
 
-    def on_select_deck_clicked(self):
+    def on_select_deck_clicked(self) -> None:
         decks_list = self.model.get_decks_list()
         deck_name = self.view.select_deck_dialog(decks_list)
         self.model.load_deck(deck_name)
         self.update_deck_display()
         self.update_start_quiz_btn_display()
 
-    def on_select_player_clicked(self):
+    def on_select_player_clicked(self) -> None:
         players_list = self.model.list_players_names()
         player_name = self.view.select_player(players_list)
         self.model.load_player(player_name)
         self.update_player_display()
         self.update_start_quiz_btn_display()
 
-    def on_designer_clicked(self):
+    def on_designer_clicked(self) -> None:
         self.view.start_designer()
 
-    def on_start_quiz_clicked(self):
+    def on_start_quiz_clicked(self) -> None:
         self.model.start_quiz()
         self.view.start_quiz()
         self.view.quizwindow.display_quiz_card(self.model.get_current_card_display())
@@ -81,10 +81,10 @@ class MenuWindowPresenter(QtCore.QObject):
         else:
             self.view.menuwindow.start_quiz_btn.setEnabled(False)
 
-    def about(self):
+    def about(self) -> None:
         self.view.show_about_message(self.view.menuwindow)
 
-    def quit(self):
+    def quit(self) -> None:
         self.model.quit()
         self.view.quit()
 
@@ -99,7 +99,7 @@ class QuizWindowPresenter(QtCore.QObject):
 
         self.connectSignals()
 
-    def connectSignals(self):
+    def connectSignals(self) -> None:
         self.view.quizwindow.myQuitSignal.connect(self.quit)
         self.view.quizwindow.actionQuit.triggered.connect(self.quit)
         self.view.quizwindow.actionExit_Quiz.triggered.connect(
@@ -112,28 +112,28 @@ class QuizWindowPresenter(QtCore.QObject):
             self.on_start_scoring_clicked
         )
 
-    def on_exit_quiz_clicked(self):
+    def on_exit_quiz_clicked(self) -> None:
         confirm = self.view.quizwindow.show_confirm_exit_quiz_message()
         if confirm:
             self.view.start_menu()
         else:
             return
 
-    def on_next_card_clicked(self):
+    def on_next_card_clicked(self) -> None:
         self.model.set_current_card(
             {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
         self.view.quizwindow.card_answer_field.clear()
         self.view.quizwindow.display_quiz_card(self.model.get_next_card_display())
 
-    def on_prev_card_clicked(self):
+    def on_prev_card_clicked(self) -> None:
         self.model.set_current_card(
             {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
         self.view.quizwindow.card_answer_field.clear()
         self.view.quizwindow.display_quiz_card(self.model.get_prev_card_display())
 
-    def on_start_scoring_clicked(self):
+    def on_start_scoring_clicked(self) -> None:
         self.model.set_current_card(
             {"user_answer": self.view.quizwindow.card_answer_field.toPlainText()}
         )
@@ -146,10 +146,10 @@ class QuizWindowPresenter(QtCore.QObject):
         else:
             return
 
-    def about(self):
+    def about(self) -> None:
         self.view.show_about_message(self.view.quizwindow)
 
-    def quit(self):
+    def quit(self) -> None:
         self.model.quit()
         self.view.quit()
 
@@ -164,7 +164,7 @@ class ScoringWindowPresenter(QtCore.QObject):
 
         self.connectSignals()
 
-    def connectSignals(self):
+    def connectSignals(self) -> None:
         self.view.scorewindow.myQuitSignal.connect(self.quit)
         self.view.scorewindow.actionQuit.triggered.connect(self.quit)
         self.view.scorewindow.actionAbout.triggered.connect(self.about)
@@ -181,20 +181,20 @@ class ScoringWindowPresenter(QtCore.QObject):
             self.on_score_prev_card_clicked
         )
 
-    def on_score_next_card_clicked(self):
+    def on_score_next_card_clicked(self) -> None:
         score = self.score_answer()
         self.model.set_current_card({"answer_score": score})
         self.view.scorewindow.display_scoring_card(self.model.get_next_card_display())
 
-    def on_score_prev_card_clicked(self):
+    def on_score_prev_card_clicked(self) -> None:
         score = self.score_answer()
         self.model.set_current_card({"answer_score": score})
         self.view.scorewindow.display_scoring_card(self.model.get_prev_card_display())
 
-    def on_exit_scoring_clicked(self):
+    def on_exit_scoring_clicked(self) -> None:
         self.view.start_menu()
 
-    def on_end_scoring_clicked(self):
+    def on_end_scoring_clicked(self) -> None:
         score = self.score_answer()
         self.model.set_current_card({"answer_score": score})
         quiz_scores = self.model.calculate_quiz_scores()
@@ -222,10 +222,10 @@ class ScoringWindowPresenter(QtCore.QObject):
         elif self.view.scorewindow.score_answer_incomplete_btn.isChecked():
             return 0
 
-    def about(self):
+    def about(self) -> None:
         self.view.show_about_message(self.view.scorewindow)
 
-    def quit(self):
+    def quit(self) -> None:
         self.model.quit()
         self.view.quit()
 
@@ -240,7 +240,7 @@ class DesignerWindowPresenter(QtCore.QObject):
 
         self.connectSignals()
 
-    def connectSignals(self):
+    def connectSignals(self) -> None:
         self.view.designerwindow.myQuitSignal.connect(self.quit)
         self.view.designerwindow.actionExit_Designer.triggered.connect(
             self.on_exit_designer_clicked
@@ -271,18 +271,18 @@ class DesignerWindowPresenter(QtCore.QObject):
             self.on_deck_cards_item_clicked
         )
 
-    def on_deck_cards_item_clicked(self, item):
+    def on_deck_cards_item_clicked(self, item) -> None:
         card_title = item.text()
         self.model.set_current_card_index(card_title)
         self.view.designerwindow.display_card(
             self.model.get_card_display_by_card_title(card_title)
         )
 
-    def on_new_deck_button(self):
+    def on_new_deck_button(self) -> None:
         deck_title = self.view.designerwindow.new_deck_dialog()
         self.model.new_deck(deck_title)
 
-    def on_load_deck_clicked(self):
+    def on_load_deck_clicked(self) -> None:
         decks_list = self.model.get_decks_list()
         deck_title = self.view.select_deck_dialog(decks_list)
         self.model.load_deck(deck_title)
@@ -290,24 +290,24 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
-    def on_save_deck_clicked(self):
+    def on_save_deck_clicked(self) -> None:
         confirm = self.view.designerwindow.show_confirm_save_deck_message()
         if confirm:
             self.model.save_deck()
         else:
             return
 
-    def on_add_card_clicked(self):
+    def on_add_card_clicked(self) -> None:
         self.model.create_new_card()
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
-    def on_delete_card_clicked(self):
+    def on_delete_card_clicked(self) -> None:
         self.model.delete_card_by_title(self.view.designerwindow.get_selected_card())
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
-    def on_save_card_clicked(self):
+    def on_save_card_clicked(self) -> None:
         self.model.set_current_card(
             {
                 "card_title": self.view.designerwindow.card_title_lineedit.text(),
@@ -318,22 +318,21 @@ class DesignerWindowPresenter(QtCore.QObject):
         self.view.designerwindow.clear_deck_cards()
         self.view.designerwindow.display_deck_cards(self.model.list_card_titles())
 
-    def on_card_preview_clicked(self):
+    def on_card_preview_clicked(self) -> None:
         card_title = self.view.designerwindow.get_selected_card()
-        if self.view.designerwindow.toggle_card_preview_btn.isChecked():
-            self.view.designerwindow.toggle_card_preview_btn.setChecked(False)
-        else:
-            self.view.designerwindow.toggle_card_preview_btn.setChecked(True)
+        if not card_title:
+            return
         self.view.designerwindow.display_card(
             self.model.get_card_display_by_card_title(card_title)
         )
 
-    def on_exit_designer_clicked(self):
+    def on_exit_designer_clicked(self) -> None:
+        self.model.clear_deck()
         self.view.start_menu()
 
-    def about(self):
+    def about(self) -> None:
         self.view.show_about_message(self.view.menuwindow)
 
-    def quit(self):
+    def quit(self) -> None:
         self.model.quit()
         self.view.quit()

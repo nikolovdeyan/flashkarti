@@ -79,6 +79,11 @@ class Game:
         self.deck = deck
         logger.debug(f"Deck loaded: {self.deck}")
 
+    def clear_deck(self) -> None:
+        """Clears the loaded deck."""
+        logger.debug("Game deck cleared.")
+        self.deck = None
+
     def save_deck(self) -> None:
         """TODO: testing"""
         if not self.deck:

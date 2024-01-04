@@ -50,6 +50,10 @@ class FkModel(QtCore.QObject):
         except ValueError as e:
             logger.debug(e)
 
+    def clear_deck(self) -> None:
+        """Clears the deck currently loaded in the game."""
+        self.game.clear_deck()
+
     def save_deck(self) -> None:
         """Calls the deck method to persist any changes made."""
         self.game.save_deck()
