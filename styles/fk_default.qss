@@ -31,7 +31,7 @@ QHeaderView::section {
 
 QMenuBar {
     background-color: #BCAA07;
-    spacing: 3px; /* spacing between menu bar items */
+    spacing: 3px;
 }
 
 QMenuBar::item {
@@ -40,7 +40,7 @@ QMenuBar::item {
     border-radius: 4px;
 }
 
-QMenuBar::item:selected { /* when selected using mouse or keyboard */
+QMenuBar::item:selected {
     background: #a8a8a8;
 }
 
