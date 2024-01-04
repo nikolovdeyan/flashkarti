@@ -1,9 +1,14 @@
 QMainWindow
 {
 background: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
-                            stop:0 rgb(255,248,184), 
-                            stop:1 rgb(255,239,97));
+                            stop:0 #ffb, 
+                            stop:1 #fe6);
 }
+
+QPlainTextEdit, QTextEdit, QListWidget, QLineEdit {
+    background-color: #ffd;
+}
+
 
 QMenuBar {
     background-color: #BCAA07;
@@ -56,4 +61,17 @@ QPushButton:disabled {
                                     stop: 0 #ffffff, 
                                     stop: 1 #f6f7fa);
     color: #a0a0a0;
+}
+
+QProgressBar {
+    border: 1px solid grey;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+QProgressBar::chunk {
+    background-color: #6e92ff;
+    width: 10px;
+    margin: 0.5px;
 }

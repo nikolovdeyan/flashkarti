@@ -4,7 +4,6 @@ from typing import List
 
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import (
-    QGraphicsDropShadowEffect,
     QApplication,
     QMainWindow,
     QLineEdit,
@@ -400,14 +399,27 @@ class SelectDeckDialog(QDialog):
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self, data):
         super(TableModel, self).__init__()
+        self.columns = ["Question", "Score"]
         self._data = data
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return self._data[index.row()][index.column()]
 
+        if role == Qt.BackgroundRole:
+            return (
+                QtGui.QColor("#adcdff")
+                if index.row() % 2 == 0
+                else QtGui.QColor("#d8ffc2")
+            )
+
     def rowCount(self, index):
         return len(self._data)
 
     def columnCount(self, index):
         return len(self._data[0])
+
+    def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
+        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
+            return self.columns[section]
+        return super().headerData(section, orientation, role)
