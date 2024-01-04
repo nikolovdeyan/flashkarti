@@ -406,12 +406,25 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == Qt.DisplayRole:
             return self._data[index.row()][index.column()]
 
+        # Conditionally format answers' scores
         if role == Qt.BackgroundRole:
-            return (
-                QtGui.QColor("#adcdff")
-                if index.row() % 2 == 0
-                else QtGui.QColor("#d8ffc2")
-            )
+            value = self._data[index.row()][index.column()]
+            if (isinstance(value, int) or isinstance(value, float)) and value == 0:
+                return QtGui.QColor("#ff4e41")
+            elif (isinstance(value, float)) and value == 0.5:
+                return QtGui.QColor("#d8ca00")
+            elif (isinstance(value, int) or isinstance(value, float)) and value == 1:
+                return QtGui.QColor("#00af5d")
+            else:
+                return value
+
+        # Fix text alignment
+        if role == Qt.TextAlignmentRole:
+            value = self._data[index.row()][index.column()]
+            if isinstance(value, str):
+                return Qt.AlignmentFlag.AlignLeft + Qt.AlignmentFlag.AlignVCenter
+            if isinstance(value, float | int):
+                return Qt.AlignmentFlag.AlignHCenter + Qt.AlignmentFlag.AlignVCenter
 
     def rowCount(self, index):
         return len(self._data)

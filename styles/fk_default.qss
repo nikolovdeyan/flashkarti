@@ -9,6 +9,9 @@ QPlainTextEdit, QTextEdit, QListWidget, QLineEdit {
     background-color: #ffd;
 }
 
+QTableView, QDialog {
+    background: #ffb;
+}
 
 QMenuBar {
     background-color: #BCAA07;
@@ -46,9 +49,7 @@ QPushButton:pressed {
 }
 
 QPushButton:checked {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                    stop: 0 #ffffff, 
-                                    stop: 1 #f6f7fa);
+    background-color: #3c4e85;
 }
 
 QPushButton:hover {
@@ -75,3 +76,4 @@ QProgressBar::chunk {
     width: 10px;
     margin: 0.5px;
 }
+
