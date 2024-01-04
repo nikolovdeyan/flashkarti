@@ -17,6 +17,10 @@ QTableCornerButton::section {
     background-color: #fe6;
 }
 
+QLabel, QListWidget {
+    color: #131313;
+}
+
 QHeaderView::section {
     background-color: #fe6;
     color: #202020;

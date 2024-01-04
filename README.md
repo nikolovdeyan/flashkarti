@@ -39,3 +39,4 @@ In the main program directory type:
 ```python flashkarti.py```
 
 ## License
+The software is released under the GNU General Public License (GPL) which can be found in the main repository directory.
